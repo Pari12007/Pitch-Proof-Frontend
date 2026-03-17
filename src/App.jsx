@@ -5,10 +5,16 @@ import IdeaDetailsPage from "./pages/IdeaDetailsPage";
 import CreateIdeaPage from "./pages/CreatedIdeaPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import Navbar from "./components/Navbar";
+import "./App.css"
 
 
 const App = () => {
   return (
+    <>
+    
+    <Navbar/>
+
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/ideas" element={<IdeasPage />} />
@@ -17,6 +23,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
       </Routes>
+    </>
   )
 }
 

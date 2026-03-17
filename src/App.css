@@ -1,3 +1,204 @@
-*{
-  background-color: black;
+/* Page background */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8fafc;
 }
+
+/* Card */
+.login-form {
+  background: #ffffff;
+  padding: 40px 35px;
+  border-radius: 18px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Title */
+.login-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+/* Input group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Inputs */
+.form-group input {
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background: #f9fafb;
+}
+
+.form-group input:focus {
+  border-color: #94a3b8;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.15);
+}
+
+/* Button */
+.login-button {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #3b82f6;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #475569;
+  font-size: 14px;
+}
+
+.nav-links a:hover {
+  color: #2563eb;
+}
+
+.logout-button {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ideas-page {
+  padding: 30px;
+}
+
+.ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.idea-card {
+  padding: 15px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+}
+
+.idea-card h3 {
+  margin-bottom: 5px;
+}
+
+.idea-card span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.idea-link {
+  text-decoration: none;
+  color: inherit;
+}
+.idea-details-page {
+  padding: 30px;
+}
+
+.reviews-section {
+  margin-top: 30px;
+}
+
+.review-card {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+}
+
+.idea-details-page {
+  padding: 30px;
+}
+
+.reviews-section {
+  margin-top: 30px;
+}
+
+.review-card {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+}
+
+.review-form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-form input,
+.review-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.review-form button {
+  padding: 10px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
