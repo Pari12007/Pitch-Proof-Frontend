@@ -9,25 +9,26 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
+            <div className="navbar-left">
+                <Link to="/" className="logo-link">
+                    <h2 className="logo">PitchProof</h2>
+                </Link>
+            </div>
 
-            <h2 className="logo">PitchProof logo</h2>
+            <div className="navbar-right">
+                <Link to="/ideas" className="nav-link">Ideas</Link>
+                <Link to="/create-idea" className="nav-link">Create Idea</Link>
 
-            <div className="nav-links">
-                <Link to = "/">Home</Link>
-                <Link to = "/ideas">Ideas</Link>
-
-                {!isLoggedIn && (
-                    <>
-                    <Link to = "/login">Login</Link>
-                    <Link to = "/signup">Signup</Link>
-                    </>
-                )}
-
-                {isLoggedIn && (
-                    <button className="logout-button" onClick={logout}>
-                        Logout
-                    </button>
-                )}
+            {!isLoggedIn ? (
+                <>
+                    <Link to="/login" className="nav-link">Login</Link>
+                    <Link to="/signup" className="nav-button">Sign Up</Link>
+                </>
+        ) : (
+            <button onClick={logout} className="nav-button logout-btn">
+                Logout
+             </button>
+        )}
             </div>
         </nav>
     )
