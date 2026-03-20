@@ -3,13 +3,16 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 
-const Navbar = () => {
+const Navbar = ({ onMenuClick }) => {
 
     const { isLoggedIn, logout } = useContext(AuthContext);
 
     return (
         <nav className="navbar">
             <div className="navbar-left">
+                <button className="menu-button" onClick={onMenuClick}>
+                    ☰
+                </button>
                 <Link to="/" className="logo-link">
                     <h2 className="logo">PitchProof</h2>
                 </Link>
