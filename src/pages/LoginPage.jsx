@@ -2,6 +2,7 @@ import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { login } from "../services/auth.services"
 import { AuthContext } from "../context/AuthContext"
+import { Link } from "react-router-dom"
 
 const LoginPage = () => {
   
@@ -42,13 +43,15 @@ const LoginPage = () => {
 
 
   return (
-    <div className="login-container">
+  <div className="login-container">
+
+    <div className="login-form">
 
       <form onSubmit={handleLogin} className="login-form">
 
         <h2 className="login-title">Login</h2>
 
-        {errorMessage && <p>{errorMessage}</p>}
+        {errorMessage && <p className="auth-message-error">{errorMessage}</p>}
 
         <div className="form-group">
           <label>Email</label>
@@ -75,7 +78,15 @@ const LoginPage = () => {
 
       </form>
 
+      <p className="auth-switch">
+        Don't have an account?{" "}
+        <Link to="/signup" className="auth-link">
+        Sign up
+        </Link>
+      </p>
     </div>
+
+  </div>
   )
 }
 

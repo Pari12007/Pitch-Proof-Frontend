@@ -4,6 +4,8 @@ import HomePage from "./pages/HomePage";
 import IdeasPage from "./pages/IdeasPage";
 import IdeaDetailsPage from "./pages/IdeaDetailsPage";
 import CreateIdeaPage from "./pages/CreatedIdeaPage";
+import MyIdeasPage from "./pages/MyIdeasPage";
+import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
@@ -11,6 +13,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AIValidatorPage from "./pages/AiPage";
 
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css"
 import { useState } from "react";
 
@@ -37,8 +40,33 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/ideas" element={<IdeasPage />} />
         <Route path="/ideas/:ideaId" element={<IdeaDetailsPage />} />
-        <Route path="/create-idea" element={<CreateIdeaPage />} />
+
+        <Route 
+        path="/create-idea" 
+        element={
+            <ProtectedRoute>
+                <CreateIdeaPage/>
+            </ProtectedRoute>} />
+
         <Route path="/ai-validator" element={<AIValidatorPage />}/>
+
+        <Route
+        path="/my-ideas"
+        element={
+          <ProtectedRoute>
+            <MyIdeasPage/>
+          </ProtectedRoute>
+        }
+        />
+
+        <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+        />
       </Routes>
     </>
   )

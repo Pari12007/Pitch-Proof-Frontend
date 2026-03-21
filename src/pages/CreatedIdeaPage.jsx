@@ -66,7 +66,7 @@ const CreatedIdeaPage = () => {
   return (
     <div className="create-idea-container">
 
-      <h2>Create your startup idea 🚀</h2>
+      <h2>Create your startup idea</h2>
 
       <form onSubmit={handleSubmit} className="create-form">
 

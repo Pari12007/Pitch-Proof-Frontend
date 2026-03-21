@@ -3,12 +3,13 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 
-const Navbar = ({ onMenuClick }) => {
+const Navbar = ({ onMenuClick, onClose }) => {
 
-    const { isLoggedIn, logout } = useContext(AuthContext);
+    const { isLoggedIn,} = useContext(AuthContext);
 
     return (
         <nav className="navbar">
+            {/* LEFT */}
             <div className="navbar-left">
                 <button className="menu-button" onClick={onMenuClick}>
                     ☰
@@ -18,19 +19,25 @@ const Navbar = ({ onMenuClick }) => {
                 </Link>
             </div>
 
-            <div className="navbar-right">
-                <Link to="/ideas" className="nav-link">Ideas</Link>
-                <Link to="/create-idea" className="nav-link">Create Idea</Link>
 
+            {/* CENTER */}
+            <div className="navbar-center">
+                <Link to="/ideas" className="nav-link">Ideas</Link>
+                <Link to={isLoggedIn ? "/create-idea" : "/signup"} onClick={onClose} className="nav-link">Post your Idea</Link> 
+            </div>
+
+
+            {/* RIGHT */}
+            <div className="navbar-right">
             {!isLoggedIn ? (
                 <>
                     <Link to="/login" className="nav-link">Login</Link>
                     <Link to="/signup" className="nav-button">Sign Up</Link>
                 </>
         ) : (
-            <button onClick={logout} className="nav-button logout-btn">
-                Logout
-             </button>
+            <Link to="/profile" className="nav-button">
+                👤
+            </Link>
         )}
             </div>
         </nav>
