@@ -4,6 +4,7 @@ import { getIdea, deleteIdea } from "../services/idea.services";
 import { getReviews, deleteReview } from "../services/review.services";
 import { createReview } from "../services/review.services";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const IdeaDetailsPage = () => {
 
@@ -133,41 +134,72 @@ const aiMessage = getAIScoreMessage(aiScore);
 
   return (
     <div className="idea-details-page">
-      <h2>{idea.title}</h2>
-      <p><strong>Idea:</strong> {idea.idea} </p>
-      <p><strong>Problem:</strong> {idea.problem} </p>
-      <p><strong>Solution:</strong> {idea.solution} </p>
-      <p><strong>Category:</strong> {idea.category} </p>
+      <div className="idea-hero-card">
+        <div className="idea-hero-copy">
+          <p className="idea-details-eyebrow">Startup idea overview</p>
+          <h2>{idea.title}</h2>
+          <div className="idea-meta-row">
+            <span className="idea-meta-pill">{idea.category}</span>
+            <span className="idea-meta-text">
+              {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
+            </span>
+          </div>
+        </div>
 
-    {/* DEBUG */}
-      <p>Logged in user: {user?.currentUser}</p>
-      <p>Idea owner: {idea.createdBy?._id}</p>
+        <div className="idea-actions">
+          {user && idea.createdBy?._id === user._id && (
+            <button className="delete-button" onClick={handleDeleteIdea}>
+              Delete Idea
+            </button>
+          )}
 
-      {user && idea.createdBy?._id === user.currentUser && (
-      <button className="delete-button" onClick={handleDeleteIdea}>
-        Delete Idea
-      </button>
-      )}
+          {user &&
+            (idea.createdBy?._id === user?._id || idea.createdBy === user?._id) && (
+              <Link to={`/ideas/${idea._id}/edit`} className="edit-button">
+                Edit Idea
+              </Link>
+          )}
+        </div>
+      </div>
 
-      <div className="ai-score-box">
-  <h3>AI Validation Score</h3>
-  <p className="ai-score-number">{aiScore}/100</p>
-  <p className="ai-score-message">{aiMessage}</p>
-</div>
+      <div className="idea-details-grid">
+        <div className="idea-content-stack">
+          <section className="idea-content-card">
+            <h3>Idea</h3>
+            <p>{idea.idea}</p>
+          </section>
+
+          <section className="idea-content-card">
+            <h3>Problem</h3>
+            <p>{idea.problem}</p>
+          </section>
+
+          <section className="idea-content-card">
+            <h3>Solution</h3>
+            <p>{idea.solution}</p>
+          </section>
+        </div>
+
+        <aside className="idea-sidebar">
+          <div className="ai-score-box">
+            <h3>AI Validation Score</h3>
+            <p className="ai-score-number">{aiScore}/100</p>
+            <p className="ai-score-message">{aiMessage}</p>
+          </div>
+        </aside>
+      </div>
 
 
       <div className="reviews-section">
         <h3>Reviews</h3>
 
         {reviews.length === 0 ? (
-          <p>No reviews yet.</p>
+          <div className="reviews-empty-state">
+            <p>No reviews yet. Be the first to leave feedback on this idea.</p>
+          </div>
         ) : (
           reviews.map((review) => (
             <div className="review-card" key={review._id}>
-                
-               {/* DEBUG */} 
-              <p>Review owner: {review.user?._id}</p>
-
               <p className="review-rating">
                 <strong>Rating:</strong> 
                 {renderStars(review.rating)} ({review.rating}/5)
@@ -175,7 +207,7 @@ const aiMessage = getAIScoreMessage(aiScore);
               
               <p>{review.comment}</p>
               
-              {user && review.user?._id  === user.currentUser && (
+              {user && review.user?._id  === user._id && (
               <button className="delete-button" onClick={ () => handleDeleteReview(review._id)}>
                 Delete review
               </button>

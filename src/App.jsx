@@ -8,6 +8,7 @@ import MyIdeasPage from "./pages/MyIdeasPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import EditIdeaPage from "./pages/EditIdeaPage";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -64,6 +65,15 @@ const App = () => {
         element={
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route
+        path="/ideas/:ideaId/edit"
+        element={
+          <ProtectedRoute>
+            <EditIdeaPage />
           </ProtectedRoute>
         }
         />

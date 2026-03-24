@@ -10,7 +10,7 @@ function ProtectedRoute ({children}) {
     }
 
     if(!isLoggedIn) {
-        return <Navigate to="/signup"/>
+        return <Navigate to="/" replace />
     }
     return children;
 }

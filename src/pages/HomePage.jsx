@@ -9,7 +9,7 @@ function HomePage() {
           <div className="hero-badge">Startup validation platform</div>
 
           <h1 className="hero-title">
-            Wanna build startup?
+            Want to build a startup?
             <br />
             <span className="hero-gradient">Validate before you build</span>
           </h1>
@@ -23,11 +23,35 @@ function HomePage() {
             <Link to="/ideas" className="hero-primary">
               Explore Ideas
             </Link>
+            <Link to="/ai-validator" className="hero-secondary">
+              Try AI Validation
+            </Link>
+          </div>
+
+          <div className="hero-stats">
+            <div className="stat-chip">
+              <strong>AI-first</strong>
+              <span>Instant validation and clarity</span>
+            </div>
+            <div className="stat-chip">
+              <strong>Community</strong>
+              <span>Real reviews from other builders</span>
+            </div>
+            <div className="stat-chip">
+              <strong>Faster</strong>
+              <span>Build with more confidence</span>
+            </div>
           </div>
         </div>
 
         <div className="hero-right">
           <div className="hero-panel">
+            <div className="hero-panel-top">
+              <span className="hero-dot"></span>
+              <span className="hero-dot"></span>
+              <span className="hero-dot"></span>
+            </div>
+
             <div className="hero-mini-card">
               <h4>AI Validation Score</h4>
               <p>
@@ -41,6 +65,15 @@ function HomePage() {
               <p>Collect ratings and real validation from other builders.</p>
               <div className="mini-badge">Top Rated</div>
             </div>
+
+            <div className="hero-mini-card hero-mini-card-dark">
+              <h4>Builder workflow</h4>
+              <div className="hero-flow-list">
+                <span>1. Submit your idea</span>
+                <span>2. Validate with AI</span>
+                <span>3. Collect real feedback</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -48,6 +81,7 @@ function HomePage() {
       {/* --------------------------- AI VALIDATION SECTION ------------------------- */}
       <section className="ai-cta-section">
         <div className="ai-cta-content">
+          <p className="section-kicker">AI workflow</p>
           <h2>
             Validate your startup idea using latest <br />
             <span className="gradient-text">AI</span>
@@ -66,34 +100,36 @@ function HomePage() {
 
       {/* --------------------------- POST YOUR IDEA SECTION SECTION ------------------------- */}
       <section className="post-idea-section">
-  <div className="post-idea-content">
-    <div className="post-idea-text">
-      <h2>Ready to share your idea with the world?</h2>
-      <p>
-        Once you’ve validated your concept, post it to PitchProof and collect real reviews,
-        ratings, and community insight.
-      </p>
+        <div className="post-idea-content">
+          <div className="post-idea-text">
+            <p className="section-kicker">Publish and learn</p>
+            <h2>Ready to share your idea with the world?</h2>
+            <p>
+              Once you’ve validated your concept, post it to PitchProof and collect real reviews,
+              ratings, and community insight.
+            </p>
 
-      <Link to="/create-idea" className="hero-primary">
-        Post Your Idea
-      </Link>
-    </div>
+            <Link to="/create-idea" className="hero-primary">
+              Post Your Idea
+            </Link>
+          </div>
 
-    <div className="post-idea-card">
-      <h3>What happens when you post?</h3>
-      <ul>
-        <li>Your idea becomes visible on the platform</li>
-        <li>Other users can review and rate it</li>
-        <li>You build clarity before execution</li>
-      </ul>
-    </div>
-  </div>
-</section>
+          <div className="post-idea-card">
+            <h3>What happens when you post?</h3>
+            <ul>
+              <li>Your idea becomes visible on the platform</li>
+              <li>Other users can review and rate it</li>
+              <li>You build clarity before execution</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
 
       {/* --------------------------- COMMUNITY FEEDBACK SECTION ------------------------- */}
       <section className="community-section">
         <div className="section-heading">
+          <p className="section-kicker">Community feedback</p>
           <h2>Join a community of builders</h2>
           <p>
             Discover ideas, give feedback, and learn from other entrepreneurs
@@ -133,6 +169,7 @@ function HomePage() {
       {/* --------------------------- METHODOLODY SECTION ------------------------- */}
       <section className="features-section">
         <div className="section-heading">
+          <p className="section-kicker">Simple process</p>
           <h2>How it works</h2>
           <p>Simple, smart, and focused on better startup decisions.</p>
         </div>
@@ -157,6 +194,7 @@ function HomePage() {
 
       {/* --------------------------- FINAL CTA SECTION ------------------------- */}
       <section className="final-cta">
+        <p className="section-kicker">Start now</p>
         <h2>Stop guessing. Start building with clarity.</h2>
 
         <p>Your next big idea deserves validation before execution.</p>

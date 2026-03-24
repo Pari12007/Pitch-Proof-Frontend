@@ -1,7 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 import { verify } from "../services/auth.services"
 
-export const AuthContext = createContext(); 
+export const AuthContext = createContext({
+    user: null,
+    isLoggedIn: false,
+    isLoading: true,
+    verifyToken: async () => {},
+    logout: () => {}
+}); 
 
 export const AuthProvider = ( {children} ) => {
 
@@ -15,6 +21,7 @@ export const AuthProvider = ( {children} ) => {
 
         if(!token) {
             setUser(null);
+            setIsLoggedIn(false);
             setIsLoading(false);
             return;
         }
