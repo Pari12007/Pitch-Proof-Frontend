@@ -1,13 +1,16 @@
 import {  useEffect, useState } from "react"
 import { getIdeas } from "../services/idea.services";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { getReviews } from "../services/review.services"; 
 
 const IdeasPage = () => {
 
+  const [ searchParams ] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "";
+
   const [ ideas, setIdeas ] = useState([]);
   const [ loading, setLoading ] = useState(true);
-  const [ selectedCategory, setSelectedCategory] = useState("")
+  const [ selectedCategory, setSelectedCategory] = useState(categoryFromUrl)
   const [ topIdeas, setTopIdeas ] = useState([]);
   const [ sortType, setSortType ] = useState("");
 
@@ -77,9 +80,9 @@ const IdeasPage = () => {
         setLoading(false);
       }
     };
-
+    setSelectedCategory(categoryFromUrl);
     fetchIdeasAndRatings();
-  }, []);
+  }, [categoryFromUrl]);
 
   let filteredIdeas = selectedCategory 
   ? ideas.filter((idea) => idea.category === selectedCategory) 
@@ -142,7 +145,7 @@ const IdeasPage = () => {
       )}
 
       <div className="filter-bar">
-        <select 
+        <select
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
         className="category-filter"

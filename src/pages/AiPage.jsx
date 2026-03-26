@@ -1,21 +1,31 @@
 import { useState, useEffect, useRef} from "react";
 import { validateIdeaWithAI } from "../services/ai.services";
 
+const CHAT_STORAGE_KEY = "pitchproof_ai_chat";
+
+
 function AIValidatorPage() {
 
     const bottomRef = useRef(null);
 
 
     const [input, setInput] = useState("");
-    const [messages, setMessages] = useState([
-      {
+
+
+    const initialMessage = {
         role: "ai",
         content: 
         "Hi, I'm PitchProof AI. Share you startup idea or ask a business question, and I'll help you.",
         result: null,
-      }
-    ])
+    } 
+    const [messages, setMessages] = useState(() => {
+      const saved = localStorage.getItem(CHAT_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [initialMessage];
+    });
+
+
     const [loading, setLoading] = useState(false);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,7 +72,25 @@ function AIValidatorPage() {
 
     useEffect(() => {
       bottomRef.current?.scrollIntoView({ behavior: "smooth"});
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
     }, [messages, loading])
+
+    const handleEnterSend = (e) => {
+      if(e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+
+        if (!input.trim() || loading) return;
+
+        handleSubmit(e);
+      }
+    }
+
+
+
+    const handleClearChat = () => {
+      localStorage.removeItem(CHAT_STORAGE_KEY);
+      setMessages([initialMessage]);
+    }
 
     return (
           <div className="chat-page">
@@ -70,6 +98,9 @@ function AIValidatorPage() {
               <p className="chat-badge">
                 PitchProof AI
               </p>
+              <button className="clear-chat-button" onClick={handleClearChat}>
+                Clear Chat
+              </button>
               <h1>Validate Your Idea</h1>
               <p className="chat-subtitle">
                 Ask anything about startup ideas, validation, business strategy, or growth.
@@ -145,6 +176,7 @@ function AIValidatorPage() {
                 placeholder="Describe your idea or ask a business question..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleEnterSend}
                 />
 
                 <button type="submit">Send</button>
