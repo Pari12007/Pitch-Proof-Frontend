@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
+
 
 function HomePage() {
+
+  const { isLoggedIn } = useContext(AuthContext)
   return (
     <div className="home-page">
       {/* --------------------------- HERO SECTION ------------------------- */}
@@ -23,7 +28,7 @@ function HomePage() {
             <Link to="/ideas" className="hero-primary">
               Explore Ideas
             </Link>
-            <Link to="/ai-validator" className="hero-secondary">
+            <Link to={isLoggedIn ? "/ai-validator" : "/signup"} className="hero-secondary">
               Try AI Validation
             </Link>
           </div>
@@ -92,7 +97,7 @@ function HomePage() {
             improve your idea before building it.
           </p>
 
-          <Link to="/ai-validator" className="cta-button">
+          <Link to={isLoggedIn ? "/ai-validator" : "/signup"} className="cta-button">
             Validate Your Idea
           </Link>
         </div>
@@ -109,7 +114,7 @@ function HomePage() {
               ratings, and community insight.
             </p>
 
-            <Link to="/create-idea" className="hero-primary">
+            <Link to={ isLoggedIn ? "/create-idea" : "/signup"} className="hero-primary">
               Post Your Idea
             </Link>
           </div>
@@ -199,7 +204,7 @@ function HomePage() {
 
         <p>Your next big idea deserves validation before execution.</p>
 
-        <Link to="/ai-validator" className="cta-button">
+        <Link to={ isLoggedIn ? "/ai-validator" : "/signup"} className="cta-button">
           Get your validation now ⚡️
         </Link>
       </section>

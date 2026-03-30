@@ -31,7 +31,7 @@ function Sidebar({ isOpen, onClose }) {
             Post Your Idea
           </Link>
 
-          <Link to="/ai-validator" className="sidebar-link" onClick={onClose}>
+          <Link to={ isLoggedIn ? "/ai-validator" : "/signup"} className="sidebar-link" onClick={onClose}>
             AI Validator
           </Link>
           {isLoggedIn && (

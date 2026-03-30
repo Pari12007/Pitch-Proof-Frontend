@@ -9,32 +9,29 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import EditIdeaPage from "./pages/EditIdeaPage";
+import PricingPage from "./pages/PricingPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AIValidatorPage from "./pages/AiPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import "./App.css"
+import "./App.css";
 import { useState } from "react";
 
-
 const App = () => {
-    const [isSidebarOpen, setIsSidebarOpen ] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <>
-    
-    <Navbar onMenuClick={() => setIsSidebarOpen((prev) => !prev)}/>
+      <Navbar onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
 
-      <Sidebar 
-      isOpen={isSidebarOpen}
-      onClose={() => setIsSidebarOpen(false)}
-      />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-    <div></div>
+      <div></div>
 
-    <Routes>
+      <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
@@ -42,44 +39,57 @@ const App = () => {
         <Route path="/ideas" element={<IdeasPage />} />
         <Route path="/ideas/:ideaId" element={<IdeaDetailsPage />} />
 
-        <Route 
-        path="/create-idea" 
-        element={
+        <Route
+          path="/create-idea"
+          element={
             <ProtectedRoute>
-                <CreateIdeaPage/>
-            </ProtectedRoute>} />
-
-        <Route path="/ai-validator" element={<AIValidatorPage />}/>
-
-        <Route
-        path="/my-ideas"
-        element={
-          <ProtectedRoute>
-            <MyIdeasPage/>
-          </ProtectedRoute>
-        }
+              <CreateIdeaPage />
+            </ProtectedRoute>
+          }
         />
 
         <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
+          path="/ai-validator"
+          element={
+            <ProtectedRoute>
+              <AIValidatorPage />
+            </ProtectedRoute>
+          }
         />
 
         <Route
-        path="/ideas/:ideaId/edit"
-        element={
-          <ProtectedRoute>
-            <EditIdeaPage />
-          </ProtectedRoute>
-        }
+          path="/my-ideas"
+          element={
+            <ProtectedRoute>
+              <MyIdeasPage />
+            </ProtectedRoute>
+          }
         />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/ideas/:ideaId/edit"
+          element={
+            <ProtectedRoute>
+              <EditIdeaPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="pricing" element={<PricingPage />} />
+
+        <Route path="/payment-success" element={<PaymentSuccessPage />} />
       </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

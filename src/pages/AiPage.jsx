@@ -1,27 +1,28 @@
-import { useState, useEffect, useRef} from "react";
+import { useState, useEffect, useRef, useContext} from "react";
 import { validateIdeaWithAI } from "../services/ai.services";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-const CHAT_STORAGE_KEY = "pitchproof_ai_chat";
 
 
 function AIValidatorPage() {
-
-    const bottomRef = useRef(null);
-
-
-    const [input, setInput] = useState("");
-
-
-    const initialMessage = {
-        role: "ai",
-        content: 
-        "Hi, I'm PitchProof AI. Share you startup idea or ask a business question, and I'll help you.",
-        result: null,
-    } 
-    const [messages, setMessages] = useState(() => {
-      const saved = localStorage.getItem(CHAT_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : [initialMessage];
-    });
+  
+  const bottomRef = useRef(null);
+  const nav = useNavigate();
+  const { user } = useContext(AuthContext);
+  
+  const [limitMessage, setLimitMessage] = useState("");
+  const [input, setInput] = useState("");
+  
+  
+  const initialMessage = {
+    role: "ai",
+    content: 
+    "Hi, I'm PitchProof AI. Share you startup idea or ask a business question, and I'll help you.",
+    result: null,
+  } 
+  const chatStorageKey = user?._id ? `pitchproof_ai_chat_${user._id}` : "pitchproof_ai_chat_guest";
+    const [messages, setMessages] = useState([initialMessage]);
 
 
     const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ function AIValidatorPage() {
           role: "user",
           content: input,
         };
-
+        setLimitMessage("");
         setMessages((prev) => [...prev, userMessages]);
         const currentInput = input;
         setInput("")
@@ -57,6 +58,13 @@ function AIValidatorPage() {
             console.log("AI error:", err);
             console.log(err.response?.data)
 
+            if (err.response?.status === 403) {
+              setLimitMessage(
+                err.response?.data?.message || "Upgrade to pro to continue"
+              )
+              return;
+            }
+
             setMessages((prev) => [
               ...prev, 
               {
@@ -71,9 +79,19 @@ function AIValidatorPage() {
     };
 
     useEffect(() => {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth"});
-      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
-    }, [messages, loading])
+
+      const saved = localStorage.getItem(chatStorageKey);
+      if(saved) {
+        setMessages(JSON.parse(saved))
+      } else {
+        setMessages([initialMessage])
+      }
+    }, [chatStorageKey])
+
+    useEffect(() => 
+    {
+      localStorage.setItem(chatStorageKey, JSON.stringify(messages))
+    }, [messages, chatStorageKey]);
 
     const handleEnterSend = (e) => {
       if(e.key === "Enter" && !e.shiftKey) {
@@ -88,7 +106,7 @@ function AIValidatorPage() {
 
 
     const handleClearChat = () => {
-      localStorage.removeItem(CHAT_STORAGE_KEY);
+      localStorage.removeItem(chatStorageKey);
       setMessages([initialMessage]);
     }
 
@@ -170,6 +188,19 @@ function AIValidatorPage() {
                 )}
                 <div ref={bottomRef}></div>
               </div>
+
+              {limitMessage && (
+                <div className="upgrade-banner">
+                  <div>
+                    <h4>Upgrade to Pro</h4>
+                    <p>{limitMessage}</p>
+                  </div>
+
+                  <button onClick={() => nav("/pricing")} className="upgrade-banner-btn">
+                    View plans
+                  </button>
+                </div>
+              )}
 
               <form className="chat-input-bar" onSubmit={handleSubmit}>
                 <textarea

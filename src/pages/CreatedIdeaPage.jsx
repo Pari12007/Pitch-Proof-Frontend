@@ -9,6 +9,7 @@ const CreatedIdeaPage = () => {
   const [ problem, setProblem ] = useState("")
   const [ solution, setSolution ] = useState("")
   const [ category, setCategory ] = useState("")
+  const [ limitMessage, setLimitMessage] = useState("");
   
   const navigate = useNavigate();
 
@@ -34,9 +35,11 @@ const CreatedIdeaPage = () => {
     "AgriTech",
     "Cybersecurity"
   ];
-
+    
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLimitMessage("");
 
     try{
       const response = await createIdea({
@@ -60,6 +63,13 @@ const CreatedIdeaPage = () => {
     } catch (err) {
       console.log("Error creating idea: " , err)
       console.log(err.response?.data)
+
+      if (err.response?.status === 403) {
+        setLimitMessage(
+          err.response?.data?.message || "Upgrade to pro to post more ideas"
+        );
+        return;
+      }
     }
   };
 
@@ -67,6 +77,17 @@ const CreatedIdeaPage = () => {
     <div className="create-idea-container">
 
       <h2>Create your startup idea</h2>
+
+      {limitMessage && (
+        <div className="upgrade-banner">
+          <div>
+            <h4>Upgrade to Pro</h4>
+            <p>{setLimitMessage}</p>
+          </div>
+
+          <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"></button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="create-form">
 

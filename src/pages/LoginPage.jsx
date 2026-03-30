@@ -31,7 +31,7 @@ const LoginPage = () => {
       }
 
       await verifyToken();
-      navigate("/ideas")
+      navigate("/")
     } catch (err) {
       setErrorMessage(
         err.response?.data?.message ||

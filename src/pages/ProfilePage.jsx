@@ -105,6 +105,11 @@ const ProfilePage = () => {
                             <span>Ideas posted</span>
                             <strong>{myIdeas.length}</strong>
                         </div>
+
+                        <div className="profile-meta-card">
+                            <span>Plan</span>
+                            <strong>{user?.plan}</strong>
+                        </div>
                     </div>
                 </div>
             </div>
