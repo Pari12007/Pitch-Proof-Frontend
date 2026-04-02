@@ -82,10 +82,10 @@ const CreatedIdeaPage = () => {
         <div className="upgrade-banner">
           <div>
             <h4>Upgrade to Pro</h4>
-            <p>{setLimitMessage}</p>
+            <p>{limitMessage}</p>
           </div>
 
-          <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"></button>
+          <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"> Upgrade Now</button>
         </div>
       )}
 

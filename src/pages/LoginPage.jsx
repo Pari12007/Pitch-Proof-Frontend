@@ -9,6 +9,8 @@ const LoginPage = () => {
   const [ email, setemail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ errorMessage, setErrorMessage ] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
 
   const { verifyToken } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -66,10 +68,17 @@ const LoginPage = () => {
         <div className="form-group">
           <label>Password</label>
           <input
-          type="password"
+          type={showPassword ? "text" : "password" }
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           />
+
+          <span
+              className="toggle-password"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+                {showPassword ? "😑" : "👀"}
+            </span>
         </div>
 
         <button type="submit" className="login-button">

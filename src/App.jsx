@@ -17,7 +17,6 @@ import Sidebar from "./components/Sidebar";
 import AIValidatorPage from "./pages/AiPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import "./App.css";
 import { useState } from "react";
 
 const App = () => {
