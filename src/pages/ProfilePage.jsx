@@ -6,7 +6,7 @@ import { deleteAccount, editProfile } from "../services/auth.services";
 
 
 const ProfilePage = () => {
-    const { user, isLoggedIn, logout } = useContext(AuthContext);
+    const { user, isLoggedIn, logout, setUser } = useContext(AuthContext);
     const [ myIdeas, setMyIdeas ] = useState([]);
     const [ loading, setLoading ] = useState(true);
 
@@ -78,7 +78,7 @@ const ProfilePage = () => {
     }
 
     const handleProfileUpdate = async (e) => {
-        e.preventDefault(false);
+        e.preventDefault();
         setProfileMessage("");
 
         try {
