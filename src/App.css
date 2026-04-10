@@ -2816,7 +2816,10 @@ img {
   .idea-hero-card,
   .idea-section-card,
   .profile-card,
-  .profile-summary-card {
+  .profile-summary-card,
+  .profile-header-card,
+  .profile-ideas-section,
+  .profile-empty-state {
     padding: 24px 20px;
     border-radius: 22px;
   }
@@ -2877,6 +2880,80 @@ img {
     min-height: auto;
   }
 
+  .profile-page {
+    padding-top: 20px;
+    padding-bottom: 44px;
+  }
+
+  .profile-header-card {
+    gap: 18px;
+    align-items: stretch;
+  }
+
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    font-size: 28px;
+  }
+
+  .profile-info h2,
+  .profile-section-heading h2 {
+    margin-bottom: 12px;
+    font-size: clamp(2rem, 8vw, 2.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .profile-eyebrow {
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .profile-meta-grid {
+    gap: 12px;
+  }
+
+  .profile-meta-card {
+    padding: 14px 15px;
+    border-radius: 18px;
+  }
+
+  .profile-meta-card strong {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .profile-actions {
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .profile-btn,
+  .profile-create-link {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 18px;
+  }
+
+  .profile-ideas-section {
+    margin-top: 26px;
+  }
+
+  .profile-section-heading {
+    margin-bottom: 18px;
+  }
+
+  .profile-section-heading p:last-child,
+  .profile-empty-state p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .profile-empty-state h3 {
+    font-size: 22px;
+  }
+
   .loading-text {
     min-height: 34vh;
     padding: 32px 16px;
@@ -2909,7 +2986,10 @@ img {
   .pricing-card,
   .chat-container,
   .idea-hero-card,
-  .idea-section-card {
+  .idea-section-card,
+  .profile-header-card,
+  .profile-ideas-section,
+  .profile-empty-state {
     padding: 20px 16px;
     border-radius: 20px;
   }
@@ -2921,9 +3001,97 @@ img {
   .pricing-highlight-pill,
   .payment-success-pill,
   .idea-meta-pill,
-  .idea-category {
+  .idea-category,
+  .profile-create-link {
     width: 100%;
     justify-content: center;
     text-align: center;
   }
+
+  .profile-page {
+    padding-top: 16px;
+    padding-bottom: 40px;
+  }
+
+  .profile-header-card {
+    gap: 16px;
+  }
+
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    font-size: 24px;
+  }
+
+  .profile-info h2,
+  .profile-section-heading h2 {
+    font-size: clamp(1.8rem, 9vw, 2.2rem);
+  }
+
+  .profile-meta-card {
+    padding: 13px 14px;
+  }
+
+  .profile-meta-card span {
+    font-size: 11px;
+  }
+
+  .profile-meta-card strong {
+    font-size: 14px;
+  }
+
+  .profile-btn {
+    padding: 13px 16px;
+  }
+}
+
+
+
+
+
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  max-width: 420px;
+}
+
+.edit-profile-form input {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.edit-profile-form input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+.profile-edit-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.edit-profile-btn {
+  background: linear-gradient(90deg, var(--blue), var(--violet));
+  color: white;
+}
+
+.cancel-profile-btn {
+  background: rgba(148, 163, 184, 0.14);
+  color: var(--text-main);
+}
+
+.profile-message {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-soft);
 }

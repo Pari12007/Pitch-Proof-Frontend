@@ -15,3 +15,7 @@ export const verify = () => {
 export const deleteAccount = () => {
   return api.delete("/auth/delete-account");
 };
+
+export const editProfile = (userData) => {
+  return api.put("/auth/edit-profile", userData);
+};
