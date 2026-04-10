@@ -1112,20 +1112,25 @@ img {
 
 .password-input-wrapper input {
   width: 100%;
-  padding-right: 40px; /* space for icon */
+  padding-right: 52px;
 }
 
 .toggle-password {
   position: absolute;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
-  font-size: 16px;
-  color: var(--text-soft);
+  font-size: 18px;
+  line-height: 1;
   transition: var(--transition);
 }
 
 .toggle-password:hover {
-  color: var(--blue);
+  transform: translateY(-50%) scale(1.05);
 }
 
 /* =========================
@@ -1327,7 +1332,11 @@ img {
 }
 
 .loading-text {
-  padding: 40px;
+  width: 100%;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   font-size: 16px;
   color: var(--text-soft);
@@ -2696,45 +2705,61 @@ img {
   }
 }
 
-/* =========================
-   MOBILE
+/*=========================
+   FINAL MOBILE
 ========================= */
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
+  .page-shell,
+  .ideas-page,
+  .idea-details-page,
+  .create-idea-container,
+  .home-page,
+  .pricing-page,
+  .payment-success-page {
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
-  .hero-right {
+  .hero,
+  .post-idea-content,
+  .profile-top-grid,
+  .profile-main-grid,
+  .idea-details-grid,
+  .pricing-hero,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+    gap: 20px;
+  }
+
+  .hero-right,
+  .hero-panel {
+    max-width: 100%;
     justify-content: flex-start;
   }
 
-  .hero-panel {
-    max-width: 100%;
-  }
-
-   .post-idea-content {
+  .ideas-grid,
+  .chat-report-grid {
     grid-template-columns: 1fr;
-  }
-
-  .post-idea-text h2 {
-    font-size: 32px;
   }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0 18px;
+    padding: 0 16px;
+  }
+
+  .navbar-center {
+    display: none;
   }
 
   .navbar-right {
     gap: 10px;
     flex-wrap: wrap;
-  }
-
-  .navbar-center{
-    display: none;
   }
 
   .sidebar-drawer {
@@ -2746,108 +2771,159 @@ img {
     left: 0;
   }
 
-  .app-main {
-    padding: 18px;
+  .page-shell,
+  .ideas-page,
+  .idea-details-page,
+  .create-idea-container,
+  .home-page,
+  .chat-page,
+  .pricing-page,
+  .payment-success-page {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .ideas-page,
   .idea-details-page,
   .create-idea-container,
-  .home-page {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-
-  .ideas-page,
-  .idea-details-page,
-  .create-idea-container {
-    padding-top: 28px;
-    padding-bottom: 50px;
-  }
-
-  .hero {
-    gap: 20px;
+  .chat-page,
+  .pricing-page,
+  .payment-success-page {
+    padding-top: 24px;
+    padding-bottom: 48px;
   }
 
   .hero-title,
+  .hero-gradient,
   .ideas-header h2,
   .idea-details-page h2,
-  .create-idea-container h2 {
-    font-size: 34px;
-    letter-spacing: -1px;
+  .create-idea-container h2,
+  .pricing-hero-copy h1,
+  .payment-success-card h1,
+  .chat-header h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+    letter-spacing: -0.04em;
   }
 
-  .login-form {
-    max-width: 100%;
-    padding: 34px 22px;
-  }
-
-  .idea-card {
-    min-height: auto;
-  }
-
-  .ai-premium-page {
-    padding: 24px 18px 50px;
-  }
-
+  .login-form,
+  .payment-success-card,
+  .pricing-hero-copy,
+  .pricing-hero-panel,
+  .pricing-card,
   .ai-input-card,
-  .ai-output-card {
-    padding: 18px;
+  .ai-output-card,
+  .chat-container,
+  .idea-hero-card,
+  .idea-section-card,
+  .profile-card,
+  .profile-summary-card {
+    padding: 24px 20px;
     border-radius: 22px;
   }
 
-  .ai-card-header {
-    align-items: flex-start;
+  .form-group input,
+  .chat-input-bar textarea,
+  .category-filter,
+  .review-form textarea,
+  .create-form textarea,
+  .create-form input,
+  .create-form select {
+    font-size: 16px;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 56px;
+  }
+
+  .toggle-password {
+    right: 14px;
+  }
+
+  .chat-input-bar {
     flex-direction: column;
+    align-items: stretch;
+    bottom: 8px;
   }
 
-  .ai-premium-form textarea {
-    min-height: 180px;
+  .chat-input-bar button,
+  .pricing-cta-button,
+  .login-button,
+  .upgrade-banner-btn {
+    width: 100%;
   }
 
-  .hero-gradient{
-    font-size: 40px;
+  .pricing-panel-stats,
+  .pricing-grid,
+  .chat-report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-price-row,
+  .upgrade-banner,
+  .payment-success-actions,
+  .idea-actions,
+  .profile-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pricing-card-badge {
+    position: static;
+    margin-bottom: 18px;
+  }
+
+  .idea-card,
+  .top-card {
+    min-height: auto;
+  }
+
+  .loading-text {
+    min-height: 34vh;
+    padding: 32px 16px;
   }
 }
 
-.upgrade-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-  padding: 18px 20px;
-  border-radius: 22px;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
-  border: 1px solid rgba(99, 102, 241, 0.18);
-  box-shadow: var(--shadow-sm);
-}
+@media (max-width: 480px) {
+  .navbar {
+    height: auto;
+    min-height: 72px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    align-items: flex-start;
+  }
 
-.upgrade-banner h4 {
-  margin: 0 0 6px;
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-main);
-}
+  .navbar-left,
+  .navbar-right {
+    gap: 8px;
+    margin-right: 0;
+  }
 
-.upgrade-banner p {
-  margin: 0;
-  color: var(--text-soft);
-  line-height: 1.7;
-}
+  .logo {
+    font-size: 22px;
+  }
 
-.upgrade-banner-btn {
-  border: none;
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--blue), var(--violet));
-  color: white;
-  font-weight: 700;
-  transition: var(--transition);
-  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.16);
-}
+  .login-form,
+  .payment-success-card,
+  .pricing-hero-copy,
+  .pricing-hero-panel,
+  .pricing-card,
+  .chat-container,
+  .idea-hero-card,
+  .idea-section-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
 
-.upgrade-banner-btn:hover {
-  transform: translateY(-1px);
+  .chat-bubble {
+    max-width: 100%;
+  }
+
+  .pricing-highlight-pill,
+  .payment-success-pill,
+  .idea-meta-pill,
+  .idea-category {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
 }

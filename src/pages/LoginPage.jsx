@@ -67,18 +67,21 @@ const LoginPage = () => {
 
         <div className="form-group">
           <label>Password</label>
-          <input
-          type={showPassword ? "text" : "password" }
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-input-wrapper">
+            <input
+            type={showPassword ? "text" : "password" }
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <span
+            <button
+              type="button"
               className="toggle-password"
               onClick={() => setShowPassword((prev) => !prev)}
             >
                 {showPassword ? "😑" : "👀"}
-            </span>
+            </button>
+          </div>
         </div>
 
         <button type="submit" className="login-button">

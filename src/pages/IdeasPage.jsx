@@ -107,7 +107,7 @@ const IdeasPage = () => {
   };
 
   if (loading) {
-    return <p>Loading ideas...</p>;
+    return <p className="loading-text">Loading ideas...</p>;
   }
 
 

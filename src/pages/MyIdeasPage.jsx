@@ -50,7 +50,7 @@ const MyIdeasPage = () => {
     };
 
     if(loading) {
-        return <p className="loading text">Loading your ideas...</p>
+        return <p className="loading-text">Loading your ideas...</p>
     }
 
     if(!isLoggedIn) {

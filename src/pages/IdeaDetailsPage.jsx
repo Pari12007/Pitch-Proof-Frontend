@@ -121,7 +121,7 @@ const aiMessage = getAIScoreMessage(aiScore);
 
 
   if(loading) {
-    return <p>Loading idea details..</p>
+    return <p className="loading-text">Loading idea details...</p>
   };
 
   if(!idea) {
