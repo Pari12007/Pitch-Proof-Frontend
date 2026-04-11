@@ -61,6 +61,17 @@ function AIValidatorPage() {
   const isMissingChatRoute = (error) => error?.response?.status === 404;
   const isUpgradeLimitMessage = (message = "") =>
     /upgrade|pro|limit|free plan|questions?/i.test(message);
+  const appendAiErrorBubble = (content) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "ai",
+        content,
+        result: null,
+        createdAt: new Date(),
+      },
+    ]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,37 +116,49 @@ function AIValidatorPage() {
       if (err.response?.status === 403) {
         if (isUpgradeLimitMessage(backendMessage)) {
           setLimitMessage(backendMessage || "Upgrade to pro to continue");
-        } else {
-          setAiErrorMessage(
-            backendMessage ||
-              "Your request was blocked by the AI service. Please try again in a moment."
+          appendAiErrorBubble(
+            backendMessage || "You have reached your free AI limit. Upgrade to continue."
           );
+        } else {
+          const message =
+            backendMessage ||
+            "Your request was blocked by the AI service. Please try again in a moment.";
+          setAiErrorMessage(message);
+          appendAiErrorBubble(message);
         }
         return;
       }
 
+      if (err.response?.status === 401) {
+        const message =
+          backendMessage || "Your session expired. Please log in again to keep using PitchProof AI.";
+        setAiErrorMessage(message);
+        appendAiErrorBubble(message);
+        return;
+      }
+
       if (err.response?.status === 429) {
-        setAiErrorMessage(
-          backendMessage || "AI is temporarily unavailable. Try again later."
-        );
+        const message =
+          backendMessage || "AI is temporarily unavailable. Try again later.";
+        setAiErrorMessage(message);
+        appendAiErrorBubble(message);
         return;
       }
 
       if (err.response?.status === 500) {
-        setAiErrorMessage(
-          "Idea validation is failing on the server right now. Business questions may still work, but the validation route needs a backend fix."
-        );
+        const message =
+          backendMessage ||
+          "Idea validation is failing on the server right now. Business questions may still work, but the validation route needs a backend fix.";
+        setAiErrorMessage(message);
+        appendAiErrorBubble(message);
+        return;
       }
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          content: "Something went wrong while validating your idea.",
-          result: null,
-          createdAt: new Date(),
-        },
-      ]);
+      const fallbackMessage =
+        backendMessage ||
+        "Something went wrong while validating your idea. Please try again.";
+      setAiErrorMessage(fallbackMessage);
+      appendAiErrorBubble(fallbackMessage);
     } finally {
       setLoading(false);
     }
