@@ -11,6 +11,7 @@ function AIValidatorPage() {
   const { user } = useContext(AuthContext);
 
   const [limitMessage, setLimitMessage] = useState("");
+  const [aiErrorMessage, setAiErrorMessage] = useState("");
   const [input, setInput] = useState("");
   const [isChatApiAvailable, setIsChatApiAvailable] = useState(true);
   const [chatPersistenceMessage, setChatPersistenceMessage] = useState("");
@@ -58,6 +59,8 @@ function AIValidatorPage() {
   };
 
   const isMissingChatRoute = (error) => error?.response?.status === 404;
+  const isUpgradeLimitMessage = (message = "") =>
+    /upgrade|pro|limit|free plan|questions?/i.test(message);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,6 +74,7 @@ function AIValidatorPage() {
     };
 
     setLimitMessage("");
+    setAiErrorMessage("");
     setMessages((prev) => [...prev, userMessage]);
 
     const currentInput = input;
@@ -92,18 +96,35 @@ function AIValidatorPage() {
       console.log("AI error:", err);
       console.log(err.response?.data);
 
+      const backendMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.response?.data?.details ||
+        "";
+
       if (err.response?.status === 403) {
-        setLimitMessage(
-          err.response?.data?.message || "Upgrade to pro to continue"
-        );
+        if (isUpgradeLimitMessage(backendMessage)) {
+          setLimitMessage(backendMessage || "Upgrade to pro to continue");
+        } else {
+          setAiErrorMessage(
+            backendMessage ||
+              "Your request was blocked by the AI service. Please try again in a moment."
+          );
+        }
         return;
       }
 
       if (err.response?.status === 429) {
-        setLimitMessage(
-          err.response?.data?.message || "AI is temporarily unavailable. Try again later."
+        setAiErrorMessage(
+          backendMessage || "AI is temporarily unavailable. Try again later."
         );
         return;
+      }
+
+      if (err.response?.status === 500) {
+        setAiErrorMessage(
+          "Idea validation is failing on the server right now. Business questions may still work, but the validation route needs a backend fix."
+        );
       }
 
       setMessages((prev) => [
@@ -242,8 +263,14 @@ function AIValidatorPage() {
         <p className="chat-subtitle">
           Ask anything about startup ideas, validation, business strategy, or growth.
         </p>
+        {user?.plan && (
+          <p className="chat-subtitle">Current plan: {user.plan}</p>
+        )}
         {chatPersistenceMessage && (
           <p className="chat-subtitle">{chatPersistenceMessage}</p>
+        )}
+        {aiErrorMessage && (
+          <p className="auth-message auth-message-error">{aiErrorMessage}</p>
         )}
       </div>
 
