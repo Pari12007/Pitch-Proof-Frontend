@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const IdeaDetailsPage = () => {
 
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn, logout } = useContext(AuthContext);
 
   const { ideaId } = useParams();
   const nav = useNavigate();
@@ -19,6 +19,7 @@ const IdeaDetailsPage = () => {
 
   const [ comment, setComment ] = useState("");
   const [ rating, setRating ] = useState("");
+  const [ reviewErrorMessage, setReviewErrorMessage ] = useState("");
 
   useEffect(() => {
     const fetchIdeaDetails = async () => {
@@ -42,11 +43,22 @@ const IdeaDetailsPage = () => {
   
   const handleReview = async (e) => {
     e.preventDefault();
-    console.log("Token in Storage:", localStorage.getItem("authToken"));
+
+    if (!isLoggedIn) {
+      setReviewErrorMessage("Please log in to submit a review.");
+      return;
+    }
+
+    if (!comment.trim() || !rating) {
+      setReviewErrorMessage("Please add a rating and a short review.");
+      return;
+    }
+
+    setReviewErrorMessage("");
     
     try {
       await createReview(ideaId, {
-        comment,
+        comment: comment.trim(),
         rating: Number(rating)
       });
       
@@ -57,10 +69,22 @@ const IdeaDetailsPage = () => {
       // reset form
       setComment("");
       setRating("");
+      setReviewErrorMessage("");
       
     } catch (error) {
       console.log("Error creating review:", error);
       console.log("Backend error:", error.response?.data);
+
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        logout();
+        setReviewErrorMessage("Your session expired. Please log in again to submit a review.");
+        return;
+      }
+
+      setReviewErrorMessage(
+        error.response?.data?.message || "Unable to submit your review right now."
+      );
     }
   };
   
@@ -219,6 +243,19 @@ const aiMessage = getAIScoreMessage(aiScore);
         <div className="review-form">
           <h3>Add Review</h3>
 
+          {!isLoggedIn && (
+            <div className="review-login-note">
+              <p>Please log in to submit a review for this idea.</p>
+              <Link to="/login" className="profile-create-link">
+                Go to login
+              </Link>
+            </div>
+          )}
+
+          {reviewErrorMessage && (
+            <p className="auth-message auth-message-error">{reviewErrorMessage}</p>
+          )}
+
           <form onSubmit={handleReview}>
 
             <input
@@ -228,15 +265,17 @@ const aiMessage = getAIScoreMessage(aiScore);
             min="1"
             max="5"
             onChange={(e) => setRating(e.target.value)}
+            disabled={!isLoggedIn}
             />
 
             <textarea
             placeholder="Write your review..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            disabled={!isLoggedIn}
             />
 
-            <button type="submit">
+            <button type="submit" disabled={!isLoggedIn}>
               Submit Review
             </button>
           </form>

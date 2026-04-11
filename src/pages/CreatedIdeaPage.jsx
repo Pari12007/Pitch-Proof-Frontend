@@ -117,6 +117,7 @@ const CreatedIdeaPage = () => {
         />
 
         <select 
+        className="create-category-select"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         >
