@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { getIdeas } from "../services/idea.services";
 import { deleteAccount, editProfile } from "../services/auth.services";
+import { getWorkspaces } from "../services/workspace.services";
 
 
 const ProfilePage = () => {
@@ -14,6 +15,10 @@ const ProfilePage = () => {
     const [ editName, setEditName] = useState("");
     const [ editEmail, setEditEmail] = useState("");
     const [ profileMessage, setProfileMessage] = useState("");
+
+    const [ myBusinesses, setMyBusinesses ] = useState([]);
+    const [ businessesLoading, setBusinessesLoading ] = useState(true);
+    const [ businessesError, setBusinessesError ] = useState("");  
 
     const nav = useNavigate();
 
@@ -49,6 +54,43 @@ const ProfilePage = () => {
             setLoading(false);
         }
     }, [isLoggedIn, user]);
+
+
+    useEffect (() => {
+      let active = true;
+
+      const fetchBusinesses = async () => {
+        setBusinessesLoading(true);
+        setBusinessesError("");
+        setMyBusinesses([]);
+
+        try {
+          const response = await getWorkspaces();
+
+          if(active) {
+            setMyBusinesses(response.data);
+          }
+        } catch (error) {
+          if(active) {
+            setBusinessesError(error.response?.data?.message || "Unable to load your businesses");
+          }
+        }finally {
+          if(active) setBusinessesLoading(false);
+        }
+      };
+
+      if(isLoggedIn && user?._id) {
+        fetchBusinesses();
+      } else {
+        setMyBusinesses([]);
+
+        setBusinessesLoading(false);
+      }
+
+      return () => {
+        active = false;
+      };
+    }, [isLoggedIn, user?._id]);
 
 
     const handleLogout = () => {
@@ -92,12 +134,18 @@ const ProfilePage = () => {
         } catch (error) {
             console.log("Error updating profile:", error);
             setProfileMessage(
-                error.response?.data.message || "Failed to update profile."
+                error.response?.data?.message || "Failed to update profile."
             );
         }
     };
 
-
+    const stageLabels = { 
+      ide: "Idea",
+      customer_research:"Customer research",
+      testing_demand: "Testing demand",
+      building: "Building",
+      launched: "Launched",
+    }
     if(loading) {
         return <p className="loading-text">Loading profile...</p>
     }
@@ -130,12 +178,20 @@ const ProfilePage = () => {
               <p><strong>Email:</strong> {user?.email}</p>
               <p><strong>Plan:</strong> {user?.plan}</p>
 
+            <div className="profile-detail-actions">
               <button
                 className="profile-btn edit-profile-btn"
                 onClick={() => setIsEditing(true)}
-              >
+                >
                 Edit Profile
               </button>
+
+              {!user?.isPro && (
+                <Link to="/pricing" className="ws-button">
+                  Upgrade to pro
+                </Link>
+              )}
+            </div>
             </>
           ) : (
             <form onSubmit={handleProfileUpdate} className="edit-profile-form">
@@ -178,15 +234,47 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="profile-actions">
-        <button className="profile-btn logout-profile-btn" onClick={handleLogout}>
-          Logout
-        </button>
+      <section className="profile-businesses-section">
+        <div className="section-heading">
+          <h2>My Businesses</h2>
+          <p>Your private business workspaces.</p>
+        </div>
 
-        <button className="profile-btn delete-account-btn" onClick={handleDeleteAccount}>
-          Delete Account
-        </button>
-      </div>
+        {businessesLoading ? (
+          <p role="status">Loading your busiensses...</p>
+        ) : businessesError ? (
+          <p role="alert">{businessesError}</p>
+        ) : myBusinesses.length === 0 ? (
+          <div className="empty-message">
+            <h3>No businesses yet</h3>
+            <p>Create a workspace to start planning your business.</p>
+
+            <Link to="/worksapces/new" className="ws-button">
+              Create Buisness
+            </Link>
+          </div>
+        ) : (
+          <div className="ideas-grid">
+            {myBusinesses.map((business) => (
+              <Link to={`/workspaces/${business._id}`} key={business._id} className="idea-card">
+                <article className="idea-card">
+                  <div className="idea-card-top">
+                    <h3>{business.name}</h3>
+                    <span className="idea-category">{stageLabels[business.stage] || "Idea"}</span>
+                  </div>
+
+                  <p className="idea-description">{business.summary}</p>
+
+                  <div className="idea-footer">
+                    <span>Open business →</span>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        )} 
+      </section>
+
 
       <div className="profile-ideas-section">
         <div className="section-heading">
@@ -220,144 +308,18 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
+
+
+      <div className="profile-actions">
+        <button className="profile-btn logout-profile-btn" onClick={handleLogout}>
+          Logout
+        </button>
+
+        <button className="profile-btn delete-account-btn" onClick={handleDeleteAccount}>
+          Delete Account
+        </button>
+      </div>
     </div>
-
-
-
-
-    //     <div className="profile-page">
-
-    //         <div className="profile-header-card">
-    //             <div className="profile-avatar">
-    //                 {user?.name ? user.name[0].toUpperCase() : "U"}
-    //             </div>
-
-    //             <div className="profile-info">
-    //                 <p className="profile-eyebrow">Account overview</p>
-    //                 <h2>My Profile</h2>
-
-    //                 {!isEditing ? (
-    //                     <>
-    //                         <p><strong>Nmae:</strong> {user?.name} </p>
-    //                         <p><strong>Email:</strong> {user?.email} </p>
-    //                         <p><strong>Plan:</strong> {user?.plan} </p>
-
-    //                         <button
-    //                         className="profile-btn edit-profile-btn"
-    //                         onClick={() => setIsEditing(true)}
-    //                         >
-    //                             Edit Profile
-    //                         </button>
-    //                     </>
-    //                 ) : (
-    //                     <form onSubmit={handleProfileUpdate} className="edit-profile-form">
-    //                         <input
-    //                         type="text"
-    //                         value={editName}
-    //                         onChange={(e) => setEditName(e.target.value)}
-    //                         />
-
-    //                         <input
-    //                         type="email"
-    //                         value={email}
-    //                         onChange={(e) => setEditName(e.target.value)}
-    //                         />
-
-    //                         <div className="profile-edit-actions">
-    //                             <button type="submit" className="profile-btn edit-profile-btn">
-    //                                 Save Changes
-    //                             </button>
-
-    //                             <button 
-    //                             type="button"
-    //                             className="profile-btn cancel-profile-btn"
-    //                             onClick={() => {
-    //                                 setIsEditing(false);
-    //                                 setEditName(USER?.NAME || "")
-    //                                 setEditEmail(user?.email || "");
-    //                                 setProfileMessage("");
-    //                             }}
-    //                             >
-    //                                 Cancel
-    //                             </button>
-    //                         </div>
-    //                     </form>
-    //                 )}
-
-
-
-    //                 <div className="profile-meta-grid">
-    //                     <div className="profile-meta-card">
-    //                         <span>Name</span>
-    //                         <strong>{user?.name || "Unknown user"}</strong>
-    //                     </div>
-
-    //                     <div className="profile-meta-card">
-    //                         <span>Email</span>
-    //                         <strong>{user?.email || "No email available"}</strong>
-    //                     </div>
-
-    //                     <div className="profile-meta-card">
-    //                         <span>Ideas posted</span>
-    //                         <strong>{myIdeas.length}</strong>
-    //                     </div>
-
-    //                     <div className="profile-meta-card">
-    //                         <span>Plan</span>
-    //                         <strong>{user?.plan}</strong>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-
-    //         <div className="profile-actions">
-    //             <button className="profile-btn logout-profile-btn" onClick={handleLogout}>
-    //                 Logout
-    //             </button>
-
-    //             <button className="profile-btn delete-account-btn" onClick={handleDeleteAccount}>
-    //                 Delete Account
-    //             </button>
-    //         </div>
-
-
-    //         <div className="profile-ideas-section">
-    //             <div className="profile-section-heading">
-    //                 <p className="profile-eyebrow">Your content</p>
-    //                 <h2>My Posted Ideas</h2>
-    //                 <p>All startup ideas posted from your account in one place.</p>
-    //             </div>
-
-    //             {myIdeas.length === 0 ? (
-    //                 <div className="profile-empty-state">
-    //                     <h3>No ideas posted yet</h3>
-    //                     <p>You haven't posted any ideas yet. Start sharing your first startup concept.</p>
-    //                     <Link to="/create-idea" className="profile-create-link">
-    //                         Create your first idea
-    //                     </Link>
-    //                 </div>
-    //             ) : (
-    //                 <div className="ideas-grid">
-    //                     {myIdeas.map((idea) => (
-    //                         <Link to={`/ideas/${idea._id}`} key={idea._id} className="idea-link">
-    //                             <div className="idea-card">
-    //                                 <div className="idea-card-top">
-    //                                     <h3>{idea.title}</h3>
-    //                                     <span className="idea-category">{idea.category}</span>
-    //                                 </div>
-
-    //                                 <p className="idea-description">{idea.idea}</p>
-
-    //                                 <div className="idea-footer">
-    //                                     <span>Click to view details</span>
-    //                                 </div>
-    //                             </div>
-    //                         </Link>
-    //                     ))}
-    //                 </div>
-    //             )}
-    //         </div>
-    //     </div>
     )
 
 }

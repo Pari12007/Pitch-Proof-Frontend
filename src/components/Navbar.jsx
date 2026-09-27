@@ -36,7 +36,7 @@ const Navbar = ({ onMenuClick, onClose }) => {
         <nav className="navbar">
             {/* LEFT */}
             <div className="navbar-left">
-                <button className="menu-button" onClick={onMenuClick}>
+                <button className="menu-button" aria-label="Open navigation menu" onClick={onMenuClick}>
                     ☰
                 </button>
                 <Link to="/" className="logo-link">
@@ -48,7 +48,7 @@ const Navbar = ({ onMenuClick, onClose }) => {
             {/* CENTER */}
             <div className="navbar-center">
                 <Link to="/ideas" className="nav-link">Ideas</Link>
-                <Link to={isLoggedIn ? "/create-idea" : "/signup"} onClick={onClose} className="nav-link">Post your Idea</Link> 
+
 
                 <div
                     className="categories-dropdown"
@@ -78,10 +78,10 @@ const Navbar = ({ onMenuClick, onClose }) => {
                             <div className="categories-grid-list">
                             {categories.map((category) => (
                                 <Link
-                                    key={category}
-                                    to={`/ideas?category=${encodeURIComponent(category)}`}
-                                    className="categories-item"
-                                    onClick={() => setShowCategories(false)}
+                                key={category}
+                                to={`/ideas/category/${encodeURIComponent(category)}`}
+                                className="categories-item"
+                                onClick={() => setShowCategories(false)}
                                 >
                                     {category}
                                 </Link>
@@ -90,6 +90,8 @@ const Navbar = ({ onMenuClick, onClose }) => {
                         </div>
                     )}
                 </div>
+                    <Link to={isLoggedIn ? "/create-idea" : "/signup"} onClick={onClose} className="nav-link">Post your Idea</Link>
+                    {isLoggedIn && <Link to="/workspaces" className="nav-link">My Businesses</Link>}
             </div>
 
 

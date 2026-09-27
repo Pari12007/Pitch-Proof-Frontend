@@ -10,7 +10,7 @@ const CreatedIdeaPage = () => {
   const [ solution, setSolution ] = useState("")
   const [ category, setCategory ] = useState("")
   const [ limitMessage, setLimitMessage] = useState("");
-  
+  const [ errorMessage, setErrorMessage ] = useState("");
   const navigate = useNavigate();
 
   const categories = [
@@ -40,14 +40,19 @@ const CreatedIdeaPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLimitMessage("");
+    setErrorMessage("");
+
+    if(!problem.trim() || !solution.trim()) {
+      setErrorMessage("Please complete both the problem and solution before posting your idea."); return;
+    }
 
     try{
       const response = await createIdea({
-        title,
-        idea,
-        problem,
-        solution,
-        category
+        title: title.trim(),
+        idea: idea.trim(),
+        problem: problem.trim(),
+        solution: solution.trim(),
+        category,
       });
 
       console.log("Idea created:", response.data);
@@ -70,6 +75,7 @@ const CreatedIdeaPage = () => {
         );
         return;
       }
+      setErrorMessage(err.response?.data?.message || "Unable to post your idea. Please try again.");
     }
   };
 
@@ -90,38 +96,45 @@ const CreatedIdeaPage = () => {
       )}
 
       <form onSubmit={handleSubmit} className="create-form">
-
+        
+        {errorMessage && (<p role="alert" className="create-form-error">{errorMessage}</p>)}
+        
+        <label htmlFor="title">Title</label>
         <input
         type="text"
-        placeholder="Tilte"
+        placeholder="e.g. PitchProof"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         />
 
+        <label htmlFor="idea">Idea</label>
         <textarea
-        placeholder="Your idea"
+        placeholder="Describe your business, who it serves, and what you offer."
         value={idea}
         onChange={(e) => setIdea(e.target.value)}
         />
-
+        
+        <label htmlFor="idea-problem">Problem</label>
         <textarea
-        placeholder="Problem"
+        placeholder="What difficulty do your customers face today?"
         value={problem}
         onChange={(e) => setProblem(e.target.value)}
         />
 
+        <label htmlFor="solution">Solution</label>
         <textarea
-        placeholder="Solution"
+        placeholder="How will your product or service solve that problem?"
         value={solution}
         onChange={(e) => setSolution(e.target.value)}
         />
 
+        <label htmlFor="category">Category</label>
         <select 
         className="create-category-select"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="">Select Category</option>
+          <option value="">Select a Category</option>
           
           {categories.map((types) => (
             <option key={types} value={types}>
