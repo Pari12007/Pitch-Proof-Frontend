@@ -1,9 +1,12 @@
+import { useLanguage } from "../context/languageStore";
 import { useEffect, useState } from "react";
 import { getIdeas } from "../services/idea.services";
 import { Link, useSearchParams, useParams } from "react-router-dom";
 import { getReviews } from "../services/review.services";
 
 const IdeasPage = () => {
+  const {t, formatNumber } = useLanguage();
+
   const [searchParams] = useSearchParams();
   const categoryFromUrl = searchParams.get("category") || "";
 
@@ -111,25 +114,25 @@ const IdeasPage = () => {
   };
 
   if (loading) {
-    return <p className="loading-text">Loading ideas...</p>;
+    return <p className="loading-text">{t("Loading ideas...")}</p>;
   }
 
   return (
     <div className="ideas-page">
       <div className="ideas-header">
         <h2>
-          {isCategoryPage ? `${routeCategory} Ideas` : "All Startup Ideas"}
+          {isCategoryPage ? t("{{0}} Ideas", {"0": t(routeCategory)}) : t("All Startup Ideas")}
         </h2>
         <p>
           {isCategoryPage
-            ? `Explore startup ideas in ${routeCategory}.`
-            : "Explore and validate startup concepts from the community."}
+            ? t("Explore startup ideas in {{0}}.", {"0": t(routeCategory)})
+            : t("Explore and validate startup concepts from the community.")}
         </p>
       </div>
 
       {!isCategoryPage && topIdeas.length > 0 && (
         <div className="top-rated-section">
-          <h3>Top Rated Ideas ⭐</h3>
+          <h3>{t("Top Rated Ideas ⭐")}</h3>
           <div className="ideas-grid">
             {topIdeas.map((idea) => (
               <Link
@@ -140,16 +143,16 @@ const IdeasPage = () => {
                 <div className="idea-card top-card">
                   <div className="idea-card-top">
                     <h3>{idea.title}</h3>
-                    <span className="idea-category">{idea.category}</span>
+                    <span className="idea-category">{t(idea.category)}</span>
                   </div>
 
                   <p className="idea-description">{idea.idea}</p>
 
                   <p className="idea-rating">
-                    {renderStars(idea.averageRating)} ({idea.averageRating}/5)
+                    {renderStars(idea.averageRating)} ({formatNumber(idea.averageRating)}/5)
                   </p>
 
-                  <p className="idea-meta">{idea.reviewsCount} reviews</p>
+                  <p className="idea-meta">{t("reviewCount", {count: idea.reviewsCount})}</p>
                 </div>
               </Link>
             ))}
@@ -163,11 +166,11 @@ const IdeasPage = () => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="category-filter"
           >
-            <option value="">All Categories</option>
+            <option value="">{t("All Categories")}</option>
 
             {categories.map((cat) => (
               <option key={cat} value={cat}>
-                {cat}
+                {t(cat)}
               </option>
             ))}
           </select>
@@ -177,20 +180,20 @@ const IdeasPage = () => {
             onChange={(e) => setSortType(e.target.value)}
             className="category-filter"
           >
-            <option value="">Sort By</option>
-            <option value="rating">Highest Rated</option>
-            <option value="reviews">Most Reviewed</option>
+            <option value="">{t("Sort By")}</option>
+            <option value="rating">{t("Highest Rated")}</option>
+            <option value="reviews">{t("Most Reviewed")}</option>
           </select>
         </div>
       )}
 
       {filteredIdeas.length === 0 ? (
         <div>
-          <h3>No ideas found</h3>
+          <h3>{t("No ideas found")}</h3>
           <p>
             {activeCategory
-              ? `There are no ideas yet in ${activeCategory}.`
-              : "There are no ideas available right now."}
+              ? t("There are no ideas yet in {{0}}.", {"0": t(activeCategory)})
+              : t("There are no ideas available right now.")}
           </p>
         </div>
       ) : (
@@ -204,22 +207,22 @@ const IdeasPage = () => {
               <div className="idea-card">
                 <div className="idea-card-top">
                   <h3>{idea.title}</h3>
-                  <span className="idea-category">{idea.category}</span>
+                  <span className="idea-category">{t(idea.category)}</span>
                 </div>
 
                 <p className="idea-description">{idea.idea}</p>
 
                 <p className="idea-rating">
                   {idea.reviewsCount > 0
-                    ? `${renderStars(idea.averageRating)} (${idea.averageRating}/5)`
-                    : "No ratings yet"}
+                    ? `${renderStars(idea.averageRating)} (${formatNumber(idea.averageRating)}/5)`
+                    : t("No ratings yet")}
                 </p>
 
                 <div className="idea-footer">
                   <span>
                     {idea.reviewsCount > 0
-                      ? `${idea.reviewsCount} reviews`
-                      : "Be the first to review"}
+                      ? t("reviewCount", {count: idea.reviewsCount})
+                      : t("Be the first to review")}
                   </span>
                 </div>
               </div>

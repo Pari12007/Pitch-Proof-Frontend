@@ -1,8 +1,11 @@
+import { useLanguage } from "../context/languageStore";
 import { useState, useEffect} from "react";
 import { useNavigate, Link,  useParams } from "react-router-dom";
 import { updateWorkspace, getWorkspace } from "../services/workspace.services";
 
 function EditWorkspacePage() {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
 
     const { workspaceId } = useParams();
     const nav = useNavigate();
@@ -83,14 +86,14 @@ function EditWorkspacePage() {
     };
 
     if(loading){
-        return <p>Updating your business...</p>
+        return <p>{t("Updating your business...")}</p>
     }
 
     if(loadError){
         return (
             <main className="edit-workspace-page">
-                <p role="alert">{loadError}</p>
-                <Link to="/workspaces">Back to My Businesses</Link>
+                <p role="alert">{tError(loadError)}</p>
+                <Link to="/workspaces">{t("Back to My Businesses")}</Link>
             </main>
         );
     }
@@ -98,14 +101,14 @@ function EditWorkspacePage() {
 
     return (
         <main className="edit-workspace-page">
-            <Link to={`/workspaces/${workspaceId}`} className="ws-back">← Back to business</Link>
-            <h1>Edit Business</h1>
+            <Link to={`/workspaces/${workspaceId}`} className="ws-back">{t("← Back to business")}</Link>
+            <h1>{t("Edit Business")}</h1>
 
-            {errorMessage && <p role="alert">{errorMessage}</p>}
+            {errorMessage && <p role="alert">{tError(errorMessage)}</p>}
 
-            <form onSubmit={handleSubmit}>
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="name">Business name</label>
+                    <label htmlFor="name">{t("Business name")}</label>
                         <input
                             id="name"
                             value={name}
@@ -115,9 +118,7 @@ function EditWorkspacePage() {
                 </div>
 
                 <div>
-                    <label htmlFor="summary">
-                        Business description
-                    </label>
+                    <label htmlFor="summary"> {t("Business description")} </label>
 
                     <textarea
                         id="summary"
@@ -130,7 +131,7 @@ function EditWorkspacePage() {
                 </div>
 
                 <div>
-                    <label htmlFor="customer">Target customer(optional)</label>
+                    <label htmlFor="customer">{t("Target customer(optional)")}</label>
                     <input
                         id="customer"
                         value={customer}
@@ -140,7 +141,7 @@ function EditWorkspacePage() {
                 </div>
 
                 <div>
-                    <label htmlFor="location">Location (optional)</label>
+                    <label htmlFor="location">{t("Location (optional)")}</label>
 
                     <input
                         id="location"
@@ -151,12 +152,10 @@ function EditWorkspacePage() {
                 </div>
 
                 <button type="submit" disabled={saving}>
-                    {saving ? "Saving..." : "Save changes"}
+                    {saving ? t("Saving...") : t("Save changes")}
                 </button>
 
-                <Link to={`/workspaces/${workspaceId}`}>
-                    Cancel
-                </Link>
+                <Link to={`/workspaces/${workspaceId}`}> {t("Cancel")} </Link>
             </form>
         </main>
     )

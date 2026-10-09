@@ -25,6 +25,6 @@ export const getWorkspaceChat = (workspaceId) => {
     return api.get(`/api/workspaces/${workspaceId}/chat`);
 };
 
-export const sendWorkspaceMessage = (workspaceId, message) => {
-    return api.post(`/api/workspaces/${workspaceId}/chat`, {message,});
+export const sendWorkspaceMessage = (workspaceId, message, language = "en") => {
+    return api.post(`/api/workspaces/${workspaceId}/chat`, {message, language});
 };

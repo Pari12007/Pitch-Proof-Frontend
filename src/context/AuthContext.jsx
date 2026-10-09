@@ -17,26 +17,29 @@ export const AuthProvider = ( {children} ) => {
 
     const verifyToken = async () => {
         setIsLoading(true);
-        const token = localStorage.getItem("authToken");
-
-        if(!token) {
-            setUser(null);
-            setIsLoggedIn(false);
-            setIsLoading(false);
-            return;
-        }
-
-        try{
+        try {
+            const token = localStorage.getItem("authToken");
+    
+            if(!token) {
+                setUser(null);
+                setIsLoggedIn(false);
+                return;
+            }
+            
             const response = await verify();
+
+
             setUser(response.data);
             setIsLoggedIn(true);
-        } catch (err) {
+            return true;
+        } catch (error) {
             localStorage.removeItem("authToken");
             setUser(null);
             setIsLoggedIn(false);
+            return false;
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     }; 
 
     const logout = () => {

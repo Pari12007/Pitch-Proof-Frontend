@@ -19,3 +19,15 @@ export const deleteAccount = () => {
 export const editProfile = (userData) => {
   return api.put("/auth/edit-profile", userData);
 };
+
+export const forgotPassword = (email) => {
+  return api.post("/auth/forgot-password", { email });
+};
+
+export const resetPassword = (token, password) => {
+  return api.post("/auth/reset-password", { token, password });
+}
+
+export const markDashboardVisited = () => {
+  return api.patch("/auth/dashboard-visited");
+};

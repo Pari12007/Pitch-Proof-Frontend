@@ -1,8 +1,11 @@
+import { useLanguage } from "../context/languageStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createIdea } from "../services/idea.services";
 
 const CreatedIdeaPage = () => {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
 
   const [ title, setTitle ] = useState("");
   const [ idea, setIdea ] = useState('')
@@ -82,70 +85,68 @@ const CreatedIdeaPage = () => {
   return (
     <div className="create-idea-container">
 
-      <h2>Create your startup idea</h2>
+      <h2>{t("Create your startup idea")}</h2>
 
       {limitMessage && (
         <div className="upgrade-banner">
           <div>
-            <h4>Upgrade to Pro</h4>
-            <p>{limitMessage}</p>
+            <h4>{t("Upgrade to Pro")}</h4>
+            <p>{t(limitMessage)}</p>
           </div>
 
-          <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"> Upgrade Now</button>
+          <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"> {t("Upgrade Now")}</button>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="create-form">
+      <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSubmit} className="create-form">
         
-        {errorMessage && (<p role="alert" className="create-form-error">{errorMessage}</p>)}
+        {errorMessage && (<p role="alert" className="create-form-error">{tError(errorMessage)}</p>)}
         
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title">{t("Title")}</label>
         <input
         type="text"
-        placeholder="e.g. PitchProof"
+        placeholder={t("e.g. PitchProof")}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label htmlFor="idea">Idea</label>
+        <label htmlFor="idea">{t("Idea")}</label>
         <textarea
-        placeholder="Describe your business, who it serves, and what you offer."
+        placeholder={t("Describe your business, who it serves, and what you offer.")}
         value={idea}
         onChange={(e) => setIdea(e.target.value)}
         />
         
-        <label htmlFor="idea-problem">Problem</label>
+        <label htmlFor="idea-problem">{t("Problem")}</label>
         <textarea
-        placeholder="What difficulty do your customers face today?"
+        placeholder={t("What difficulty do your customers face today?")}
         value={problem}
         onChange={(e) => setProblem(e.target.value)}
         />
 
-        <label htmlFor="solution">Solution</label>
+        <label htmlFor="solution">{t("Solution")}</label>
         <textarea
-        placeholder="How will your product or service solve that problem?"
+        placeholder={t("How will your product or service solve that problem?")}
         value={solution}
         onChange={(e) => setSolution(e.target.value)}
         />
 
-        <label htmlFor="category">Category</label>
+        <label htmlFor="category">{t("Category")}</label>
         <select 
         className="create-category-select"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="">Select a Category</option>
+          <option value="">{t("Select a Category")}</option>
           
           {categories.map((types) => (
             <option key={types} value={types}>
-              {types}
+              {t(types)}
             </option>
           ))}
         </select>
 
-        <button type="submit">
-          Create Idea
-        </button>
+        <button type="submit"> {t("Create Idea")} </button>
 
       </form>
     </div>

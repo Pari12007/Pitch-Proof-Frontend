@@ -1,9 +1,12 @@
+import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { verify } from "../services/auth.services";
 
 const PaymentSuccessPage = () => {
+  const { t } = useLanguage();
+
   const { setUser } = useContext(AuthContext);
   const [status, setStatus] = useState("checking");
   const [attempt, setAttempt] = useState(0);
@@ -17,7 +20,7 @@ const PaymentSuccessPage = () => {
       try {
         const { data: account } = await verify();
         if (!active) return;
-        if (!account) throw new Error("Account unavailable");
+        if (!account) throw new Error(t("Account unavailable"));
         setUser(account);
         if (account.isPro) {
           setStatus("confirmed");
@@ -50,21 +53,21 @@ const PaymentSuccessPage = () => {
     <div className="payment-success-page">
       <div className="payment-success-card">
         <div className="payment-success-icon" aria-hidden="true">{status === "confirmed" ? "✓" : "…"}</div>
-        <span className="payment-success-eyebrow">PitchProof Pro</span>
-        <h1>{status === "confirmed" ? "Your Pro access is active" : "Checking your upgrade"}</h1>
+        <span className="payment-success-eyebrow">{t("PitchProof Pro")}</span>
+        <h1>{status === "confirmed" ? t("Your Pro access is active") : t("Checking your upgrade")}</h1>
         <p role="status">
-          {status === "checking" && "Waiting for your account upgrade to be confirmed…"}
-          {status === "confirmed" && "Your account is now on Pro. You can continue using your business mentor."}
-          {status === "pending" && "Your account has not been upgraded yet. If payment succeeded, do not pay again. Try checking again shortly; if it stays pending, contact support."}
-          {status === "error" && "We couldn’t check your account. Check your connection and sign-in, then retry. You do not need to pay again."}
+          {status === "checking" && t("Waiting for your account upgrade to be confirmed…")}
+          {status === "confirmed" && t("Your account is now on Pro. You can continue using your business mentor.")}
+          {status === "pending" && t("Your account has not been upgraded yet. If payment succeeded, do not pay again. Try checking again shortly; if it stays pending, contact support.")}
+          {status === "error" && t("We couldn’t check your account. Check your connection and sign-in, then retry. You do not need to pay again.")}
         </p>
         {(status === "pending" || status === "error") && (
-          <button type="button" className="nav-button" onClick={retry}>Check again</button>
+          <button type="button" className="nav-button" onClick={retry}>{t("Check again")}</button>
         )}
         <div className="payment-success-actions">
-          <Link to="/profile" className="nav-button">Go to profile</Link>
+          <Link to="/profile" className="nav-button">{t("Go to profile")}</Link>
           {status === "confirmed" && (
-            <Link to="/workspaces" className="payment-success-link">Open my businesses</Link>
+            <Link to="/workspaces" className="payment-success-link">{t("Open my businesses")}</Link>
           )}
         </div>
       </div>

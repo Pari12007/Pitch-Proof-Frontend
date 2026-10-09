@@ -17,6 +17,6 @@ export const deleteWorkspaceTask = (workspaceId, taskId) => {
 }
 
 
-export const getWorkspaceTaskSuggestions = (workspaceId) => {
-    return api.post(`/api/workspaces/${workspaceId}/task-suggestions`);
+export const getWorkspaceTaskSuggestions = (workspaceId, language = "en") => {
+    return api.post(`/api/workspaces/${workspaceId}/task-suggestions`, { language });
 };

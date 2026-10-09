@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -7,6 +8,8 @@ import { getWorkspaces } from "../services/workspace.services";
 
 
 const ProfilePage = () => {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
     const { user, isLoggedIn, logout, setUser } = useContext(AuthContext);
     const [ myIdeas, setMyIdeas ] = useState([]);
     const [ loading, setLoading ] = useState(true);
@@ -19,6 +22,8 @@ const ProfilePage = () => {
     const [ myBusinesses, setMyBusinesses ] = useState([]);
     const [ businessesLoading, setBusinessesLoading ] = useState(true);
     const [ businessesError, setBusinessesError ] = useState("");  
+    const [ deleteError, setDeleteError ] = useState("");
+    const [ deleting, setDeleting ] = useState(false);
 
     const nav = useNavigate();
 
@@ -99,24 +104,24 @@ const ProfilePage = () => {
     };
 
     const handleDeleteAccount = async () => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete you account? This will also delete your ideas and reviews."
-        );
+        if(deleting) return;
 
-        if(!confirmDelete) return;
-        
+        const confirmed = window.confirm(t("Delete your account permanently? This will also delete your associated data."));
+
+        if(!confirmed) return;
+
+        setDeleteError("");
+        setDeleting(true);
+
         try {
-            await deleteAccount();
-
-            
-            localStorage.removeItem("authToken")
-            logout();
-                
-            window.location.replace("/");
+          await deleteAccount();
+          logout();
+          nav("/", { replace: true })
         } catch (error) {
-            console.log("Error deleting account:", error);
-            console.log(error.response?.data);
-        }    
+          setDeleteError(error.response?.data?.message || "Unable to delete your account. Please try again.");
+        } finally {
+          setDeleting(false);
+        }
     }
 
     const handleProfileUpdate = async (e) => {
@@ -140,186 +145,204 @@ const ProfilePage = () => {
     };
 
     const stageLabels = { 
-      ide: "Idea",
-      customer_research:"Customer research",
-      testing_demand: "Testing demand",
-      building: "Building",
-      launched: "Launched",
+      idea: t("Idea"),
+      customer_research:t("Customer research"),
+      testing_demand: t("Testing demand"),
+      building: t("Building"),
+      launched: t("Launched"),
     }
     if(loading) {
-        return <p className="loading-text">Loading profile...</p>
+        return <p className="loading-text">{t("Loading profile...")}</p>
     }
 
     if (!isLoggedIn) {
         return (
             <div className="empty-message">
-                <h3>Your need to log in</h3>
-                <p>Please log in to view your profile.</p>
+                <h3>{t("Your need to log in")}</h3>
+                <p>{t("Please log in to view your profile.")}</p>
             </div>
         );
     }
 
 
     return (
-
-
-        <div className="profile-page">
-      <div className="profile-header-card">
-        <div className="profile-avatar">
-          {user?.name ? user.name[0].toUpperCase() : "U"}
-        </div>
-
-        <div className="profile-info">
-          <h2>My Profile</h2>
-
-          {!isEditing ? (
-            <>
-              <p><strong>Name:</strong> {user?.name}</p>
-              <p><strong>Email:</strong> {user?.email}</p>
-              <p><strong>Plan:</strong> {user?.plan}</p>
-
-            <div className="profile-detail-actions">
-              <button
-                className="profile-btn edit-profile-btn"
-                onClick={() => setIsEditing(true)}
-                >
-                Edit Profile
-              </button>
-
-              {!user?.isPro && (
-                <Link to="/pricing" className="ws-button">
-                  Upgrade to pro
-                </Link>
-              )}
+      <main className="profile-page profile-redesign">
+        <header className="profile-top">
+          <div className="profile-identify">
+            <div className="profile-avatar" aria-hidden="true">
+              {user?.name?.charAt(0).toUpperCase() || "U"}
             </div>
-            </>
-          ) : (
-            <form onSubmit={handleProfileUpdate} className="edit-profile-form">
-              <input
-                type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-                placeholder="Name"
-              />
+
+            <div>
+              <span className="ws-eyebrow">{t("Your account")}</span>
+              <h1>{user?.name || t("My profile")}</h1>
+              <p>{user?.email}</p>
+
+              <div className="profile-plan">
+                <span>{user?.isPro ? t("Pro plan") : t("Free plan")}</span>
+
+                {!user?.isPro && (
+                  <Link to="/pricing">{t("Upgrade to pro")}</Link>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <button
+          type="button"
+          className="ws-button ws-secondary"
+          disabled={isEditing}
+          aria-expanded={isEditing}
+          aria-control="profile-edit-panel"
+          onClick={() => {
+            setProfileMessage("");
+            setDeleteError("");
+            setIsEditing(true);
+          }}
+          > {t("Edit profile")} </button>
+        </header>
+
+        {profileMessage && (
+          <p className="profile-message" role="status">
+            {t(profileMessage)}
+          </p>
+        )}
+
+        {isEditing && (
+          <section id="profile-edit-panel" className="profile-panel" aria-labelledby="profile-edit-heading">
+            <h2 id="profile-edit-heading">{t("Edit your profile")}</h2>
+
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleProfileUpdate} className="profile-edit-fields">
+              <label htmlFor="profile-name">{t("Name")}</label>
 
               <input
-                type="email"
-                value={editEmail}
-                onChange={(e) => setEditEmail(e.target.value)}
-                placeholder="Email"
+              id="profile"
+              type="text"
+              autoComplete="name"
+              placeholder={t("Your name")}
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              disabled={deleting}
+              required
               />
 
-              <div className="profile-edit-actions">
-                <button type="submit" className="profile-btn edit-profile-btn">
-                  Save Changes
-                </button>
+              <label htmlFor="profile-email">{t("Email")}</label>
+              <input 
+              id="profile"
+              type="email"
+              autoComplete="email"
+              placeholder={t("you@example.com")}
+              value={editEmail}
+              onchange={(e) => setEditEmail(e.target.value)}
+              disabled={deleting}
+              required
+              />
 
-                <button
-                  type="button"
-                  className="profile-btn cancel-profile-btn"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setEditName(user?.name || "");
-                    setEditEmail(user?.email || "");
-                    setProfileMessage("");
-                  }}
-                >
-                  Cancel
-                </button>
+              <div className="profile-edit-buttons">
+                <button type="submit" className="ws-button" disabled={deleting}> {t("Save changes")} </button>
+
+                <button type="button" className="ws-button ws-secondary" disabled={deleting} onClick={() => {
+                  setIsEditing(false);
+                  setEditName(user?.name || "");
+                  setEditEmail(user?.email || "");
+                  setProfileMessage("");
+                }}> {t("Cancel")} </button>
               </div>
             </form>
-          )}
 
-          {profileMessage && <p className="profile-message">{profileMessage}</p>}
-        </div>
-      </div>
+            <div className="profile-delete-section">
+              <div>
+                <h3>{t("Delete account")}</h3>
 
-      <section className="profile-businesses-section">
-        <div className="section-heading">
-          <h2>My Businesses</h2>
-          <p>Your private business workspaces.</p>
-        </div>
+                <p>{t("This permanently deletes yoour account and its associated data.")}</p>
+              </div>
 
-        {businessesLoading ? (
-          <p role="status">Loading your busiensses...</p>
-        ) : businessesError ? (
-          <p role="alert">{businessesError}</p>
-        ) : myBusinesses.length === 0 ? (
-          <div className="empty-message">
-            <h3>No businesses yet</h3>
-            <p>Create a workspace to start planning your business.</p>
+              <button
+              type="button"
+              className="ws-button ws-danger"
+              onClick={handleDeleteAccount}
+              disabled={deleting}>
+                {deleting ? t("Deleting...") : t("Delete Account")}
+              </button>
 
-            <Link to="/worksapces/new" className="ws-button">
-              Create Buisness
-            </Link>
-          </div>
-        ) : (
-          <div className="ideas-grid">
-            {myBusinesses.map((business) => (
-              <Link to={`/workspaces/${business._id}`} key={business._id} className="idea-card">
-                <article className="idea-card">
-                  <div className="idea-card-top">
-                    <h3>{business.name}</h3>
-                    <span className="idea-category">{stageLabels[business.stage] || "Idea"}</span>
-                  </div>
-
-                  <p className="idea-description">{business.summary}</p>
-
-                  <div className="idea-footer">
-                    <span>Open business →</span>
-                  </div>
-                </article>
-              </Link>
-            ))}
-          </div>
-        )} 
-      </section>
-
-
-      <div className="profile-ideas-section">
-        <div className="section-heading">
-          <h2>My Posted Ideas</h2>
-          <p>All startup ideas posted from your account</p>
-        </div>
-
-        {myIdeas.length === 0 ? (
-          <div className="empty-message">
-            <h3>No ideas posted yet</h3>
-            <p>You haven’t posted any ideas yet.</p>
-          </div>
-        ) : (
-          <div className="ideas-grid">
-            {myIdeas.map((idea) => (
-              <Link to={`/ideas/${idea._id}`} key={idea._id} className="idea-link">
-                <div className="idea-card">
-                  <div className="idea-card-top">
-                    <h3>{idea.title}</h3>
-                    <span className="idea-category">{idea.category}</span>
-                  </div>
-
-                  <p className="idea-description">{idea.idea}</p>
-
-                  <div className="idea-footer">
-                    <span>Click to view details</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+              {deleteError && <p role="alert">{tError(deleteError)}</p>}
+            </div>
+          </section>
         )}
-      </div>
 
+        <div className="profile-columns">
+          <section className="profile-panel" aria-labelledby="profile-businesses-heading">
+            <div className="profile-panel-title">
+              <h2 id="profile-businesses-heading">{t("My businesses")}</h2>
+              <Link to="/workspaces">{t("View all →")}</Link>
+            </div>
 
-      <div className="profile-actions">
-        <button className="profile-btn logout-profile-btn" onClick={handleLogout}>
-          Logout
-        </button>
+            {businessesLoading ? (
+              <p role="status">{t("Loading your businesses...")}</p>
+            ) : businessesError ? (
+              <p role="alert">{tError(businessesError)}</p>
+            ) : myBusinesses.length === 0 ? (
+              <div className="profile-empty">
+                <p>{t("No businesses yet. Create your first workspace.")}</p>
+                <Link to="/workspaces/new" className="ws-button ws-secondary"> {t("Create Business")} </Link>
+              </div>
+            ) : (
+              <ul className="profile-entry-list">
+                {myBusinesses.map((business) => (
+                  <li key={business._id}>
+                    <Link to={`/workspaces/${business._id}`} className="profile-entry">
+                      <div className="profile-entry-title">
+                        <h3>{business.name}</h3>
+                        <span>{stageLabels[business.stage] || t("Idea")}</span>
+                      </div>
 
-        <button className="profile-btn delete-account-btn" onClick={handleDeleteAccount}>
-          Delete Account
-        </button>
-      </div>
-    </div>
+                      <p>{business.summary}</p>
+
+                      <span className="profile-entry-action">{t("Open business →")}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          <section className="profile-panel" aria-labelledby="profile-ideas-heading">
+            <div className="profile-panel-title">
+              <h2 id="profile-ideas-heading"> {t("My Posted Ideas")} </h2>
+
+              <Link to="/my-ideas"> {t("View all →")} </Link>
+            </div>
+
+            {myIdeas.length === 0 ? (
+              <div className="profile-empty">
+                <p>{t("You haven't posted any ideas yet.")}</p>
+
+                <Link to="/create-idea" className="ws-button ws-secondary"> {t("Posted your Idea")} </Link>
+              </div>
+            ) : (
+              <ul className="profile-entry-list">
+                {myIdeas.map((idea) => (
+                  <li kry={idea._id}>
+                    <Link to={`/ideas/${idea._id}`} className="profile-entry">
+                      <div className="profile-entry-titel">
+                        <h3>{idea.title}</h3>
+                        <span>{t(idea.category)}</span>
+                      </div>
+
+                      <p>{idea.idea}</p>
+                      <span className="profile-entry-action">{t("View idea →")}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
+
+        <footer className="profile-bottom">
+          <button type="button" className="ws-button ws-secondary" onClick={handleLogout} disabled={deleting}> {t("Logout")} </button>
+        </footer>
+      </main>
     )
 
 }

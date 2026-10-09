@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getIdea, updateIdea } from "../services/idea.services";
@@ -5,6 +6,8 @@ import { getIdea, updateIdea } from "../services/idea.services";
 
 
 const EditIdeaPage = () => {
+  const { t , validateField, clearFieldValidity } = useLanguage();
+
 
     const { ideaId } = useParams();
     const nav = useNavigate();
@@ -80,34 +83,34 @@ const EditIdeaPage = () => {
     };
 
     if(loading){
-        return <p className="loading-text">Loading idea...</p>;
+        return <p className="loading-text">{t("Loading idea...")}</p>;
     }
     return (
     <div className="create-idea-container">
-        <h2>Edit your idea</h2>
+        <h2>{t("Edit your idea")}</h2>
 
-        <form onSubmit={handleSubmit} className="create-form">
+        <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSubmit} className="create-form">
             <input
             type="text"
             value={title}
-            placeholder="Title"
+            placeholder={t("Title")}
             onChange={(e) => setTitle(e.target.value)}
             />
 
             <textarea
-            placeholder="Your idea"
+            placeholder={t("Your idea")}
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
             />
 
             <textarea
-            placeholder="Problem"
+            placeholder={t("Problem")}
             value={problem}
             onChange={(e) => setProblem(e.target.value)}
             />
 
             <textarea
-            placeholder="Solution"
+            placeholder={t("Solution")}
             value={solution}
             onChange={(e) => setSolution(e.target.value)}
             />
@@ -117,16 +120,16 @@ const EditIdeaPage = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             >
-            <option value="">Select Category</option>
+            <option value="">{t("Select Category")}</option>
 
             {categories.map((type) => (
                 <option key={type} value={type}>
-                {type}
+                {t(type)}
                 </option>
             ))}
             </select>
 
-            <button type="submit">Update Idea</button>
+            <button type="submit">{t("Update Idea")}</button>
         </form>
     </div>
     )

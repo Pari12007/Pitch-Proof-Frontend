@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react"; 
 import { AuthContext } from "../context/AuthContext";
+import { useLanguage } from "../context/languageStore";
 
 
 const Navbar = ({ onMenuClick, onClose }) => {
 
+    const { language, changeLanguage, t } = useLanguage();
     const { isLoggedIn, user } = useContext(AuthContext);
     const profileInitial = user?.name?.charAt(0)?.toUpperCase() || "U";
     const [showCategories, setShowCategories] = useState(false);
@@ -36,7 +38,7 @@ const Navbar = ({ onMenuClick, onClose }) => {
         <nav className="navbar">
             {/* LEFT */}
             <div className="navbar-left">
-                <button className="menu-button" aria-label="Open navigation menu" onClick={onMenuClick}>
+                <button className="menu-button" aria-label={t("openMenu")} onClick={onMenuClick}>
                     ☰
                 </button>
                 <Link to="/" className="logo-link">
@@ -47,7 +49,7 @@ const Navbar = ({ onMenuClick, onClose }) => {
 
             {/* CENTER */}
             <div className="navbar-center">
-                <Link to="/ideas" className="nav-link">Ideas</Link>
+                <Link to="/ideas" className="nav-link">{t("ideas")}</Link>
 
 
                 <div
@@ -59,19 +61,19 @@ const Navbar = ({ onMenuClick, onClose }) => {
                         type="button"
                         className={`categories-trigger ${showCategories ? "open" : ""}`}
                     >
-                        Categories
+                        {t("categories")}
                     </button>
 
                     {showCategories && (
                         <div className="categories-menu">
                             <div className="categories-menu-top">
-                                <p className="categories-menu-title">Browse by category</p>
+                                <p className="categories-menu-title">{t("browseCategories")}</p>
                                 <Link
                                     to="/ideas"
                                     className="categories-reset-link"
                                     onClick={() => setShowCategories(false)}
                                 >
-                                    All Categories
+                                    {t("allCategories")}
                                 </Link>
                             </div>
 
@@ -83,29 +85,38 @@ const Navbar = ({ onMenuClick, onClose }) => {
                                 className="categories-item"
                                 onClick={() => setShowCategories(false)}
                                 >
-                                    {category}
+                                    {t(category)}
                                 </Link>
                             ))}
                             </div>
                         </div>
                     )}
                 </div>
-                    <Link to={isLoggedIn ? "/create-idea" : "/signup"} onClick={onClose} className="nav-link">Post your Idea</Link>
-                    {isLoggedIn && <Link to="/workspaces" className="nav-link">My Businesses</Link>}
+                    <Link to={isLoggedIn ? "/create-idea" : "/signup"} onClick={onClose} className="nav-link">{t("postIdea")}</Link>
+                    {isLoggedIn && <Link to="/workspaces" className="nav-link">{t("businesses")}</Link>}
             </div>
 
 
             {/* RIGHT */}
             <div className="navbar-right">
+                <select
+                    className="language-select"
+                    aria-label={t("language")}
+                    value={language}
+                    onChange={(event) => changeLanguage(event.target.value)}
+                >
+                    <option value="en" lang="en">English</option>
+                    <option value="es" lang="es">Español</option>
+                </select>
             {!isLoggedIn ? (
                 <>
-                    <Link to="/login" className="nav-link">Login</Link>
-                    <Link to="/signup" className="nav-button">Sign Up</Link>
+                    <Link to="/login" className="nav-link">{t("login")}</Link>
+                    <Link to="/signup" className="nav-button">{t("signup")}</Link>
                 </>
         ) : (
             <Link to="/profile" className="profile-nav-link">
                 <span className="profile-nav-avatar">{profileInitial}</span>
-                <span className="profile-nav-text">Profile</span>
+                <span className="profile-nav-text">{t("profile")}</span>
             </Link>
         )}
             </div>

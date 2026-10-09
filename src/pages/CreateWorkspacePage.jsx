@@ -1,8 +1,11 @@
+import { useLanguage } from "../context/languageStore";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createWorkspace } from "../services/workspace.services";
 
 function CreateWorkspacePage() {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
 
     const [ name, setName ] = useState("");
     const [ summary, setSummary ] = useState("");
@@ -41,35 +44,35 @@ function CreateWorkspacePage() {
 
     return (
         <main className="create-workspace-page">
-            <Link to="/workspaces" className="ws-back">← My Businesses</Link>
-            <span className="ws-eyebrow">Start something new</span>
-            <h1>Create Business</h1>
-            <p>Give your idea a private space to grow. You can update these details anytime.</p>
+            <Link to="/workspaces" className="ws-back">{t("← My Businesses")}</Link>
+            <span className="ws-eyebrow">{t("Start something new")}</span>
+            <h1>{t("Create Business")}</h1>
+            <p>{t("Give your idea a private space to grow. You can update these details anytime.")}</p>
 
             {errorMessage && (
-                <p role="alert">{errorMessage}</p>
+                <p role="alert">{tError(errorMessage)}</p>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="business-name">Business name</label>
+                    <label htmlFor="business-name">{t("Business name")}</label>
                     <input
                         id="business-name"
                         type="text"
                         value={name}
                         onChange={(event) => setName(event.target.value)}
-                        placeholder="e.g. Fresh Lunch"
+                        placeholder={t("e.g. Fresh Lunch")}
                         maxLength={120}required
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="business-summary">Business description</label>
+                    <label htmlFor="business-summary">{t("Business description")}</label>
                     <textarea
                         id="business-summary"
                         value={summary}
                         onChange={(event) => setSummary(event.target.value)}
-                        placeholder="e.g. Deliver healthy, affordable lunches to office workers through a weekly subscription."
+                        placeholder={t("e.g. Deliver healthy, affordable lunches to office workers through a weekly subscription.")}
                         maxLength={4000}
                         rows={5}
                         required
@@ -78,38 +81,34 @@ function CreateWorkspacePage() {
 
 
                 <div>
-                    <label htmlFor="business-customer">
-                        Target customer (optional)
-                    </label>
+                    <label htmlFor="business-customer"> {t("Target customer (optional)")} </label>
                     <input
                         id="business-customer"
                         type="text"
                         value={customer}
                         onChange={(event) => setCustomer(event.target.value)}
-                        placeholder="e.g. Office workers who want convenient, healthy lunches"
+                        placeholder={t("e.g. Office workers who want convenient, healthy lunches")}
                         maxLength={500}
                     />
                 </div>
 
 
                 <div>
-                    <label htmlFor="business-location">
-                        location (optional)
-                    </label>
+                    <label htmlFor="business-location"> {t("location (optional)")} </label>
                     <input
                         id="business-location"
                         type="text"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}
-                        placeholder="e.g. Madrid, Spain, or online"
+                        placeholder={t("e.g. Madrid, Spain, or online")}
                         maxLength={200}
                     />
                 </div>
 
                 <button type="submit" disabled={saving}>
-                    {saving ? "Creating..." : "Create business"}
+                    {saving ? t("Creating...") : t("Create business")}
                 </button>
-            <Link to="/workspaces" className="ws-back">Cancel</Link>
+            <Link to="/workspaces" className="ws-back">{t("Cancel")}</Link>
             </form>
         </main>
     );

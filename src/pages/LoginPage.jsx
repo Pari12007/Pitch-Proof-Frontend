@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { login } from "../services/auth.services"
@@ -5,6 +6,8 @@ import { AuthContext } from "../context/AuthContext"
 import { Link } from "react-router-dom"
 
 const LoginPage = () => {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
   
   const [ email, setemail ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -48,15 +51,15 @@ const LoginPage = () => {
   <div className="login-container">
 
     <div className="login-form">
+      
+      <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleLogin} className="login-form">
 
-      <form onSubmit={handleLogin} className="login-form">
+        <h2 className="login-title">{t("Login")}</h2>
 
-        <h2 className="login-title">Login</h2>
-
-        {errorMessage && <p className="auth-message-error">{errorMessage}</p>}
+        {errorMessage && <p className="auth-message-error">{tError(errorMessage)}</p>}
 
         <div className="form-group">
-          <label>Email</label>
+          <label>{t("Email")}</label>
           <input
           type="email"
           className="form-control"
@@ -66,7 +69,7 @@ const LoginPage = () => {
         </div>
 
         <div className="form-group">
-          <label>Password</label>
+          <label>{t("Password")}</label>
           <div className="password-input-wrapper">
             <input
             type={showPassword ? "text" : "password" }
@@ -84,17 +87,16 @@ const LoginPage = () => {
           </div>
         </div>
 
-        <button type="submit" className="login-button">
-          Login
-        </button>
+        <button type="submit" className="login-button"> {t("Login")} </button>
+
+        <p className="auth-switch">
+        <Link to="/forgot-password" className="auth-link"> {t("Forgot password?")} </Link>
+      </p>
 
       </form>
 
-      <p className="auth-switch">
-        Don't have an account?{" "}
-        <Link to="/signup" className="auth-link">
-        Sign up
-        </Link>
+      <p className="auth-switch"> {t("Don't have an account?")}{" "}
+        <Link to="/signup" className="auth-link"> {t("Sign up")} </Link>
       </p>
     </div>
 

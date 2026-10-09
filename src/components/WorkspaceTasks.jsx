@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useEffect, useState } from "react";
 import { getWorkspaceTasks, createWorkspaceTask, updateWorkspaceTask, deleteWorkspaceTask,  getWorkspaceTaskSuggestions} from "../services/workspaceTask.services";
 import EditWorkspaceTask from "./EditWorkspaceTask";
@@ -5,6 +6,8 @@ import EditWorkspaceTask from "./EditWorkspaceTask";
 
 
 function WorkspaceTasks({ workspaceId, onTasksChange }) {
+  const {t, language , tError, formatDate, validateField, clearFieldValidity, formatNumber } = useLanguage();
+
 
     const [tasks, setTasks] = useState([]);
     const [ loading, setLoading] = useState(true);
@@ -102,17 +105,17 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
     };
 
     if(loading) {
-        return <p>Loading tasks...</p>;
+        return <p>{t("Loading tasks...")}</p>;
     }
 
     if (errorMessage) {
-        return <p role="alert">{errorMessage}</p>;
+        return <p role="alert">{tError(errorMessage)}</p>;
     }
 
     const statusLabels = {
-        todo: "To do",
-        in_progress: "In progress",
-        done: "Done",
+        todo: t("To do"),
+        in_progress: t("In progress"),
+        done: t("Done"),
     };
 
     const handleStatusChange = async (taskId, status) => {
@@ -135,7 +138,7 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
     const handleDeleteTask = async (task) => {
         if(deletingTaskId !== null || updatingTaskId !== null || editingTaskId !== null) return;
 
-        const confirmed = window.confirm(`Delete "${task.title}"? This cannot be undone.`);
+        const confirmed = window.confirm(t("Delete \"{{0}}\"? This cannot be undone.", {"0": task.title}));
 
         if(!confirmed) return;
 
@@ -159,7 +162,7 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
         setSuggestionError("");
 
         try {
-            const response = await getWorkspaceTaskSuggestions(workspaceId);
+            const response = await getWorkspaceTaskSuggestions(workspaceId, language);
 
             setSuggestions(response.data.suggestions);
         } catch (error) {
@@ -199,29 +202,29 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
 
     return (
         <section className="workspace-tasks">
-            <h2>Validation tasks</h2>
-            <p>Track your next steps and record what you learn.</p>
+            <h2>{t("Validation tasks")}</h2>
+            <p>{t("Track your next steps and record what you learn.")}</p>
 
 
             <div>
                 <dl className="ws-task-stats">
                     <div>
-                        <dt>Total tasks</dt>
-                        <dd>{totalTasks}</dd>
+                        <dt>{t("Total tasks")}</dt>
+                        <dd>{formatNumber(totalTasks)}</dd>
                     </div>
 
                     <div>
-                        <dt>Completed</dt>
-                        <dd>{completedTasks}</dd>
+                        <dt>{t("Completed")}</dt>
+                        <dd>{formatNumber(completedTasks)}</dd>
                     </div>
 
                     <div>
-                        <dt>Overdue</dt>
-                        <dd>{overDueTasks}</dd>
+                        <dt>{t("Overdue")}</dt>
+                        <dd>{formatNumber(overDueTasks)}</dd>
                     </div>
                 </dl>
 
-                <label htmlFor={`task-progress-${workspaceId}`}>Task completion: {completionPercentage}%</label>
+                <label htmlFor={`task-progress-${workspaceId}`}>{t("Task completion:")} {formatNumber(completionPercentage)}%</label>
 
                 <progress 
                     id={`task-progress-${workspaceId}`}
@@ -229,25 +232,23 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                     max={totalTasks || 1}
                 />
 
-                <p>Completed tasks track your activity. Customer evidence helps you assess wether the business idea works.</p>
+                <p>{t("Completed tasks track your activity. Customer evidence helps you assess wether the business idea works.")}</p>
             </div>
 
             {createError && (
-                <p role="alert">{createError}</p>
+                <p role="alert">{tError(createError)}</p>
             )}
 
-            <form onSubmit={handleCreateTask}>
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleCreateTask}>
                 <div>
-                    <label htmlFor={`task-title-${workspaceId}`}>
-                        Task title
-                    </label>
+                    <label htmlFor={`task-title-${workspaceId}`}> {t("Task title")} </label>
 
                     <input
                     id={`task-title-${workspaceId}`}
                     type="text"
                     value={title}
                     onChange={(event) => setTitle(event.target.value)}
-                    placeholder="Interview five potential customers"
+                    placeholder={t("Interview five potential customers")}
                     maxLength={200}
                     disabled={creating}
                     required
@@ -255,7 +256,7 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                 </div>
 
                 <div>
-                    <label htmlFor={`task-deadline-${workspaceId}`}>Deadline (optional)</label>
+                    <label htmlFor={`task-deadline-${workspaceId}`}>{t("Deadline (optional)")}</label>
 
                     <input
                         id={`task-deadline-${workspaceId}`}
@@ -268,12 +269,12 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                 </div>
 
                 <button type="Submit" disabled={creating || !title.trim()}>
-                    {creating ? "Creating..." : "Create Task"}
+                    {creating ? t("Creating...") : t("Create Task")}
                 </button>
             </form>
 
             {updateError && (
-                <p role="alert">{updateError}</p>
+                <p role="alert">{tError(updateError)}</p>
             )}
 
             {/* <div className="workspace-task-suggestion">
@@ -293,10 +294,10 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                 ))}
             </div> */}
 
-            {deleteError && (<p role="alert">{deleteError}</p>)}
+            {deleteError && (<p role="alert">{tError(deleteError)}</p>)}
 
             {tasks.length === 0 ? (
-                <p>No tasks yet.</p>
+                <p>{t("No tasks yet.")}</p>
             ) : (
                 tasks.map((task) => (
                     <article key={task._id} className="workspace-task">
@@ -304,7 +305,7 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
 
                         <span className={`ws-status ws-status-${task.status}`}>{statusLabels[task.status]}</span>
 
-                        <label htmlFor={`task-status-${task._id}`}> Change status</label>
+                        <label htmlFor={`task-status-${task._id}`}> {t("Change status")}</label>
 
                         <select 
                         id={`task-status-${task._id}`}
@@ -313,16 +314,16 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                         disabled={updatingTaskId !== null || editingTaskId !== null}
                         >
 
-                        <option value="todo">To do</option>
-                        <option value="in_progress">In progress</option>
-                        <option value="done">Done</option>
+                        <option value="todo">{t("To do")}</option>
+                        <option value="in_progress">{t("In progress")}</option>
+                        <option value="done">{t("Done")}</option>
                         </select>
 
-                        {updatingTaskId === task._id && (<p role="status">Saving status...</p>)}
+                        {updatingTaskId === task._id && (<p role="status">{t("Saving status...")}</p>)}
 
-                        <p>Deadline:{""} {task.dueDate ? task.dueDate.slice(0, 10) : "Not set"}</p>
+                        <p>{t("Deadline:")}{""} {task.dueDate ? formatDate(task.dueDate.slice(0, 10)) : t("Not set")}</p>
 
-                        <p style={{ whiteSpace: "pre-wrap"}}>Evidence: {task.evidence || "No evidence recorded yet."}</p>
+                        <p style={{ whiteSpace: "pre-wrap"}}>{t("Evidence:")} {task.evidence || t("No evidence recorded yet.")}</p>
 
                         {editingTaskId === task._id ? (
                             <EditWorkspaceTask
@@ -333,11 +334,11 @@ function WorkspaceTasks({ workspaceId, onTasksChange }) {
                                 onCancel={() => setEditingTaskId(null)}
                             />
                         ) : (
-                            <button type="button" onClick={() => setEditingTaskId(task._id)} disabled={editingTaskId !== null || updatingTaskId !== null || deletingTaskId !== null}>Edit task</button>
+                            <button type="button" onClick={() => setEditingTaskId(task._id)} disabled={editingTaskId !== null || updatingTaskId !== null || deletingTaskId !== null}>{t("Edit task")}</button>
                         )}
 
                         <button type="button" onClick={() => handleDeleteTask(task)} disabled={deletingTaskId !== null || updatingTaskId !== null || editingTaskId !== null}>
-                            {deletingTaskId === task._id ? "Deleting" : "Delete Task"}
+                            {deletingTaskId === task._id ? t("Deleting") : t("Delete Task")}
                         </button>
                     </article>
                 ))

@@ -1,7 +1,10 @@
+import { useLanguage } from "../context/languageStore";
 import { useState } from "react"
 import { updateWorkspace } from "../services/workspace.services";
 
 function WorkspaceValidation({ workspace, onSaved }) {
+  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+
     const [ problem, setProblem ] = useState(workspace.problem || "");
     const [ mainAssumption, setMainAssumption ] = useState(workspace.mainAssumption || "")
     const [ successCriteria, setSuccessCriteria ] = useState(workspace.successCriteria || "")
@@ -40,16 +43,11 @@ function WorkspaceValidation({ workspace, onSaved }) {
 
     return (
         <section className="ws-validation">
-            <h2>Validation summary</h2>
-            <p>
-                Record what you need to test and what a successful
-                result would look like.
-            </p>
+            <h2>{t("Validation summary")}</h2>
+            <p> {t("Record what you need to test and what a successful result would look like.")} </p>
 
-            <form onSubmit={handleSave}>
-                <label htmlFor="validation-problem">
-                    What problem are you solving?
-                </label>
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSave}>
+                <label htmlFor="validation-problem"> {t("What problem are you solving?")} </label>
                 <textarea
                     id="validation-problem"
                     value={problem}
@@ -62,9 +60,7 @@ function WorkspaceValidation({ workspace, onSaved }) {
                     disabled={saving}
                 />
 
-                <label htmlFor="validation-assumption">
-                    What is your main assumption?
-                </label>
+                <label htmlFor="validation-assumption"> {t("What is your main assumption?")} </label>
                 <textarea
                     id="validation-assumption"
                     value={mainAssumption}
@@ -77,9 +73,7 @@ function WorkspaceValidation({ workspace, onSaved }) {
                     disabled={saving}
                 />
 
-                <label htmlFor="validation-success">
-                    What result would justify moving forward?
-                </label>
+                <label htmlFor="validation-success"> {t("What result would justify moving forward?")} </label>
                 <textarea
                     id="validation-success"
                     value={successCriteria}
@@ -92,15 +86,15 @@ function WorkspaceValidation({ workspace, onSaved }) {
                     disabled={saving}
                 />
 
-                {errorMessage && <p role="alert">{errorMessage}</p>}
-                {saved && <p role="status">Validation summary saved.</p>}
+                {errorMessage && <p role="alert">{tError(errorMessage)}</p>}
+                {saved && <p role="status">{t("Validation summary saved.")}</p>}
 
                 <button
                     type="submit"
                     className="ws-button"
                     disabled={saving}
                 >
-                    {saving ? "Saving…" : "Save validation summary"}
+                    {saving ? t("Saving…") : t("Save validation summary")}
                 </button>
             </form>
         </section>

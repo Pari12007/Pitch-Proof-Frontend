@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useState, useEffect, useRef } from "react";
 import {
     getWorkspaceChat,
@@ -7,6 +8,8 @@ import { Link } from "react-router-dom";
 import { verify } from "../services/auth.services";
 
 function WorkspaceChat({ workspaceId }) {
+  const { t , tError, language, validateField, clearFieldValidity } = useLanguage();
+
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(true);
@@ -43,7 +46,7 @@ function WorkspaceChat({ workspaceId }) {
                     verify(),
                 ]);
                 if (!Array.isArray(response.data?.messages)) {
-                    throw new Error("Invalid conversation response.");
+                    throw new Error(t("Invalid conversation response."));
                 }
                 if (conversation.active) {
                     setMessages(response.data.messages);
@@ -80,9 +83,9 @@ function WorkspaceChat({ workspaceId }) {
         setSendError("");
 
         try {
-            const response = await sendWorkspaceMessage(workspaceId, message);
+            const response = await sendWorkspaceMessage(workspaceId, message, language);
             if (!Array.isArray(response.data?.messages)) {
-                throw new Error("Invalid conversation response.");
+                throw new Error(t("Invalid conversation response."));
             }
             if (conversation.active) {
                 setMessages(response.data.messages);
@@ -99,7 +102,7 @@ function WorkspaceChat({ workspaceId }) {
             }
         } catch (error) {
             if (conversation.active) {
-                const errorMessage = error.response?.data?.message || "Unable to send your message. Please try again.";
+                const errorMessage = error.response?.data?.message || t("Unable to send your message. Please try again.");
 
                 const limitReached = error.response?.status === 403 && /free.*limit/i.test(errorMessage);
                 setSendError(limitReached ? "" : errorMessage);
@@ -111,32 +114,30 @@ function WorkspaceChat({ workspaceId }) {
         }
     };
 
-    if (loading) return <p role="status">Loading your conversation…</p>;
+    if (loading) return <p role="status">{t("Loading your conversation…")}</p>;
 
     if (loadError) {
         return (
             <section className="workspace-chat">
-                <h2>Business mentor</h2>
-                <p role="alert">{loadError}</p>
-                <button type="button" onClick={() => setLoadAttempt((attempt) => attempt + 1)}>
-                    Retry loading chat
-                </button>
+                <h2>{t("Business mentor")}</h2>
+                <p role="alert">{tError(loadError)}</p>
+                <button type="button" onClick={() => setLoadAttempt((attempt) => attempt + 1)}> {t("Retry loading chat")} </button>
             </section>
         );
     }
 
     return (
         <section className="workspace-chat">
-            <h2>Business mentor</h2>
-            <p>Ask questions about this business and plan your next steps.</p>
+            <h2>{t("Business mentor")}</h2>
+            <p>{t("Ask questions about this business and plan your next steps.")}</p>
 
-            <div ref={messagesRef} className="workspace-chat-messages" role="log" aria-label="Business conversation" aria-live="polite">
+            <div ref={messagesRef} className="workspace-chat-messages" role="log" aria-label={t("Business conversation")} aria-live="polite">
                 {messages.length === 0 ? (
-                    <p>No messages yet. Ask your first question below.</p>
+                    <p>{t("No messages yet. Ask your first question below.")}</p>
                 ) : (
                     messages.map((message, index) => (
                         <article key={`${message.createdAt}-${index}`} className={`workspace-message ${message.role}`}>
-                            <strong>{message.role === "user" ? "You" : "PitchProof AI"}</strong>
+                            <strong>{message.role === "user" ? t("You") : t("PitchProof AI")}</strong>
                             <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
                                 {message.content}
                             </p>
@@ -145,34 +146,33 @@ function WorkspaceChat({ workspaceId }) {
                 )}
             </div>
 
-            {sending && <p role="status">PitchProof AI is preparing an answer…</p>}
-            {sendError && <p role="alert">{sendError}</p>}
+            {sending && <p role="status">{t("PitchProof AI is preparing an answer…")}</p>}
+            {sendError && <p role="alert">{tError(sendError)}</p>}
             {showUpgrade && (
-                <aside className="ws-upgrade-notice" aria-label="Free AI limit reached">
+                <aside className="ws-upgrade-notice" aria-label={t("Free AI limit reached")}>
                     <div role="status">
-                        <strong>You’ve used your free AI questions</strong>
-                        <p>Upgrade to Pro to continue chatting with your business mentor. Your conversation is saved.</p>
+                        <strong>{t("You’ve used your free AI questions")}</strong>
+                        <p>{t("Upgrade to Pro to continue chatting with your business mentor. Your conversation is saved.")}</p>
                     </div>
-                    <Link to="/pricing" className="ws-button ws-upgrade-link">
-                        Upgrade to Pro <span aria-hidden="true">→</span>
+                    <Link to="/pricing" className="ws-button ws-upgrade-link"> {t("Upgrade to Pro")} <span aria-hidden="true">→</span>
                     </Link>
                 </aside>
             )}
 
-            <form onSubmit={handleSend}>
-                <label htmlFor={`message-${workspaceId}`}>Your question</label>
+            <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleSend}>
+                <label htmlFor={`message-${workspaceId}`}>{t("Your question")}</label>
                 <textarea
                     id={`message-${workspaceId}`}
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
-                    placeholder="What should I test first?"
+                    placeholder={t("What should I test first?")}
                     maxLength={4000}
                     rows={3}
                     disabled={sending}
                     required
                 />
                 <button type="submit" disabled={sending || !input.trim()}>
-                    {sending ? "Sending…" : "Send"}
+                    {sending ? t("Sending…") : t("Send")}
                 </button>
             </form>
         </section>

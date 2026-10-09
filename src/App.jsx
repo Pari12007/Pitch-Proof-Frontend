@@ -1,3 +1,4 @@
+import { useLanguage } from "./context/languageStore";
 import {Navigate, Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
@@ -11,10 +12,13 @@ import SignupPage from "./pages/SignupPage";
 import EditIdeaPage from "./pages/EditIdeaPage";
 import PricingPage from "./pages/PricingPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
-import WorkSpacesPage from "./pages/WorkSpacesPage";
+import WorkspacesPage from "./pages/WorkspacesPage";
 import CreateWorkspacePage from "./pages/CreateWorkspacePage";
 import WorkspaceDetailsPage from "./pages/WorkspaceDetailsPage";
 import EditWorkspacePage from "./pages/EditWorkspacePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -26,18 +30,21 @@ import { useState, useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 
 
-// ADD THE USER HOMEPAGE, WHEN LOGGED IN USER SHOULD REDIRECT THEIR AND THE PATHWAY TO MAIN HOMEPAGE SHOULD BE DENIED.STYLE IT
-// WE NEED PLACEHOLDERS IN THE FORMS
+//RE-DESIGN THE PROFILE PAGE.
+//ADD THE AI-MENTOR CHAT-BOT, LIKE SMALL ROUND IN RIGHT SIDE OF CORNER OF EVERYPAGE AND GIVE THE OPTION TO DELETE IT WITH CROSS SIGN.
+//UPDATE MAIN HOMEPAGE WITH NEW FEATURES ADDED.
 
-// STYLE THE WORKSPACEDETAIL PAGE HOW YOU IMAGINED 
-// STYLE PROFILE PAGE, ORDER: PROFILE DETAILS, USER IDEAS, USER BUSINESSES, LOGOUT AND DELETE ACC BUTTONS ETC....
-// SIDEBAR ORDER: HOME, IDEAS, POST YOUR IDEA, MY IDEAS, CREATE BUSINESS, MY BUSINESSES, AI VALIDATOR.
-// NAVBAR ORDER: IDEA, CATEGORIES, POST YOUR IDEA, MY BUSINESS
-// SOLVE WORKSPACES CHAT ERROR (503)
-//MISSING ERROR IN THE POST YOUR IDEA PAGE.
-// REMOVE "ALL CATEGORY" SECENE FROM THE IDEAS SHOWN BY CATEGORIES WHICH IS IN THE NAVBAR ONLY SHOW THE CHOOSEN CATEGORY IDEA
-
+//ADD LIMIT IN THE FRONTEND TO SHOW THE REVIEW IN THE USERS DASHBOARD.
+//MAKE THE ALL START-UP IDEAS BOX SMALLER.
+//REDEFINE THE CATEGORIES BOX.
+//ADD HOVER OVER FEATURE IN THE ACCOUNT OVERVIEW EN EACH ELEMENT: (BUSINESS, TASK ...ETC).
+//THE MAIN HOMEPAGE NAVBAR HAS DIFFERENT FONTS.
+//FORGORT PASSWORD FUCTION.
+//ADD THE AUTOMATED (WELCOME) EMAIL WHILE SOMEONE LOG'S IN TO MY WEBSITE.
+//NEW USER SHOULD GET WELCOME AND OLD USER SHOULD GET WELCOME BACK.
 const App = () => {
+  const { t } = useLanguage();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
@@ -52,9 +59,10 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route  path="*" element={<NotFoundPage />}/>
 
         <Route path="/" element={
-          isLoading ? (<p role="status">Loading your account...</p>) : isLoggedIn ? (<Navigate to="/dashboard" replace /> ) : (<HomePage />)
+          isLoading ? (<p role="status">{t("Loading your account...")}</p>) : isLoggedIn ? (<Navigate to="/dashboard" replace /> ) : (<HomePage />)
         } />
 
         <Route path="/dashboard" 
@@ -117,7 +125,7 @@ const App = () => {
 
         <Route path="/payment-success" element={<PaymentSuccessPage />} />
 
-        <Route path="/workspaces" element={<ProtectedRoute><WorkSpacesPage /></ProtectedRoute>} />
+        <Route path="/workspaces" element={<ProtectedRoute><WorkspacesPage /></ProtectedRoute>} />
 
 
         <Route
@@ -147,6 +155,9 @@ const App = () => {
         }
         
         />
+
+        <Route path="/forgot-password" element={<ForgotPasswordPage />}/>
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
 
       </Routes>

@@ -1,9 +1,12 @@
+import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { getIdeas, deleteIdea } from "../services/idea.services";
 
 const MyIdeasPage = () => {
+  const { t } = useLanguage();
+
     const { user, isLoggedIn } = useContext(AuthContext)
 
     const [ myIdeas, setMyIdeas ] = useState([]);
@@ -50,14 +53,14 @@ const MyIdeasPage = () => {
     };
 
     if(loading) {
-        return <p className="loading-text">Loading your ideas...</p>
+        return <p className="loading-text">{t("Loading your ideas...")}</p>
     }
 
     if(!isLoggedIn) {
         return (
             <div className="empty-message">
-                <h3>You need to log in</h3>
-                <p>Please log in to see your idea.</p>
+                <h3>{t("You need to log in")}</h3>
+                <p>{t("Please log in to see your idea.")}</p>
             </div>
         );
     }
@@ -66,15 +69,15 @@ const MyIdeasPage = () => {
         <div className="ideas-page">
 
             <div className="ideas-header">
-                <h2>My ideas</h2>
-                <p>Manage the startup ideas you have posted.</p>
+                <h2>{t("My ideas")}</h2>
+                <p>{t("Manage the startup ideas you have posted.")}</p>
             </div>
 
 
             {myIdeas.length === 0 ? (
                 <div className="empty=message">
-                    <h3>No ideas yet</h3>
-                    <p>Post your first idea</p>
+                    <h3>{t("No ideas yet")}</h3>
+                    <p>{t("Post your first idea")}</p>
                 </div>
             ) : (
 
@@ -84,22 +87,20 @@ const MyIdeasPage = () => {
                             <Link to={`/ideas/${idea._id}`} className="idea-link">
                                 <div className="idea-card-top">
                                     <h3>{idea.title}</h3>
-                                    <span className="idea-category">{idea.category}</span>
+                                    <span className="idea-category">{t(idea.category)}</span>
                                 </div>
 
                                 <p className="idea-description">{idea.idea}</p>
 
                                 <div className="idea-footer">
-                                    <span>Click to view details</span>
+                                    <span>{t("Click to view details")}</span>
                                 </div>
                             </Link>
 
                             <button
                             className="delete-button"
                             onClick={() => handleDeleteIdea(idea._id)}
-                            >
-                                Delete ideas
-                            </button>
+                            > {t("Delete ideas")} </button>
                         </div>
                     ))}
                 </div>

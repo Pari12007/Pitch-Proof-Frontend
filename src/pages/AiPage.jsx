@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateIdeaWithAI } from "../services/ai.services";
@@ -5,6 +6,8 @@ import { AuthContext } from "../context/AuthContext";
 import { getMyChat, saveMyChat, clearMyChat } from "../services/chat.services";
 
 function AIValidatorPage() {
+  const {t, locale , tError, language, validateField, clearFieldValidity, formatNumber } = useLanguage();
+
   const bottomRef = useRef(null);
   const hasLoadedInitialChat = useRef(false);
   const nav = useNavigate();
@@ -20,7 +23,8 @@ function AIValidatorPage() {
   const initialMessage = {
     role: "ai",
     content:
-      "Hi, I'm PitchProof AI. Share your startup idea or ask a business question, and I'll help you.",
+      t("Hi, I'm PitchProof AI. Share your startup idea or ask a business question, and I'll help you."),
+    isUiMessage: true,
     result: null,
     createdAt: new Date(),
   };
@@ -67,6 +71,7 @@ function AIValidatorPage() {
       {
         role: "ai",
         content,
+        isUiMessage: true,
         result: null,
         createdAt: new Date(),
       },
@@ -93,7 +98,7 @@ function AIValidatorPage() {
     setLoading(true);
 
     try {
-      const response = await validateIdeaWithAI(currentInput);
+      const response = await validateIdeaWithAI(currentInput, language);
 
       const aiMessage = {
         role: "ai",
@@ -117,12 +122,12 @@ function AIValidatorPage() {
         if (isUpgradeLimitMessage(backendMessage)) {
           setLimitMessage(backendMessage || "Upgrade to pro to continue");
           appendAiErrorBubble(
-            backendMessage || "You have reached your free AI limit. Upgrade to continue."
+            backendMessage || t("You have reached your free AI limit. Upgrade to continue.")
           );
         } else {
           const message =
             backendMessage ||
-            "Your request was blocked by the AI service. Please try again in a moment.";
+            t("Your request was blocked by the AI service. Please try again in a moment.");
           setAiErrorMessage(message);
           appendAiErrorBubble(message);
         }
@@ -131,7 +136,7 @@ function AIValidatorPage() {
 
       if (err.response?.status === 401) {
         const message =
-          backendMessage || "Your session expired. Please log in again to keep using PitchProof AI.";
+          backendMessage || t("Your session expired. Please log in again to keep using PitchProof AI.");
         setAiErrorMessage(message);
         appendAiErrorBubble(message);
         return;
@@ -139,7 +144,7 @@ function AIValidatorPage() {
 
       if (err.response?.status === 429) {
         const message =
-          backendMessage || "AI is temporarily unavailable. Try again later.";
+          backendMessage || t("AI is temporarily unavailable. Try again later.");
         setAiErrorMessage(message);
         appendAiErrorBubble(message);
         return;
@@ -148,7 +153,7 @@ function AIValidatorPage() {
       if (err.response?.status === 500) {
         const message =
           backendMessage ||
-          "Idea validation is failing on the server right now. Business questions may still work, but the validation route needs a backend fix.";
+          t("Idea validation is failing on the server right now. Business questions may still work, but the validation route needs a backend fix.");
         setAiErrorMessage(message);
         appendAiErrorBubble(message);
         return;
@@ -156,7 +161,7 @@ function AIValidatorPage() {
 
       const fallbackMessage =
         backendMessage ||
-        "Something went wrong while validating your idea. Please try again.";
+        t("Something went wrong while validating your idea. Please try again.");
       setAiErrorMessage(fallbackMessage);
       appendAiErrorBubble(fallbackMessage);
     } finally {
@@ -269,7 +274,7 @@ function AIValidatorPage() {
 
     const date = new Date(dateString);
 
-    return date.toLocaleTimeString([], {
+    return date.toLocaleTimeString(locale, {
       hour: "2-digit",
       minute: "2-digit",
     });
@@ -278,22 +283,18 @@ function AIValidatorPage() {
   return (
     <div className="chat-page">
       <div className="chat-header">
-        <p className="chat-badge">PitchProof AI</p>
-        <button className="clear-chat-button" onClick={handleClearChat}>
-          Clear Chat
-        </button>
-        <h1>Validate Your Idea</h1>
-        <p className="chat-subtitle">
-          Ask anything about startup ideas, validation, business strategy, or growth.
-        </p>
+        <p className="chat-badge">{t("PitchProof AI")}</p>
+        <button className="clear-chat-button" onClick={handleClearChat}> {t("Clear Chat")} </button>
+        <h1>{t("Validate Your Idea")}</h1>
+        <p className="chat-subtitle"> {t("Ask anything about startup ideas, validation, business strategy, or growth.")} </p>
         {user?.plan && (
-          <p className="chat-subtitle">Current plan: {user.plan}</p>
+          <p className="chat-subtitle">{t("Current plan:")} {t(user.plan)}</p>
         )}
         {chatPersistenceMessage && (
-          <p className="chat-subtitle">{chatPersistenceMessage}</p>
+          <p className="chat-subtitle">{t(chatPersistenceMessage)}</p>
         )}
         {aiErrorMessage && (
-          <p className="auth-message auth-message-error">{aiErrorMessage}</p>
+          <p className="auth-message auth-message-error">{tError(aiErrorMessage)}</p>
         )}
       </div>
 
@@ -311,7 +312,7 @@ function AIValidatorPage() {
                   message.role === "user" ? "user-bubble" : "ai-bubble"
                 }`}
               >
-                <p>{message.content}</p>
+                <p>{message.role === "ai" && message.isUiMessage ? t(message.content) : message.content}</p>
                 
                 <span className="chat-time">
                     {formatMessageTime(message.createdAt)}
@@ -320,34 +321,34 @@ function AIValidatorPage() {
                 {message.result?.type === "idea_validation" && (
                   <div className="chat-report">
                     <div className="chat-score">
-                      <span>Score</span>
-                      <strong>{message.result.score}/100</strong>
+                      <span>{t("Score")}</span>
+                      <strong>{formatNumber(message.result.score)}/100</strong>
                     </div>
 
                     <div className="chat-report-grid">
                       <div className="chat-report-card">
-                        <h4>Strengths</h4>
+                        <h4>{t("Strengths")}</h4>
                         {message.result.strengths.map((item, i) => (
                           <p key={i}>✔ {item}</p>
                         ))}
                       </div>
 
                       <div className="chat-report-card">
-                        <h4>Weakness</h4>
+                        <h4>{t("Weakness")}</h4>
                         {message.result.weaknesses.map((item, i) => (
                           <p key={i}>⚠ {item}</p>
                         ))}
                       </div>
 
                       <div className="chat-report-card">
-                        <h4>Suggestions</h4>
+                        <h4>{t("Suggestions")}</h4>
                         {message.result.suggestions.map((item, i) => (
                           <p key={i}>💡 {item}</p>
                         ))}
                       </div>
 
                       <div className="chat-report-card">
-                        <h4>Verdict</h4>
+                        <h4>{t("Verdict")}</h4>
                         <p>{message.result.verdict}</p>
                       </div>
                     </div>
@@ -360,7 +361,7 @@ function AIValidatorPage() {
           {loading && (
             <div className="chat-message-row ai-row">
               <div className="chat-bubble ai-bubble typing-bubble">
-                <p>Thinking...</p>
+                <p>{t("Thinking...")}</p>
               </div>
             </div>
           )}
@@ -371,25 +372,23 @@ function AIValidatorPage() {
         {limitMessage && (
           <div className="upgrade-banner">
             <div>
-              <h4>Upgrade to Pro</h4>
-              <p>{limitMessage}</p>
+              <h4>{t("Upgrade to Pro")}</h4>
+              <p>{t(limitMessage)}</p>
             </div>
 
-            <button onClick={() => nav("/pricing")} className="upgrade-banner-btn">
-              View plans
-            </button>
+            <button onClick={() => nav("/pricing")} className="upgrade-banner-btn"> {t("View plans")} </button>
           </div>
         )}
 
-        <form className="chat-input-bar" onSubmit={handleSubmit}>
+        <form onInvalid={validateField} onInput={clearFieldValidity} className="chat-input-bar" onSubmit={handleSubmit}>
           <textarea
-            placeholder="Describe your idea or ask a business question..."
+            placeholder={t("Describe your idea or ask a business question...")}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleEnterSend}
           />
 
-          <button type="submit">Send</button>
+          <button type="submit">{t("Send")}</button>
         </form>
       </div>
     </div>

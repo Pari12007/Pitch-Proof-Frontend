@@ -1,5 +1,52 @@
+/* APP STYLES — SECTION INDEX
+
+01. Theme tokens and global reset
+02. Shared page containers
+03. Navigation / navbar and categories
+04. Navigation / sidebar
+05. Home / hero and feature preview
+06. Home / additional sections
+07. Authentication / login, signup and password reset
+08. Ideas / listing, cards, filters and empty states
+09. Ideas / card delete action
+10. Profile / base layout and content
+11. Navigation / shared button overrides
+12. Ideas / details page
+13. Reviews / list and review cards
+14. Shared forms
+15. Ideas / create and edit forms
+16. Shared buttons
+17. AI validator / conversation and composer
+18. Billing / pricing page
+19. Billing / payment confirmation
+20. Responsive / shared tablet and mobile overrides
+21. Shared components / upgrade banner and category select
+22. Profile / edit form and feedback
+23. Workspace / task progress
+24. Workspace / task overview
+25. Workspace / next tasks and deadlines
+26. Workspace / business stage
+27. Workspace / validation summary
+28. Shared forms / error message
+29. Profile / current layout overrides
+30. Workspace / details page columns and mentor
+31. Workspace / details page outer spacing
+32. Dashboard / layout and statistics
+33. Dashboard / business task counts
+34. Dashboard / community reviews
+35. Billing / checkout pending state
+36. Dashboard / overview hover effects
+37. Dashboard / interactive summary panels
+38. Navigation / final typography overrides
+39. Ideas / compact listing header
+
+Search for a section number or title.
+Base styles come first; responsive and final overrides retain their cascade order.
+Repeated selectors in different sections can be intentional refinements.
+workspace.css is loaded after this file and supplies additional workspace styles. */
+
 /* =========================
-   GLOBAL RESET + THEME
+   01. Theme tokens and global reset
 ========================= */
 
 :root {
@@ -7,14 +54,11 @@
   --bg-soft: #eef3ff;
   --bg-card: rgba(255, 255, 255, 0.88);
   --bg-card-solid: #ffffff;
-
   --text-main: #0f172a;
   --text-soft: #475569;
   --text-muted: #94a3b8;
-
   --border-soft: rgba(148, 163, 184, 0.16);
   --border-main: #e2e8f0;
-
   --blue: #2563eb;
   --blue-dark: #1d4ed8;
   --violet: #7c3aed;
@@ -23,16 +67,13 @@
   --danger-dark: #dc2626;
   --warning: #f59e0b;
   --success: #10b981;
-
   --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.04);
   --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.06);
   --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.08);
-
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 24px;
   --radius-xl: 30px;
-
   --transition: all 0.24s ease;
 }
 
@@ -49,8 +90,7 @@ body {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 24%),
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 24%),
     radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 20%),
     linear-gradient(to bottom, #fbfcff 0%, #f4f7ff 40%, #eef2ff 100%);
 }
@@ -84,7 +124,7 @@ img {
 }
 
 /* =========================
-   SHARED PAGE WIDTH
+   02. Shared page containers
 ========================= */
 
 .page-shell,
@@ -99,7 +139,7 @@ img {
 }
 
 /* =========================
-   NAVBAR
+   03. Navigation / navbar and categories
 ========================= */
 
 .navbar {
@@ -116,7 +156,7 @@ img {
   z-index: 300;
 }
 
-.navbar-center{
+.navbar-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -177,13 +217,6 @@ img {
 }
 
 .nav-button {
-  border: none;
-  padding: 11px 18px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--blue), #4f46e5);
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
   box-shadow: 0 10px 20px rgba(37, 99, 235, 0.16);
   transition: var(--transition);
 }
@@ -264,14 +297,13 @@ img {
   justify-content: center;
   border: none;
   background: transparent;
-  font-size: 16px;
-  font-weight: 350;
-  color: #212529;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
   padding: 0;
   transition: var(--transition);
 }
-
-
 
 .categories-trigger:hover,
 .categories-trigger.open {
@@ -353,7 +385,7 @@ img {
 }
 
 /* =========================
-   SIDEBAR
+   04. Navigation / sidebar
 ========================= */
 
 .sidebar-overlay {
@@ -441,7 +473,7 @@ img {
 }
 
 /* =========================
-   HOME PAGE / HERO
+   05. Home / hero and feature preview
 ========================= */
 
 .home-page {
@@ -517,7 +549,7 @@ img {
   margin-bottom: 24px;
 }
 
-.hero-primary{
+.hero-primary {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -528,7 +560,6 @@ img {
   transition: var(--transition);
   text-decoration: none;
 }
-
 
 .cta-button {
   display: inline-flex;
@@ -565,7 +596,7 @@ img {
   font-weight: 700;
   transition: var(--transition);
   text-decoration: none;
-    background: linear-gradient(90deg, var(--blue), var(--violet));
+  background: linear-gradient(90deg, var(--blue), var(--violet));
   color: white;
   box-shadow: 0 16px 30px rgba(79, 70, 229, 0.18);
 }
@@ -698,6 +729,7 @@ img {
   font-size: 14px;
   font-weight: 600;
 }
+
 .feature-showcase-section,
 .post-idea-section,
 .why-section {
@@ -756,8 +788,7 @@ img {
   align-items: center;
   padding: 34px;
   border-radius: 34px;
-  background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 26%),
+  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 26%),
     radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.1), transparent 28%),
     rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(148, 163, 184, 0.14);
@@ -803,7 +834,6 @@ img {
   .post-idea-content {
     grid-template-columns: 1fr;
   }
-
   .post-idea-text h2 {
     font-size: 32px;
   }
@@ -860,9 +890,8 @@ img {
   color: var(--blue);
 }
 
-
 /* =========================
-   HOME EXTRA SECTIONS
+   06. Home / additional sections
 ========================= */
 
 .ai-cta-section {
@@ -984,7 +1013,7 @@ img {
 }
 
 /* =========================
-   LOGIN / SIGNUP
+   07. Authentication / login, signup and password reset
 ========================= */
 
 .login-container {
@@ -992,7 +1021,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction:column;
+  flex-direction: column;
   padding: 36px 20px;
   /* border: green, 3px solid; */
 }
@@ -1133,8 +1162,61 @@ img {
   transform: translateY(-50%) scale(1.05);
 }
 
+/* Signup password checklist */
+.login-form .signup-password-rules {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.login-form .signup-password-rules li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.login-form .signup-password-rules li > span:first-child {
+  flex: 0 0 14px;
+  text-align: center;
+}
+.login-form .signup-password-rules li.is-met {
+  color: #15803d;
+}
+.login-form #signup-password {
+  padding-right: 76px;
+}
+.login-form .signup-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: auto;
+  min-height: 36px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  color: #6252c9;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.login-form .signup-password-toggle:hover {
+  background: #f3efff;
+}
+.login-form .signup-password-toggle:focus-visible {
+  outline: 2px solid #7950e8;
+  outline-offset: 2px;
+}
+
 /* =========================
-   IDEAS PAGE
+   08. Ideas / listing, cards, filters and empty states
 ========================= */
 
 .ideas-page {
@@ -1146,8 +1228,7 @@ img {
   margin-bottom: 30px;
   padding: 32px;
   border-radius: 32px;
-  background:
-    radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
     radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.1), transparent 30%),
     rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(148, 163, 184, 0.14);
@@ -1246,8 +1327,7 @@ img {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 30%),
+  background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 30%),
     radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.08), transparent 24%);
   pointer-events: none;
 }
@@ -1362,22 +1442,18 @@ img {
   color: var(--text-soft);
   line-height: 1.8;
 }
+
 /* =========================
-    MYIDEA DETAILS PAGE
+   09. Ideas / card delete action
 ========================= */
+
 .idea-card .delete-button {
   margin-top: 16px;
 }
 
-
 /* =========================
-   Profile  PAGE
+   10. Profile / base layout and content
 ========================= */
-.profile-page {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 34px 28px 70px;
-}
 
 .profile-header-card {
   position: relative;
@@ -1386,8 +1462,7 @@ img {
   gap: 24px;
   padding: 30px;
   border-radius: 32px;
-  background:
-    radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
     radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.1), transparent 28%),
     rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(148, 163, 184, 0.16);
@@ -1558,6 +1633,10 @@ img {
   transform: translateY(-2px);
 }
 
+/* =========================
+   11. Navigation / shared button overrides
+========================= */
+
 .nav-button {
   border: none;
   padding: 11px 18px;
@@ -1572,32 +1651,26 @@ img {
   .profile-page {
     padding: 24px 16px 56px;
   }
-
   .profile-header-card {
     flex-direction: column;
     padding: 24px;
   }
-
   .profile-meta-grid {
     grid-template-columns: 1fr;
   }
-
   .profile-ideas-section {
     padding: 22px;
   }
-
   .categories-menu {
     width: min(540px, calc(100vw - 40px));
   }
-
   .categories-grid-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-
 /* =========================
-   IDEA DETAILS PAGE
+   12. Ideas / details page
 ========================= */
 
 .idea-details-page {
@@ -1627,8 +1700,7 @@ img {
   gap: 24px;
   padding: 32px;
   border-radius: 34px;
-  background:
-    radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 26%),
     radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.1), transparent 28%),
     rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(148, 163, 184, 0.16);
@@ -1771,7 +1843,7 @@ img {
 }
 
 /* =========================
-   REVIEWS
+   13. Reviews / list and review cards
 ========================= */
 
 .reviews-section {
@@ -1819,7 +1891,7 @@ img {
 }
 
 /* =========================
-   FORMS
+   14. Shared forms
 ========================= */
 
 .review-form {
@@ -1890,29 +1962,23 @@ img {
   .idea-details-page {
     padding: 26px 16px 60px;
   }
-
   .idea-hero-card {
     flex-direction: column;
     padding: 24px;
   }
-
   .idea-actions {
     justify-content: flex-start;
   }
-
   .idea-details-grid {
     grid-template-columns: 1fr;
   }
-
   .ai-score-box {
     position: static;
   }
-
   .reviews-section,
   .review-form {
     padding: 22px;
   }
-
   .review-login-note {
     flex-direction: column;
     align-items: stretch;
@@ -1920,7 +1986,7 @@ img {
 }
 
 /* =========================
-   CREATE IDEA PAGE
+   15. Ideas / create and edit forms
 ========================= */
 
 .create-idea-container {
@@ -1938,7 +2004,7 @@ img {
 }
 
 /* =========================
-   BUTTONS
+   16. Shared buttons
 ========================= */
 
 .review-form button,
@@ -1986,11 +2052,7 @@ img {
 }
 
 /* =========================
-   AI BASIC + PREMIUM
-========================= */
-
-/* =========================
-   CHATGPT-STYLE AI PAGE
+   17. AI validator / conversation and composer
 ========================= */
 
 .chat-time {
@@ -2253,7 +2315,7 @@ img {
 }
 
 /* =========================
-   PRICING PAGE
+   18. Billing / pricing page
 ========================= */
 
 .pricing-page {
@@ -2282,8 +2344,7 @@ img {
 
 .pricing-hero-copy {
   padding: 42px;
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 38%),
+  background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 38%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(244, 247, 255, 0.92));
 }
 
@@ -2345,8 +2406,7 @@ img {
 .pricing-hero-panel {
   padding: 34px 30px;
   color: white;
-  background:
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 28%),
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 28%),
     linear-gradient(145deg, #0f172a, #1d4ed8 58%, #38bdf8 120%);
 }
 
@@ -2407,8 +2467,7 @@ img {
 
 .pricing-card {
   padding: 32px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.96));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.96));
   transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
 
@@ -2521,8 +2580,7 @@ img {
 }
 
 .pro-card {
-  background:
-    radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 34%),
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 34%),
     linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.96));
   border-color: rgba(96, 165, 250, 0.45);
 }
@@ -2542,7 +2600,7 @@ img {
 }
 
 /* =========================
-   PAYMENT SUCCESS
+   19. Billing / payment confirmation
 ========================= */
 
 .payment-success-page {
@@ -2559,8 +2617,7 @@ img {
   padding: 42px;
   border-radius: 32px;
   border: 1px solid rgba(167, 243, 208, 0.8);
-  background:
-    radial-gradient(circle at top right, rgba(16, 185, 129, 0.2), transparent 28%),
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.2), transparent 28%),
     radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 26%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(240, 253, 244, 0.95));
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.1);
@@ -2663,82 +2720,67 @@ img {
   .chat-page {
     padding: 14px 12px 22px;
   }
-
   .chat-bubble {
     max-width: 92%;
     padding: 14px 15px;
   }
-
   .chat-header h1 {
     font-size: clamp(28px, 8vw, 38px);
   }
-
   .chat-input-bar {
     flex-direction: column;
     align-items: stretch;
     bottom: 8px;
   }
-
   .chat-input-bar button {
     width: 100%;
   }
-
   .chat-report-grid {
     grid-template-columns: 1fr;
   }
-
   .pricing-page {
     padding: 28px 18px 52px;
   }
-
   .pricing-hero {
     grid-template-columns: 1fr;
     gap: 18px;
   }
-
   .pricing-hero-copy,
   .pricing-hero-panel,
   .pricing-card {
     padding: 24px;
     border-radius: 24px;
   }
-
   .pricing-hero-copy h1 {
     max-width: none;
     font-size: clamp(2.2rem, 10vw, 3.4rem);
   }
-
   .pricing-grid,
   .pricing-panel-stats {
     grid-template-columns: 1fr;
   }
-
   .pricing-price-row {
     align-items: flex-start;
     flex-direction: column;
   }
-
   .pricing-card-badge {
     position: static;
     margin-bottom: 18px;
   }
-
   .payment-success-page {
     padding: 28px 18px 52px;
   }
-
   .payment-success-card {
     padding: 28px 22px;
     border-radius: 24px;
   }
-
   .payment-success-card p {
     font-size: 15px;
   }
 }
 
-/*=========================
-   FINAL MOBILE
+/* =========================
+   20. Responsive / shared tablet and mobile overrides
 ========================= */
 
 @media (max-width: 900px) {
@@ -2752,7 +2794,6 @@ img {
     padding-left: 18px;
     padding-right: 18px;
   }
-
   .hero,
   .post-idea-content,
   .profile-top-grid,
@@ -2762,18 +2803,15 @@ img {
   .pricing-grid {
     grid-template-columns: 1fr;
   }
-
   .hero {
     min-height: auto;
     gap: 20px;
   }
-
   .hero-right,
   .hero-panel {
     max-width: 100%;
     justify-content: flex-start;
   }
-
   .ideas-grid,
   .chat-report-grid {
     grid-template-columns: 1fr;
@@ -2784,25 +2822,20 @@ img {
   .navbar {
     padding: 0 16px;
   }
-
   .navbar-center {
     display: none;
   }
-
   .navbar-right {
     gap: 10px;
     flex-wrap: wrap;
   }
-
   .sidebar-drawer {
     width: 240px;
     left: -240px;
   }
-
   .sidebar-drawer.open {
     left: 0;
   }
-
   .page-shell,
   .ideas-page,
   .idea-details-page,
@@ -2814,7 +2847,6 @@ img {
     padding-left: 16px;
     padding-right: 16px;
   }
-
   .ideas-page,
   .idea-details-page,
   .create-idea-container,
@@ -2824,7 +2856,6 @@ img {
     padding-top: 24px;
     padding-bottom: 48px;
   }
-
   .hero-title,
   .hero-gradient,
   .ideas-header h2,
@@ -2836,7 +2867,6 @@ img {
     font-size: clamp(2rem, 10vw, 3rem);
     letter-spacing: -0.04em;
   }
-
   .login-form,
   .payment-success-card,
   .pricing-hero-copy,
@@ -2855,7 +2885,6 @@ img {
     padding: 24px 20px;
     border-radius: 22px;
   }
-
   .form-group input,
   .chat-input-bar textarea,
   .category-filter,
@@ -2865,34 +2894,28 @@ img {
   .create-form select {
     font-size: 16px;
   }
-
   .password-input-wrapper input {
     padding-right: 56px;
   }
-
   .toggle-password {
     right: 14px;
   }
-
   .chat-input-bar {
     flex-direction: column;
     align-items: stretch;
     bottom: 8px;
   }
-
   .chat-input-bar button,
   .pricing-cta-button,
   .login-button,
   .upgrade-banner-btn {
     width: 100%;
   }
-
   .pricing-panel-stats,
   .pricing-grid,
   .chat-report-grid {
     grid-template-columns: 1fr;
   }
-
   .pricing-price-row,
   .upgrade-banner,
   .payment-success-actions,
@@ -2901,34 +2924,28 @@ img {
     flex-direction: column;
     align-items: stretch;
   }
-
   .pricing-card-badge {
     position: static;
     margin-bottom: 18px;
   }
-
   .idea-card,
   .top-card {
     min-height: auto;
   }
-
   .profile-page {
     padding-top: 20px;
     padding-bottom: 44px;
   }
-
   .profile-header-card {
     gap: 18px;
     align-items: stretch;
   }
-
   .profile-avatar {
     width: 72px;
     height: 72px;
     border-radius: 22px;
     font-size: 28px;
   }
-
   .profile-info h2,
   .profile-section-heading h2 {
     margin-bottom: 12px;
@@ -2936,56 +2953,45 @@ img {
     line-height: 1.02;
     letter-spacing: -0.05em;
   }
-
   .profile-eyebrow {
     margin-bottom: 8px;
     letter-spacing: 0.1em;
   }
-
   .profile-meta-grid {
     gap: 12px;
   }
-
   .profile-meta-card {
     padding: 14px 15px;
     border-radius: 18px;
   }
-
   .profile-meta-card strong {
     font-size: 15px;
     line-height: 1.45;
   }
-
   .profile-actions {
     gap: 10px;
     margin-top: 14px;
   }
-
   .profile-btn,
   .profile-create-link {
     width: 100%;
     justify-content: center;
     padding: 14px 18px;
   }
-
   .profile-ideas-section {
     margin-top: 26px;
   }
-
   .profile-section-heading {
     margin-bottom: 18px;
   }
-
   .profile-section-heading p:last-child,
   .profile-empty-state p {
     font-size: 15px;
     line-height: 1.7;
   }
-
   .profile-empty-state h3 {
     font-size: 22px;
   }
-
   .loading-text {
     min-height: 34vh;
     padding: 32px 16px;
@@ -3000,17 +3006,14 @@ img {
     padding-bottom: 12px;
     align-items: flex-start;
   }
-
   .navbar-left,
   .navbar-right {
     gap: 8px;
     margin-right: 0;
   }
-
   .logo {
     font-size: 22px;
   }
-
   .login-form,
   .payment-success-card,
   .pricing-hero-copy,
@@ -3025,11 +3028,9 @@ img {
     padding: 20px 16px;
     border-radius: 20px;
   }
-
   .chat-bubble {
     max-width: 100%;
   }
-
   .pricing-highlight-pill,
   .payment-success-pill,
   .idea-meta-pill,
@@ -3039,47 +3040,39 @@ img {
     justify-content: center;
     text-align: center;
   }
-
   .profile-page {
     padding-top: 16px;
     padding-bottom: 40px;
   }
-
   .profile-header-card {
     gap: 16px;
   }
-
   .profile-avatar {
     width: 64px;
     height: 64px;
     border-radius: 20px;
     font-size: 24px;
   }
-
   .profile-info h2,
   .profile-section-heading h2 {
     font-size: clamp(1.8rem, 9vw, 2.2rem);
   }
-
   .profile-meta-card {
     padding: 13px 14px;
   }
-
   .profile-meta-card span {
     font-size: 11px;
   }
-
   .profile-meta-card strong {
     font-size: 14px;
   }
-
   .profile-btn {
     padding: 13px 16px;
   }
 }
 
 /* =========================
-   MISSING UI POLISH
+   21. Shared components / upgrade banner and category select
 ========================= */
 
 .upgrade-banner {
@@ -3134,11 +3127,9 @@ img {
   -webkit-appearance: none;
   -moz-appearance: none;
   padding-right: 48px;
-  background-image:
-    linear-gradient(45deg, transparent 50%, #64748b 50%),
+  background-image: linear-gradient(45deg, transparent 50%, #64748b 50%),
     linear-gradient(135deg, #64748b 50%, transparent 50%);
-  background-position:
-    calc(100% - 22px) calc(50% - 3px),
+  background-position: calc(100% - 22px) calc(50% - 3px),
     calc(100% - 16px) calc(50% - 3px);
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
@@ -3153,16 +3144,14 @@ img {
     flex-direction: column;
     align-items: stretch;
   }
-
   .upgrade-banner-btn {
     width: 100%;
   }
 }
 
-
-
-
-
+/* =========================
+   22. Profile / edit form and feedback
+========================= */
 
 .edit-profile-form {
   display: flex;
@@ -3209,414 +3198,458 @@ img {
   color: var(--text-soft);
 }
 
+/* =========================
+   23. Workspace / task progress
+========================= */
+
 .ws-task-progress {
-    margin: 24px 0;
-    padding: 20px;
-    background: var(--bg-soft);
-    border: 1px solid var(--border-main);
-    border-radius: var(--radius-md);
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-md);
 }
 
 .ws-task-stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin: 0 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 20px;
 }
 
 .ws-task-stats dt {
-    font-size: 0.8rem;
-    color: var(--text-soft);
+  font-size: 0.8rem;
+  color: var(--text-soft);
 }
 
 .ws-task-stats dd {
-    margin: 6px 0 0;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text-main);
+  margin: 6px 0 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .ws-task-progress progress {
-    display: block;
-    width: 100%;
-    height: 12px;
-    margin: 10px 0;
-    appearance: none;
-    border: none;
-    border-radius: 999px;
-    overflow: hidden;
-    background: var(--border-main);
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin: 10px 0;
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--border-main);
 }
 
 .ws-task-progress progress::-webkit-progress-bar {
-    background: var(--border-main);
+  background: var(--border-main);
 }
 
 .ws-task-progress progress::-webkit-progress-value {
-    background: linear-gradient(90deg, var(--blue), var(--violet));
-    border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--violet));
+  border-radius: 999px;
 }
 
 .ws-task-progress progress::-moz-progress-bar {
-    background: linear-gradient(90deg, var(--blue), var(--violet));
-    border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--violet));
+  border-radius: 999px;
 }
 
 .ws-task-progress > p {
-    margin: 12px 0 0;
-    font-size: 0.8rem;
-    color: var(--text-soft);
-    line-height: 1.5;
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-soft);
+  line-height: 1.5;
 }
 
-/* Business dashboard task overview */
+/* =========================
+   24. Workspace / task overview
+========================= */
+
 .ws-dashboard {
-    margin: 28px 0;
-    padding: 24px;
-    border: 1px solid #dfe5f2;
-    border-radius: 22px;
-    background: linear-gradient(120deg, #f8faff, #faf8ff);
-    box-shadow: 0 8px 28px rgba(30, 58, 138, 0.04);
+  margin: 28px 0;
+  padding: 24px;
+  border: 1px solid #dfe5f2;
+  border-radius: 22px;
+  background: linear-gradient(120deg, #f8faff, #faf8ff);
+  box-shadow: 0 8px 28px rgba(30, 58, 138, 0.04);
 }
 
 .ws-dashboard > h2 {
-    margin: 0 0 18px;
-    color: var(--text-main);
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.025em;
+  margin: 0 0 18px;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .ws-dashboard > p {
-    margin: 0;
-    color: var(--text-soft);
+  margin: 0;
+  color: var(--text-soft);
 }
 
 .ws-dashboard-stats {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
 }
 
 .ws-dashboard-stats > div {
-    min-width: 0;
-    padding: 20px;
-    border: 1px solid #e5e9f2;
-    border-radius: 16px;
-    background: #fff;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e5e9f2;
+  border-radius: 16px;
+  background: #fff;
 }
 
 .ws-dashboard-stats dt {
-    color: #526079;
-    font-size: 0.82rem;
-    font-weight: 600;
-    line-height: 1.5;
+  color: #526079;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .ws-dashboard-stats dd {
-    margin: 12px 0 0;
-    color: var(--text-main);
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-    font-weight: 750;
-    line-height: 1.15;
-    letter-spacing: -0.045em;
-    font-variant-numeric: tabular-nums;
-    overflow-wrap: anywhere;
+  margin: 12px 0 0;
+  color: var(--text-main);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 750;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
-.ws-dashboard-stats > div:nth-child(2) dd { color: #047857; }
-.ws-dashboard-stats > div:nth-child(3) dd { color: #b45309; }
-.ws-dashboard-stats > div:last-child {
-    background: linear-gradient(135deg, #eff6ff, #f3edff);
-    border-color: #d8dafa;
+.ws-dashboard-stats > div:nth-child(2) dd {
+  color: #047857;
 }
-.ws-dashboard-stats > div:last-child dd { color: var(--violet); }
+
+.ws-dashboard-stats > div:nth-child(3) dd {
+  color: #b45309;
+}
+
+.ws-dashboard-stats > div:last-child {
+  background: linear-gradient(135deg, #eff6ff, #f3edff);
+  border-color: #d8dafa;
+}
+
+.ws-dashboard-stats > div:last-child dd {
+  color: var(--violet);
+}
 
 @media (max-width: 760px) {
-    .ws-dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ws-dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 420px) {
-    .ws-dashboard { padding: 16px; border-radius: 18px; }
-    .ws-dashboard-stats { gap: 10px; }
-    .ws-dashboard-stats > div { padding: 14px; }
+  .ws-dashboard {
+    padding: 16px;
+    border-radius: 18px;
+  }
+  .ws-dashboard-stats {
+    gap: 10px;
+  }
+  .ws-dashboard-stats > div {
+    padding: 14px;
+  }
 }
 
+/* =========================
+   25. Workspace / next tasks and deadlines
+========================= */
+
 .ws-next-tasks {
-    margin: 24px 0;
-    padding: 24px;
-    background: white;
-    border: 1px solid var(--border-main);
-    border-radius: 22px;
+  margin: 24px 0;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--border-main);
+  border-radius: 22px;
 }
 
 .ws-next-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .ws-next-heading h2 {
-    margin: 0;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-main);
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .ws-next-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .ws-next-list li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
 }
 
 .ws-next-list li + li {
-    border-top: 1px solid var(--border-main);
+  border-top: 1px solid var(--border-main);
 }
 
 .ws-next-list h3 {
-    margin: 0 0 6px;
-    font-size: 0.95rem;
-    color: var(--text-main);
-    overflow-wrap: anywhere;
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  overflow-wrap: anywhere;
 }
 
 .ws-next-list li > div > span,
 .ws-next-tasks > p {
-    color: var(--text-soft);
-    font-size: 0.85rem;
+  color: var(--text-soft);
+  font-size: 0.85rem;
 }
 
 .ws-next-deadline {
-    flex-shrink: 0;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: #eff6ff;
-    color: #1d4ed8;
-    font-size: 0.8rem;
-    font-weight: 600;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .ws-next-deadline.is-overdue {
-    background: #fff7ed;
-    color: #9a3412;
+  background: #fff7ed;
+  color: #9a3412;
 }
 
 @media (max-width: 600px) {
-    .ws-next-list li {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 10px;
-    }
+  .ws-next-list li {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
+/* =========================
+   26. Workspace / business stage
+========================= */
+
 .ws-stage-control {
-    grid-column: 1 / -1;
-    margin-top: 16px;
+  grid-column: 1 / -1;
+  margin-top: 16px;
 }
 
 .ws-stage-control label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--text-main);
-    font-size: 0.85rem;
-    font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .ws-stage-control select {
-    width: 100%;
-    max-width: 320px;
-    padding: 12px;
-    border: 1px solid var(--border-main);
-    border-radius: 12px;
-    background: white;
-    color: var(--text-main);
-    font: inherit;
+  width: 100%;
+  max-width: 320px;
+  padding: 12px;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  background: white;
+  color: var(--text-main);
+  font: inherit;
 }
 
 .ws-stage-control select:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: 2px;
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .ws-stage-control select:disabled {
-    opacity: 0.65;
-    cursor: wait;
+  opacity: 0.65;
+  cursor: wait;
 }
 
+/* =========================
+   27. Workspace / validation summary
+========================= */
+
 .ws-validation {
-    margin: 24px 0;
-    padding: 24px;
-    background: white;
-    border: 1px solid var(--border-main);
-    border-radius: 22px;
+  margin: 24px 0;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--border-main);
+  border-radius: 22px;
 }
 
 .ws-validation h2 {
-    margin: 0 0 10px;
-    color: var(--text-main);
-    font-size: 1.15rem;
-    font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--text-main);
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .ws-validation > p {
-    color: var(--text-soft);
-    line-height: 1.6;
+  color: var(--text-soft);
+  line-height: 1.6;
 }
 
 .ws-validation form {
-    display: grid;
-    gap: 12px;
+  display: grid;
+  gap: 12px;
 }
 
 .ws-validation label {
-    margin-top: 8px;
-    color: var(--text-main);
-    font-size: 0.9rem;
-    font-weight: 600;
+  margin-top: 8px;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .ws-validation textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-main);
-    border-radius: 12px;
-    color: var(--text-main);
-    background: #f8faff;
-    font: inherit;
-    resize: vertical;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-main);
+  border-radius: 12px;
+  color: var(--text-main);
+  background: #f8faff;
+  font: inherit;
+  resize: vertical;
 }
 
 .ws-validation textarea:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: 2px;
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .ws-validation button {
-    justify-self: start;
-    margin-top: 8px;
+  justify-self: start;
+  margin-top: 8px;
 }
+
+/* =========================
+   28. Shared forms / error message
+========================= */
 
 .create-form-error {
-    margin: 0;
-    padding: 12px 16px;
-    border: 1px solid #fecaca;
-    border-radius: 12px;
-    background: #fef2f2;
-    color: #991b1b;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #991b1b;
 }
 
+/* =========================
+   29. Profile / current layout overrides
+========================= */
+
 .profile-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 24px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
 }
 
 .profile-page .profile-header-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-    padding: 28px;
-    background: linear-gradient(120deg, #ffffff, #f5f3ff);
-    border: 1px solid var(--border-main);
-    border-radius: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px;
+  background: linear-gradient(120deg, #ffffff, #f5f3ff);
+  border: 1px solid var(--border-main);
+  border-radius: 22px;
 }
 
 .profile-page .profile-avatar {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .profile-page .profile-info {
-    min-width: 0;
-    flex: 1;
-    overflow-wrap: anywhere;
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
 }
 
 .profile-detail-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .profile-detail-actions .profile-btn {
-    margin: 0;
+  margin: 0;
 }
 
 .profile-page .profile-ideas-section,
 .profile-page .profile-businesses-section {
-    margin-top: 36px;
+  margin-top: 36px;
 }
 
 .profile-page .section-heading {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .profile-page .section-heading h2 {
-    color: var(--text-main);
-    font-size: 1.35rem;
-    font-weight: 700;
+  color: var(--text-main);
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 
 .profile-page .section-heading p {
-    color: var(--text-soft);
+  color: var(--text-soft);
 }
 
 .profile-page .profile-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-main);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-main);
 }
 
 @media (max-width: 600px) {
-    .profile-page {
-        padding: 24px 16px 40px;
-    }
-
-    .profile-page .profile-header-card {
-        flex-direction: column;
-        padding: 20px;
-    }
+  .profile-page {
+    padding: 24px 16px 40px;
+  }
+  .profile-page .profile-header-card {
+    flex-direction: column;
+    padding: 20px;
+  }
 }
 
-.workspace-details-page.ws-layout {
-    max-width: 1600px;
-}
+/* =========================
+   30. Workspace / details page columns and mentor
+========================= */
 
 .ws-layout .ws-layout-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(360px, 1fr);
-    align-items: start;
-    gap: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(360px, 1fr);
+  align-items: start;
+  gap: 24px;
 }
 
 .ws-layout .ws-planning-column {
-    display: grid;
-    gap: 24px;
-    min-width: 0;
+  display: grid;
+  gap: 24px;
+  min-width: 0;
 }
 
 .ws-layout .ws-overview-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 18px;
 }
 
 .ws-layout .ws-overview,
@@ -3624,309 +3657,1130 @@ img {
 .ws-layout .ws-next-tasks,
 .ws-layout .workspace-tasks,
 .ws-layout .workspace-chat {
-    min-width: 0;
-    margin: 0;
-    padding: 22px;
-    border-radius: 20px;
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border-radius: 20px;
 }
 
 .ws-layout .ws-overview {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .ws-layout .ws-overview h2,
 .ws-layout .ws-dashboard h2 {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .ws-layout .ws-description {
-    font-size: 0.95rem;
-    line-height: 1.7;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 .ws-layout .ws-facts {
-    display: grid;
-    gap: 14px;
-    margin: 0;
-    padding: 0;
-    border: 0;
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .ws-layout .ws-facts dd {
-    margin: 4px 0 0;
+  margin: 4px 0 0;
 }
 
 .ws-layout .ws-stage-control {
-    margin-top: auto;
+  margin-top: auto;
 }
 
 .ws-layout .ws-stage-control select {
-    max-width: none;
+  max-width: none;
 }
 
 .ws-layout .ws-dashboard-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .ws-layout .ws-dashboard-stats > div {
-    padding: 14px;
+  padding: 14px;
 }
 
 .ws-layout .ws-dashboard-stats dd {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .ws-layout .ws-mentor-column {
-    position: sticky;
-    top: 100px;
-    min-width: 0;
+  position: sticky;
+  top: 100px;
+  min-width: 0;
 }
 
 .ws-layout .workspace-chat {
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100dvh - 124px);
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 124px);
+  overflow-y: auto;
 }
 
 .ws-layout .workspace-chat-messages {
-    flex: 1 1 auto;
-    min-height: 120px;
-    max-height: 48dvh;
-    overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 120px;
+  max-height: 48dvh;
+  overflow-y: auto;
 }
 
 .ws-layout .workspace-chat form {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .ws-layout .ws-validation-fold {
-    border: 1px solid var(--border-main);
-    border-radius: 18px;
-    background: white;
-    overflow: hidden;
+  border: 1px solid var(--border-main);
+  border-radius: 18px;
+  background: white;
+  overflow: hidden;
 }
 
 .ws-layout .ws-validation-fold > summary {
-    padding: 20px;
-    color: var(--text-main);
-    font-weight: 650;
-    cursor: pointer;
+  padding: 20px;
+  color: var(--text-main);
+  font-weight: 650;
+  cursor: pointer;
 }
 
 .ws-layout .ws-validation-fold > summary:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: -4px;
+  outline: 2px solid var(--blue);
+  outline-offset: -4px;
 }
 
 .ws-layout .ws-validation-fold .ws-validation {
-    margin: 0;
-    border: 0;
-    border-top: 1px solid var(--border-main);
-    border-radius: 0;
-    padding: 20px;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--border-main);
+  border-radius: 0;
+  padding: 20px;
 }
 
 .ws-layout .ws-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 28px;
 }
 
 .ws-layout .ws-footer-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .ws-layout #business-overview,
 .ws-layout #business-tasks,
 .ws-layout #business-chat {
-    scroll-margin-top: 100px;
+  scroll-margin-top: 100px;
 }
 
 @media (max-width: 1200px) {
-    .ws-layout .ws-overview-row {
-        grid-template-columns: 1fr;
-    }
+  .ws-layout .ws-overview-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 960px) {
-    .ws-layout .ws-layout-columns {
-        grid-template-columns: 1fr;
-    }
-
-    .ws-layout .ws-mentor-column {
-        position: static;
-    }
-
-    .ws-layout .workspace-chat {
-        max-height: none;
-    }
-
-    .ws-layout .workspace-chat-messages {
-        max-height: 420px;
-    }
+  .ws-layout .ws-layout-columns {
+    grid-template-columns: 1fr;
+  }
+  .ws-layout .ws-mentor-column {
+    position: static;
+  }
+  .ws-layout .workspace-chat {
+    max-height: none;
+  }
+  .ws-layout .workspace-chat-messages {
+    max-height: 420px;
+  }
 }
 
 @media (max-width: 480px) {
-    .ws-layout .ws-overview,
+  .ws-layout .ws-overview,
     .ws-layout .ws-dashboard,
     .ws-layout .ws-next-tasks,
     .ws-layout .workspace-tasks,
     .ws-layout .workspace-chat {
-        padding: 16px;
-    }
+    padding: 16px;
+  }
 }
+
+/* =========================
+   31. Workspace / details page outer spacing
+========================= */
 
 .workspace-details-page.ws-layout {
-    box-sizing: border-box;
-    width: calc(100% - 80px);
-    max-width: 1500px;
-    margin: 40px auto;
-    padding: 32px;
+  box-sizing: border-box;
+  width: calc(100% - 80px);
+  max-width: 1500px;
+  margin: 40px auto;
+  padding: 32px;
 }
 
 @media (max-width: 600px) {
-    .workspace-details-page.ws-layout {
-        width: calc(100% - 32px);
-        margin: 24px auto;
-        padding: 16px;
+  .workspace-details-page.ws-layout {
+    width: calc(100% - 32px);
+    margin: 24px auto;
+    padding: 16px;
+  }
+}
+
+/* =========================
+   32. Dashboard / layout and statistics
+========================= */
+
+.account-dashboard {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+  display: grid;
+  gap: 28px;
+  color: var(--text-main);
+}
+
+.account-dashboard .dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 32px;
+  border: 1px solid #dfe5f2;
+  border-radius: 24px;
+  background: linear-gradient(120deg, #eff6ff, #f5f3ff);
+}
+
+.account-dashboard h1 {
+  margin: 10px 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+
+.account-dashboard h2 {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.account-dashboard p {
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.account-dashboard .dashboard-header p {
+  margin: 0;
+  max-width: 560px;
+}
+
+.account-dashboard .dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+}
+
+.account-dashboard .dashboard-stats > div {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border-main);
+  border-radius: 18px;
+  background: white;
+}
+
+.account-dashboard .dashboard-stats dt {
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.account-dashboard .dashboard-stats dd {
+  margin: 12px 0 0;
+  font-size: 2.2rem;
+  font-weight: 750;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.account-dashboard .dashboard-stats > div:nth-child(2) dd {
+  color: var(--blue-dark);
+}
+
+.account-dashboard .dashboard-stats > div:nth-child(3) dd {
+  color: #047857;
+}
+
+.account-dashboard .dashboard-stats > div:nth-child(4) dd {
+  color: #9a3412;
+}
+
+.account-dashboard .dashboard-note {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+}
+
+.account-dashboard .dashboard-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+}
+
+.account-dashboard .dashboard-panel {
+  min-width: 0;
+  padding: 26px;
+  background: white;
+  border: 1px solid var(--border-main);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.03);
+}
+
+.account-dashboard .dashboard-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.account-dashboard .dashboard-section-heading h2 {
+  margin: 0;
+}
+
+.account-dashboard .dashboard-tag {
+  padding: 5px 10px;
+  background: #fff7ed;
+  color: #9a3412;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.account-dashboard .dashboard-text-link {
+  color: var(--blue-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.account-dashboard .dashboard-text-link:hover {
+  text-decoration: underline;
+}
+
+.account-dashboard .dashboard-quick-links {
+  display: grid;
+  gap: 10px;
+}
+
+.account-dashboard .dashboard-quick-links a {
+  display: block;
+  padding: 12px 14px;
+  border: 1px solid #e5e9f2;
+  border-radius: 12px;
+  background: #f8faff;
+  color: var(--blue-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.account-dashboard .dashboard-quick-links a:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+.account-dashboard a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .account-dashboard .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .account-dashboard .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .account-dashboard {
+    padding: 24px 16px 40px;
+    gap: 20px;
+  }
+  .account-dashboard .dashboard-header,
+    .account-dashboard .dashboard-panel {
+    padding: 20px;
+  }
+  .account-dashboard .dashboard-stats {
+    gap: 10px;
+  }
+  .account-dashboard .dashboard-stats > div {
+    padding: 16px;
+  }
+}
+
+/* =========================
+   33. Dashboard / business task counts
+========================= */
+
+.account-dashboard .dashboard-business-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 16px 0;
+  padding: 12px 0;
+  background: #f8faff;
+  border: 1px solid #edf0f6;
+  border-radius: 12px;
+}
+
+.account-dashboard .dashboard-business-counts > div {
+  min-width: 0;
+  padding: 0 12px;
+  text-align: center;
+}
+
+.account-dashboard .dashboard-business-counts > div + div {
+  border-left: 1px solid #e5eaf2;
+}
+
+.account-dashboard .dashboard-business-counts dt {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.account-dashboard .dashboard-business-counts dd {
+  margin: 4px 0 0;
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.account-dashboard .dashboard-business-counts > div:last-child dd {
+  color: #397561;
+}
+
+/* =========================
+   34. Dashboard / community reviews
+========================= */
+
+.account-dashboard .dashboard-reviews {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.account-dashboard .dashboard-reviews li {
+  padding: 18px 0;
+}
+
+.account-dashboard .dashboard-reviews li + li {
+  border-top: 1px solid var(--border-main);
+}
+
+.account-dashboard .dashboard-review-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.account-dashboard .dashboard-review-heading a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.account-dashboard .dashboard-review-rating {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #f3edff;
+  color: #6d28d9;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.account-dashboard .dashboard-review-meta {
+  margin: 6px 0 10px;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.account-dashboard .dashboard-review-comment {
+  margin: 0;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   35. Billing / checkout pending state
+========================= */
+
+.pricing-cta-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+/* =========================
+   36. Dashboard / overview hover effects
+========================= */
+
+.account-dashboard .dashboard-stats > div {
+  transition: transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+}
+
+@media (hover: hover) {
+  .account-dashboard .dashboard-stats > div:hover {
+    transform: translateY(-3px);
+    border-color: #c4b5fd;
+    background-color: #faf9ff;
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .account-dashboard .dashboard-stats > div {
+    transition: none;
+  }
+  .account-dashboard .dashboard-stats > div:hover {
+    transform: none;
+  }
+}
+
+/* =========================
+   37. Dashboard / interactive summary panels
+========================= */
+
+.account-dashboard .dashboard-stats > .dashboard-summary-card {
+  position: relative;
+  padding: 0;
+  overflow: visible;
+}
+
+.dashboard-summary-card:focus-within,
+.dashboard-summary-card:hover {
+  z-index: 20;
+}
+
+.account-dashboard .dashboard-summary-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 24px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dashboard-summary-label {
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dashboard-summary-count {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-summary-hint {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.dashboard-summary-card:nth-child(2) .dashboard-summary-count {
+  color: var(--blue-dark);
+}
+
+.dashboard-summary-card:nth-child(3) .dashboard-summary-count {
+  color: #047857;
+}
+
+.dashboard-summary-card:nth-child(4) .dashboard-summary-count {
+  color: #9a3412;
+}
+
+.dashboard-summary-popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 30;
+  width: min(360px, calc(100vw - 48px));
+  box-sizing: border-box;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid #ddd6fe;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(30, 41, 59, 0.16);
+  overflow-wrap: anywhere;
+}
+
+.dashboard-summary-card:nth-child(n + 3) .dashboard-summary-popover {
+  left: auto;
+  right: 0;
+}
+
+.dashboard-summary-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.account-dashboard .dashboard-summary-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.account-dashboard .dashboard-summary-popover p {
+  margin: 6px 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.dashboard-summary-list {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard-summary-list li {
+  padding: 12px 0;
+}
+
+.dashboard-summary-list li + li {
+  border-top: 1px solid #eef2f7;
+}
+
+.dashboard-summary-list a {
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dashboard-summary-list a:hover {
+  color: #6d28d9;
+  text-decoration: underline;
+}
+
+.dashboard-summary-trigger:focus-visible,
+.dashboard-summary-close:focus-visible {
+  outline: 2px solid #7c3aed;
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .dashboard-summary-popover {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0 0 16px 16px;
+  }
+  .account-dashboard .dashboard-stats {
+    align-items: start;
+  }
+}
+
+/* =========================
+   38. Navigation / final typography overrides
+========================= */
+
+.navbar .navbar-center {
+  align-items: center;
+}
+
+.navbar .navbar-center .nav-link,
+.navbar .navbar-right .nav-link,
+.navbar .categories-dropdown .categories-trigger,
+.navbar .navbar-right .nav-button,
+.navbar .profile-nav-link .profile-nav-text {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+/* =========================
+   39. Ideas / compact listing header
+========================= */
+
+.ideas-page .ideas-header {
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  min-height: 0;
+  border-radius: 18px;
+}
+
+.ideas-page .ideas-header h2 {
+  font-size: clamp(24px, 3vw, 30px);
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.ideas-page .ideas-header p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Categories dropdown — compact list */
+.navbar .categories-menu {
+    width: min(320px, calc(100vw - 32px));
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+
+.navbar .categories-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 4px 8px 12px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.navbar .categories-menu-title {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.navbar .categories-reset-link {
+    color: #6d28d9;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.navbar .categories-grid-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+    max-height: min(360px, 55vh);
+    overflow-y: auto;
+}
+
+.navbar .categories-item {
+    display: block;
+    min-height: 0;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    box-shadow: none;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: normal;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.navbar .categories-item:hover {
+    background: #ede9fe;
+    color: #6d28d9;
+    box-shadow: none;
+    transform: none;
+}
+
+.navbar .categories-item:focus-visible {
+    background: #ede9fe;
+    color: #6d28d9;
+    outline: 2px solid #7c3aed;
+    outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar .categories-item {
+        transition: none;
     }
 }
 
+/* Profile redesign */
 
-/* Account dashboard */
-.account-dashboard {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: 40px 32px 64px;
-    display: grid;
-    gap: 28px;
-    color: var(--text-main);
+.profile-page.profile-redesign {
+  width: min(1120px, calc(100% - 40px));
+  margin: 40px auto;
+  padding: 0;
 }
-.account-dashboard .dashboard-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 32px;
-    border: 1px solid #dfe5f2;
-    border-radius: 24px;
-    background: linear-gradient(120deg, #eff6ff, #f5f3ff);
+
+.profile-redesign .profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid #e2e7f0;
+  border-radius: 22px;
+  background: linear-gradient(120deg, #fff, #f7f5ff);
 }
-.account-dashboard h1 {
-    margin: 10px 0;
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 750;
-    letter-spacing: -0.04em;
-    overflow-wrap: anywhere;
+
+.profile-redesign .profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
 }
-.account-dashboard h2 {
-    margin: 0 0 16px;
-    font-size: 1.15rem;
-    font-weight: 700;
+
+.profile-redesign .profile-identity > div:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
-.account-dashboard p { color: var(--text-soft); line-height: 1.7; }
-.account-dashboard .dashboard-header p { margin: 0; max-width: 560px; }
-.account-dashboard .dashboard-stats {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin: 0;
+
+.profile-redesign .profile-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #365cf5, #813cf5);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
 }
-.account-dashboard .dashboard-stats > div {
-    min-width: 0;
-    padding: 24px;
-    border: 1px solid var(--border-main);
-    border-radius: 18px;
-    background: white;
+
+.profile-redesign .profile-identity h1 {
+  margin: 6px 0;
+  color: #182237;
+  font-size: clamp(24px, 3vw, 32px);
+  letter-spacing: -0.6px;
 }
-.account-dashboard .dashboard-stats dt {
-    color: var(--text-soft);
-    font-size: 0.85rem;
-    font-weight: 600;
+
+.profile-redesign .profile-identity p {
+  margin: 0;
+  color: #68758a;
+  font-size: 14px;
 }
-.account-dashboard .dashboard-stats dd {
-    margin: 12px 0 0;
-    font-size: 2.2rem;
-    font-weight: 750;
-    line-height: 1.2;
-    font-variant-numeric: tabular-nums;
+
+.profile-redesign .profile-plan {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+  font-size: 12px;
 }
-.account-dashboard .dashboard-stats > div:nth-child(2) dd { color: var(--blue-dark); }
-.account-dashboard .dashboard-stats > div:nth-child(3) dd { color: #047857; }
-.account-dashboard .dashboard-stats > div:nth-child(4) dd { color: #9a3412; }
-.account-dashboard .dashboard-note { margin: 10px 0 0; font-size: 0.8rem; }
-.account-dashboard .dashboard-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 24px;
+
+.profile-redesign .profile-plan > span {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #6d3ad1;
+  font-weight: 600;
 }
-.account-dashboard .dashboard-panel {
-    min-width: 0;
-    padding: 26px;
-    background: white;
-    border: 1px solid var(--border-main);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(30, 58, 138, 0.03);
+
+.profile-redesign .profile-plan a,
+.profile-redesign .profile-panel-title a {
+  color: #4c5fe0;
+  font-weight: 600;
+  text-decoration: none;
 }
-.account-dashboard .dashboard-section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 16px;
+
+.profile-redesign .profile-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+  margin-top: 24px;
 }
-.account-dashboard .dashboard-section-heading h2 { margin: 0; }
-.account-dashboard .dashboard-tag {
-    padding: 5px 10px;
-    background: #fff7ed;
-    color: #9a3412;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
+
+.profile-redesign .profile-panel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #e2e7f0;
+  border-radius: 20px;
+  background: #fff;
 }
-.account-dashboard .dashboard-text-link {
-    color: var(--blue-dark);
-    font-weight: 600;
-    text-decoration: none;
+
+.profile-redesign #profile-edit-panel {
+  margin-top: 24px;
 }
-.account-dashboard .dashboard-text-link:hover { text-decoration: underline; }
-.account-dashboard .dashboard-quick-links { display: grid; gap: 10px; }
-.account-dashboard .dashboard-quick-links a {
-    display: block;
-    padding: 12px 14px;
-    border: 1px solid #e5e9f2;
-    border-radius: 12px;
-    background: #f8faff;
-    color: var(--blue-dark);
-    font-weight: 600;
-    text-decoration: none;
+
+.profile-redesign .profile-panel h2 {
+  margin: 0;
+  color: #243047;
+  font-size: 19px;
+  font-weight: 650;
 }
-.account-dashboard .dashboard-quick-links a:hover {
-    background: #eef2ff;
-    border-color: #c7d2fe;
+
+.profile-redesign .profile-panel-title,
+.profile-redesign .profile-entry-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.account-dashboard a:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
-@media (max-width: 900px) {
-    .account-dashboard .dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .account-dashboard .dashboard-columns { grid-template-columns: 1fr; }
+
+.profile-redesign .profile-panel-title a {
+  font-size: 12px;
+}
+
+.profile-redesign .profile-entry-list {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-redesign .profile-entry {
+  display: block;
+  padding: 18px;
+  border: 1px solid #e8edf5;
+  border-radius: 14px;
+  background: #fafbff;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.profile-redesign .profile-entry:hover {
+  border-color: #d6c9fa;
+  background: #f5f1ff;
+}
+
+.profile-redesign .profile-entry-title h3 {
+  margin: 0;
+  color: #354158;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.profile-redesign .profile-entry-title > span {
+  color: #7a6a9b;
+  font-size: 11px;
+}
+
+.profile-redesign .profile-entry p {
+  display: -webkit-box;
+  margin: 10px 0 14px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #718096;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.profile-redesign .profile-entry-action {
+  color: #596bd7;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profile-redesign .profile-empty {
+  padding: 20px 0 4px;
+  color: #718096;
+  font-size: 14px;
+}
+
+.profile-redesign .profile-edit-fields {
+  display: grid;
+  gap: 10px;
+  max-width: 520px;
+  margin-top: 20px;
+}
+
+.profile-redesign .profile-edit-fields label {
+  margin-top: 6px;
+  color: #4c5970;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-redesign .profile-edit-fields input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #dce2ed;
+  border-radius: 10px;
+  background: #fff;
+  color: #243047;
+  font: inherit;
+}
+
+.profile-redesign .profile-edit-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.profile-redesign .profile-delete-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #f0dfe2;
+}
+
+.profile-redesign .profile-delete-section h3 {
+  margin: 0 0 6px;
+  color: #ad3f50;
+  font-size: 16px;
+}
+
+.profile-redesign .profile-delete-section p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.profile-redesign .profile-delete-section [role="alert"] {
+  flex-basis: 100%;
+  color: #b4233a;
+}
+
+.profile-redesign .profile-bottom {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e7f0;
+}
+
+.profile-redesign a:focus-visible,
+.profile-redesign button:focus-visible,
+.profile-redesign input:focus-visible {
+  outline: 2px solid #7950e8;
+  outline-offset: 3px;
+}
+
+.profile-redesign button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .profile-page.profile-redesign {
+    width: calc(100% - 28px);
+    margin: 24px auto;
+  }
+
+  .profile-redesign .profile-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .profile-redesign .profile-identity {
+    gap: 14px;
+  }
+
+  .profile-redesign .profile-columns {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .profile-redesign .profile-panel {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-redesign .profile-entry {
+    transition: none;
+  }
+}
+/* Language selector */
+.navbar .language-select {
+  max-width: 110px;
+  padding: 8px 10px;
+  border: 1px solid #dce2ed;
+  border-radius: 10px;
+  background: #fff;
+  color: #526078;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.navbar .language-select:focus-visible {
+  outline: 2px solid #7950e8;
+  outline-offset: 3px;
+}
+/* Allow room for translated navigation labels and the language selector. */
+.navbar .navbar-center {
+  position: static;
+  transform: none;
+  margin-inline: auto;
+  gap: clamp(12px, 1.5vw, 28px);
+}
+.navbar .navbar-left,
+.navbar .navbar-right {
+  flex-shrink: 0;
+}
+@media (max-width: 1200px) {
+  html[lang="es"] .navbar .navbar-center {
+    display: none;
+  }
 }
 @media (max-width: 600px) {
-    .account-dashboard { padding: 24px 16px 40px; gap: 20px; }
-    .account-dashboard .dashboard-header,
-    .account-dashboard .dashboard-panel { padding: 20px; }
-    .account-dashboard .dashboard-stats { gap: 10px; }
-    .account-dashboard .dashboard-stats > div { padding: 16px; }
+  .navbar {
+    height: auto;
+    min-height: 72px;
+    gap: 10px;
+    padding-block: 12px;
+  }
+  .navbar .navbar-left,
+  .navbar .navbar-right {
+    margin-right: 0;
+  }
+  .navbar .navbar-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-left: auto;
+    gap: 8px;
+  }
 }

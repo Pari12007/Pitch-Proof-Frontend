@@ -1,11 +1,14 @@
+import { useLanguage } from "../context/languageStore";
 import { useParams, Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getWorkspace, deleteWorkspace, updateWorkspace } from "../services/workspace.services";
 import WorkspaceChat from "../components/WorkspaceChat";
 import WorkspaceTasks from "../components/WorkspaceTasks";
-import WorkspaceValidation from "../components/workspaceValidation";
+import WorkspaceValidation from "../components/WorkspaceValidation";
 
 function WorkspaceDetailsPage() {
+  const {t , tError, formatDate, formatNumber } = useLanguage();
+
 
     const { workspaceId } = useParams();
     const nav = useNavigate();
@@ -56,27 +59,27 @@ function WorkspaceDetailsPage() {
     }, [workspaceId])
 
     if (loading) {
-        return <p>Loading your business…</p>;
+        return <p>{t("Loading your business…")}</p>;
     }
 
     if (errorMessage) {
         return (
             <main>
-                <p role="alert">{errorMessage}</p>
-                <Link to="/workspaces">Back to My Businesses</Link>
+                <p role="alert">{tError(errorMessage)}</p>
+                <Link to="/workspaces">{t("Back to My Businesses")}</Link>
             </main>
         );
     }
 
     if (!workspace) {
-        return <p>Workspace not found.</p>;
+        return <p>{t("Workspace not found.")}</p>;
     }
 
     const handleDelete = async () => {
         if (deleting) return;
 
         const confirmed = window.confirm(
-            "Delete this business workspace? This cannot be undone."
+            t("Delete this business workspace? This cannot be undone.")
         );
 
         if (!confirmed) return;
@@ -153,18 +156,16 @@ function WorkspaceDetailsPage() {
         <main className="workspace-details-page ws-layout">
             <header className="ws-header">
                 <div>
-                    <span className="ws-eyebrow">
-                        Private business workspace
-                    </span>
+                    <span className="ws-eyebrow"> {t("Private business workspace")} </span>
                     <h1>{workspace.name}</h1>
-                    <p>Plan your next steps and discuss them with your mentor.</p>
+                    <p>{t("Plan your next steps and discuss them with your mentor.")}</p>
                 </div>
             </header>
 
-            <nav className="ws-section-nav" aria-label="Business sections">
-                <a href="#business-overview">Overview</a>
-                <a href="#business-tasks">Tasks</a>
-                <a href="#business-chat">AI mentor</a>
+            <nav className="ws-section-nav" aria-label={t("Business sections")}>
+                <a href="#business-overview">{t("Overview")}</a>
+                <a href="#business-tasks">{t("Tasks")}</a>
+                <a href="#business-chat">{t("AI mentor")}</a>
             </nav>
 
             <div className="ws-layout-columns">
@@ -172,27 +173,27 @@ function WorkspaceDetailsPage() {
                     <div className="ws-overview-row">
                         <section id="business-overview" className="ws-overview">
                             <div>
-                                <span className="ws-eyebrow">The idea</span>
-                                <h2>Business overview</h2>
+                                <span className="ws-eyebrow">{t("The idea")}</span>
+                                <h2>{t("Business overview")}</h2>
 
                                 <p className="ws-description">{workspace.summary}</p>
                             </div>
 
                             <dl className="ws-facts">
                                 <div>
-                                    <dt>Target customer</dt>
+                                    <dt>{t("Target customer")}</dt>
 
-                                    <dd>{workspace.customer || "Not specified"}</dd>
+                                    <dd>{workspace.customer || t("Not specified")}</dd>
                                 </div>
 
                                 <div>
-                                    <dt>Loaction</dt>
-                                    <dd>{workspace.location || "Not specified"}</dd>
+                                    <dt>{t("Loaction")}</dt>
+                                    <dd>{workspace.location || t("Not specified")}</dd>
                                 </div>
                             </dl>
 
                             <div className="ws-stage-control">
-                                <label htmlFor="business-stage">Business stage</label>
+                                <label htmlFor="business-stage">{t("Business stage")}</label>
 
                                 <select 
                                 id="busienss-stage" 
@@ -200,46 +201,46 @@ function WorkspaceDetailsPage() {
                                 onChange={handleStageChange}
                                 disabled={savingStage}
                                 >
-                                    <option value="idea">Idea</option>
-                                    <option value="customer_research">Customer research</option>
-                                    <option value="testing_demand">Testing demand</option>
-                                    <option value="building">Building</option>
-                                    <option value="launched">Launched</option>
+                                    <option value="idea">{t("Idea")}</option>
+                                    <option value="customer_research">{t("Customer research")}</option>
+                                    <option value="testing_demand">{t("Testing demand")}</option>
+                                    <option value="building">{t("Building")}</option>
+                                    <option value="launched">{t("Launched")}</option>
                                 </select>
 
                                 {savingStage && (
-                                    <p role="status">Saving stage...</p>
+                                    <p role="status">{t("Saving stage...")}</p>
                                 )}
 
                                 {stageError && (
-                                    <p role="alert">(stageError)</p>
+                                    <p role="alert">{tError(stageError)}</p>
                                 )}
                             </div>
                         </section>
 
                         <section className="ws-dashboard" aria-labelledby="task-overview-heading">
-                            <h2 id="task-overview-heading">Task overview</h2>
+                            <h2 id="task-overview-heading">{t("Task overview")}</h2>
 
                             {dashboardTasks === null ? (
-                                <p>Task overview will appear once tasks load.</p>
+                                <p>{t("Task overview will appear once tasks load.")}</p>
                             ) : (
                                 <dl className="ws-dashboard-stats">
                                     <div>
-                                        <dt>Total tasks</dt>
-                                        <dd>{totalTasks}</dd>
+                                        <dt>{t("Total tasks")}</dt>
+                                        <dd>{formatNumber(totalTasks)}</dd>
                                     </div>
 
                                     <div>
-                                    <dt>Completed</dt>
-                                    <dd>{completedTasks}</dd>
+                                    <dt>{t("Completed")}</dt>
+                                    <dd>{formatNumber(completedTasks)}</dd>
                                 </div>
                                 <div>
-                                    <dt>Overdue</dt>
-                                    <dd>{overdueTasks}</dd>
+                                    <dt>{t("Overdue")}</dt>
+                                    <dd>{formatNumber(overdueTasks)}</dd>
                                 </div>
                                 <div>
-                                    <dt>Task completion</dt>
-                                    <dd>{completionPercentage}%</dd>
+                                    <dt>{t("Task completion")}</dt>
+                                    <dd>{formatNumber(completionPercentage)}%</dd>
                                 </div>
                                 </dl>
                             )}
@@ -248,14 +249,14 @@ function WorkspaceDetailsPage() {
 
                     <section className="ws-next-tasks">
                         <div className="ws-next-heading">
-                            <h2>Next tasks</h2>
-                            <a href="#business-tasks" className="ws-back">View all tasks →</a>
+                            <h2>{t("Next tasks")}</h2>
+                            <a href="#business-tasks" className="ws-back">{t("View all tasks →")}</a>
                         </div>
 
                         {dashboardTasks === null ? (
-                            <p>Your tasks will appear here once loaded.</p>
+                            <p>{t("Your tasks will appear here once loaded.")}</p>
                         ) : nextTasks.length === 0 ? (
-                            <p>{totalTasks === 0 ? "Create your first task to plan your next step." : "All tasks are completed"}</p>
+                            <p>{totalTasks === 0 ? t("Create your first task to plan your next step.") : t("All tasks are completed")}</p>
                         ) : (
                             <ul className="ws-next-list">{nextTasks.map((task) => {
                                 const deadline = task.dueDate?.slice(0, 10);
@@ -267,12 +268,12 @@ function WorkspaceDetailsPage() {
                                         <div>
                                             <h3>{task.title}</h3>
                                             <span>
-                                                {task.status === "in_progress" ? "In progress" : "To do"}
+                                                {task.status === "in_progress" ? t("In progress") : t("To do")}
                                             </span>
                                         </div>
 
                                         <span className={`ws-next-deadline ${isOverdue ? "is-overdue" : ""}`}>
-                                            {!deadline ? "No deadline" : isOverdue ? `Overdue • ${deadline}` : deadline === today ? "Due today" : `Due ${deadline}`}
+                                            {!deadline ? t("No deadline") : isOverdue ? t("Overdue • {{0}}", {"0": formatDate(deadline)}) : deadline === today ? t("Due today") : t("Due {{0}}", {"0": formatDate(deadline)})}
                                         </span>
                                     </li>
                                 )
@@ -289,7 +290,7 @@ function WorkspaceDetailsPage() {
                     </div>
 
                     <details className="ws-validation-fold">
-                        <summary>Validation summary</summary>
+                        <summary>{t("Validation summary")}</summary>
 
                         <WorkspaceValidation 
                             key={`validation-${workspaceId}`}
@@ -305,7 +306,7 @@ function WorkspaceDetailsPage() {
                 <aside
                     id="business-chat"
                     className="ws-mentor-column"
-                    aria-label="Business mentor"
+                    aria-label={t("Business mentor")}
                 >
 
                     <WorkspaceChat
@@ -316,20 +317,16 @@ function WorkspaceDetailsPage() {
             </div>
 
             <footer className="ws-footer">
-                <Link to="/workspaces" className="ws-back">
-                    ← Back to My Businesses 
-                </Link>
+                <Link to="/workspaces" className="ws-back"> {t("← Back to My Businesses")} </Link>
 
                 <div>
-                    {deleteError && <p role="alert">{deleteError}</p>}
+                    {deleteError && <p role="alert">{tError(deleteError)}</p>}
 
                     <div className="ws-footer-buttons">
-                        <Link to={`/workspaces/${workspaceId}/edit`} className="ws-button ws-secondary">
-                            Edit Business
-                        </Link>
+                        <Link to={`/workspaces/${workspaceId}/edit`} className="ws-button ws-secondary"> {t("Edit Business")} </Link>
 
                         <button className="ws-button ws-danger" type="button" onClick={handleDelete} disabled={deleting}>
-                            {deleting ? "Deleting..." : "Delete Business"}
+                            {deleting ? t("Deleting...") : t("Delete Business")}
                         </button>
                     </div>
                 </div>

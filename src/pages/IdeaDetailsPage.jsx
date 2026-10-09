@@ -1,3 +1,4 @@
+import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getIdea, deleteIdea } from "../services/idea.services";
@@ -7,6 +8,8 @@ import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const IdeaDetailsPage = () => {
+  const {t , tError, validateField, clearFieldValidity, formatNumber } = useLanguage();
+
 
   const { user, isLoggedIn, logout } = useContext(AuthContext);
 
@@ -134,10 +137,10 @@ const calculateAIScore = () => {
 };
 
 const getAIScoreMessage = (score) => {
-  if (score >= 85) return "Excellent potential. This idea is well-defined and promising.";
-  if (score >= 70) return "Strong idea. A bit more refinement could make it even better.";
-  if (score >= 50) return "Good start. Try improving the problem and solution clarity.";
-  return "Needs more detail. Strengthen the concept before validation.";
+  if (score >= 85) return t("Excellent potential. This idea is well-defined and promising.");
+  if (score >= 70) return t("Strong idea. A bit more refinement could make it even better.");
+  if (score >= 50) return t("Good start. Try improving the problem and solution clarity.");
+  return t("Needs more detail. Strengthen the concept before validation.");
 };
 
 const aiScore = idea? calculateAIScore() : 0;
@@ -145,11 +148,11 @@ const aiMessage = getAIScoreMessage(aiScore);
 
 
   if(loading) {
-    return <p className="loading-text">Loading idea details...</p>
+    return <p className="loading-text">{t("Loading idea details...")}</p>
   };
 
   if(!idea) {
-    return <p>Idea not found</p>
+    return <p>{t("Idea not found")}</p>
   };
 
 
@@ -160,28 +163,24 @@ const aiMessage = getAIScoreMessage(aiScore);
     <div className="idea-details-page">
       <div className="idea-hero-card">
         <div className="idea-hero-copy">
-          <p className="idea-details-eyebrow">Startup idea overview</p>
+          <p className="idea-details-eyebrow">{t("Startup idea overview")}</p>
           <h2>{idea.title}</h2>
           <div className="idea-meta-row">
-            <span className="idea-meta-pill">{idea.category}</span>
+            <span className="idea-meta-pill">{t(idea.category)}</span>
             <span className="idea-meta-text">
-              {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
+              {t("reviewCount", {count: reviews.length})}
             </span>
           </div>
         </div>
 
         <div className="idea-actions">
           {user && idea.createdBy?._id === user._id && (
-            <button className="delete-button" onClick={handleDeleteIdea}>
-              Delete Idea
-            </button>
+            <button className="delete-button" onClick={handleDeleteIdea}> {t("Delete Idea")} </button>
           )}
 
           {user &&
             (idea.createdBy?._id === user?._id || idea.createdBy === user?._id) && (
-              <Link to={`/ideas/${idea._id}/edit`} className="edit-button">
-                Edit Idea
-              </Link>
+              <Link to={`/ideas/${idea._id}/edit`} className="edit-button"> {t("Edit Idea")} </Link>
           )}
         </div>
       </div>
@@ -189,25 +188,25 @@ const aiMessage = getAIScoreMessage(aiScore);
       <div className="idea-details-grid">
         <div className="idea-content-stack">
           <section className="idea-content-card">
-            <h3>Idea</h3>
+            <h3>{t("Idea")}</h3>
             <p>{idea.idea}</p>
           </section>
 
           <section className="idea-content-card">
-            <h3>Problem</h3>
+            <h3>{t("Problem")}</h3>
             <p>{idea.problem}</p>
           </section>
 
           <section className="idea-content-card">
-            <h3>Solution</h3>
+            <h3>{t("Solution")}</h3>
             <p>{idea.solution}</p>
           </section>
         </div>
 
         <aside className="idea-sidebar">
           <div className="ai-score-box">
-            <h3>AI Validation Score</h3>
-            <p className="ai-score-number">{aiScore}/100</p>
+            <h3>{t("AI Validation Score")}</h3>
+            <p className="ai-score-number">{formatNumber(aiScore)}/100</p>
             <p className="ai-score-message">{aiMessage}</p>
           </div>
         </aside>
@@ -215,53 +214,49 @@ const aiMessage = getAIScoreMessage(aiScore);
 
 
       <div className="reviews-section">
-        <h3>Reviews</h3>
+        <h3>{t("Reviews")}</h3>
 
         {reviews.length === 0 ? (
           <div className="reviews-empty-state">
-            <p>No reviews yet. Be the first to leave feedback on this idea.</p>
+            <p>{t("No reviews yet. Be the first to leave feedback on this idea.")}</p>
           </div>
         ) : (
           reviews.map((review) => (
             <div className="review-card" key={review._id}>
               <p className="review-rating">
-                <strong>Rating:</strong> 
-                {renderStars(review.rating)} ({review.rating}/5)
+                <strong>{t("Rating:")}</strong> 
+                {renderStars(review.rating)} ({formatNumber(review.rating)}/5)
               </p>
               
               <p>{review.comment}</p>
               
               {user && review.user?._id  === user._id && (
-              <button className="delete-button" onClick={ () => handleDeleteReview(review._id)}>
-                Delete review
-              </button>
+              <button className="delete-button" onClick={ () => handleDeleteReview(review._id)}> {t("Delete review")} </button>
               )}
             </div>
           ))
         )}
       </div>
         <div className="review-form">
-          <h3>Add Review</h3>
+          <h3>{t("Add Review")}</h3>
 
           {!isLoggedIn && (
             <div className="review-login-note">
-              <p>Please log in to submit a review for this idea.</p>
-              <Link to="/login" className="profile-create-link">
-                Go to login
-              </Link>
+              <p>{t("Please log in to submit a review for this idea.")}</p>
+              <Link to="/login" className="profile-create-link"> {t("Go to login")} </Link>
             </div>
           )}
 
           {reviewErrorMessage && (
-            <p className="auth-message auth-message-error">{reviewErrorMessage}</p>
+            <p className="auth-message auth-message-error">{tError(reviewErrorMessage)}</p>
           )}
 
-          <form onSubmit={handleReview}>
+          <form onInvalid={validateField} onInput={clearFieldValidity} onSubmit={handleReview}>
 
             <input
             type="number"
             value={rating}
-            placeholder="Rating (1-5)"
+            placeholder={t("Rating (1-5)")}
             min="1"
             max="5"
             onChange={(e) => setRating(e.target.value)}
@@ -269,15 +264,13 @@ const aiMessage = getAIScoreMessage(aiScore);
             />
 
             <textarea
-            placeholder="Write your review..."
+            placeholder={t("Write your review...")}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             disabled={!isLoggedIn}
             />
 
-            <button type="submit" disabled={!isLoggedIn}>
-              Submit Review
-            </button>
+            <button type="submit" disabled={!isLoggedIn}> {t("Submit Review")} </button>
           </form>
         </div>
       </div>

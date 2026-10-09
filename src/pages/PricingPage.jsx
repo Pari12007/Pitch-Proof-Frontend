@@ -1,51 +1,68 @@
+import { useLanguage } from "../context/languageStore";
 import { createCheckoutSssion } from "../services/billling.services";
+import { useRef, useState } from "react";
 
 const PricingPage = () => {
+  const { t , tError } = useLanguage();
+
+
+    const [ checkingOut, setCheckingOut ] = useState(false);
+    const [ checkoutError, setCheckoutError ] = useState("")
+    const checkoutPending = useRef(false);
+
     const handleUpgrade = async () => {
+
+        if (checkoutPending.current) return;
+
+        checkoutPending.current = true;
+        setCheckingOut(true);
+        setCheckoutError("");
+
+        
         try {
             const response = await createCheckoutSssion();
 
+            if (!response.data?.url) {
+                throw new Error(t("Missing checkout URL."));
+            }
+
             // Redirect to Stripe Checkout.
-            window.location.href = response.data.url;
+            window.location.assign(response.data.url);
         } catch (error) {
-            console.log("Checkout error:", error);
-            console.log(error.response?.data);
-        }
-    };
+            setCheckoutError(
+                error.response?.data?.message || "Unable to open checkout. Please try again."
+            );
+            checkoutPending.current = false;
+            setCheckingOut(false);
+    };}
 
     return (
         <div className="pricing-page">
             <section className="pricing-hero">
                 <div className="pricing-hero-copy">
-                    <span className="pricing-eyebrow">Simple pricing</span>
-                    <h1>Choose the plan that matches how fast you want to build.</h1>
-                    <p>
-                        Start free, validate your ideas, and upgrade when you want
-                        unlimited AI help and unrestricted posting.
-                    </p>
+                    <span className="pricing-eyebrow">{t("Simple pricing")}</span>
+                    <h1>{t("Choose the plan that matches how fast you want to build.")}</h1>
+                    <p> {t("Start free, validate your ideas, and upgrade when you want unlimited AI help and unrestricted posting.")} </p>
 
                     <div className="pricing-highlights">
-                        <div className="pricing-highlight-pill">No monthly lock-in</div>
-                        <div className="pricing-highlight-pill">One-time Pro payment</div>
-                        <div className="pricing-highlight-pill">Upgrade in seconds</div>
+                        <div className="pricing-highlight-pill">{t("No monthly lock-in")}</div>
+                        <div className="pricing-highlight-pill">{t("One-time Pro payment")}</div>
+                        <div className="pricing-highlight-pill">{t("Upgrade in seconds")}</div>
                     </div>
                 </div>
 
                 <div className="pricing-hero-panel">
-                    <span className="pricing-panel-label">Best for active founders</span>
-                    <h2>Pro unlocks the full Pitch Proof workflow.</h2>
-                    <p>
-                        Generate faster, test more ideas, and keep momentum without
-                        running into feature limits.
-                    </p>
+                    <span className="pricing-panel-label">{t("Best for active founders")}</span>
+                    <h2>{t("Pro unlocks the full Pitch Proof workflow.")}</h2>
+                    <p> {t("Generate faster, test more ideas, and keep momentum without running into feature limits.")} </p>
                     <div className="pricing-panel-stats">
                         <div>
-                            <strong>Unlimited</strong>
-                            <span>AI guidance</span>
+                            <strong>{t("Unlimited")}</strong>
+                            <span>{t("AI guidance")}</span>
                         </div>
                         <div>
-                            <strong>Unlimited</strong>
-                            <span>Idea submissions</span>
+                            <strong>{t("Unlimited")}</strong>
+                            <span>{t("Idea submissions")}</span>
                         </div>
                     </div>
                 </div>
@@ -54,61 +71,69 @@ const PricingPage = () => {
             <div className="pricing-grid">
                 <div className="pricing-card">
                     <div className="pricing-card-top">
-                        <span className="pricing-tier-tag">For getting started</span>
-                        <h2>Free</h2>
-                        <p>Explore the platform and test your first ideas.</p>
+                        <span className="pricing-tier-tag">{t("For getting started")}</span>
+                        <h2>{t("Free")}</h2>
+                        <p>{t("Explore the platform and test your first ideas.")}</p>
                     </div>
 
                     <div className="pricing-price-row">
-                        <h3>EUR 0</h3>
-                        <span>Forever free</span>
+                        <h3>{t("EUR 0")}</h3>
+                        <span>{t("Forever free")}</span>
                     </div>
 
                     <ul className="pricing-feature-list">
-                        <li>Limited AI assistance</li>
-                        <li>Limited idea posting</li>
-                        <li>Perfect for trying the platform</li>
+                        <li>{t("Limited AI assistance")}</li>
+                        <li>{t("Limited idea posting")}</li>
+                        <li>{t("Perfect for trying the platform")}</li>
                     </ul>
 
                     <div className="pricing-card-footer">
-                        <span>Great if you want to look around first.</span>
+                        <span>{t("Great if you want to look around first.")}</span>
                     </div>
                 </div>
 
                 <div className="pricing-card pro-card">
-                    <div className="pricing-card-badge">Most popular</div>
+                    <div className="pricing-card-badge">{t("Most popular")}</div>
                     <div className="pricing-card-top">
-                        <span className="pricing-tier-tag">For serious building</span>
-                        <h2>Pro</h2>
-                        <p>Remove the limits and keep your idea pipeline moving.</p>
+                        <span className="pricing-tier-tag">{t("For serious building")}</span>
+                        <h2>{t("Pro")}</h2>
+                        <p>{t("Remove the limits and keep your idea pipeline moving.")}</p>
                     </div>
 
                     <div className="pricing-price-row">
-                        <h3>EUR 9.99</h3>
-                        <span>One-time payment</span>
+                        <h3>{t("EUR 9.99")}</h3>
+                        <span>{t("One-time payment")}</span>
                     </div>
 
                     <ul className="pricing-feature-list">
-                        <li>Unlimited AI</li>
-                        <li>Unlimited ideas</li>
-                        <li>Best value for active founders</li>
+                        <li>{t("Unlimited AI")}</li>
+                        <li>{t("Unlimited ideas")}</li>
+                        <li>{t("Best value for active founders")}</li>
                     </ul>
 
-                    <button className="pricing-cta-button" onClick={handleUpgrade}>
-                        Upgrade to pro
+                    {checkoutError && (
+                        <p role="alert" className="create-form-error">
+                            {tError(checkoutError)}
+                        </p>
+                    )}
+
+                    <button 
+                    type="button"
+                    className="pricing-cta-button"
+                    onClick={handleUpgrade}
+                    disabled={checkingOut}
+                    >
+                        {checkingOut ? t("Opening checkout...") : t("Upgrade to Pro")}
                     </button>
 
                     <div className="pricing-card-footer">
-                        <span>Secure checkout with Stripe.</span>
+                        <span>{t("Secure checkout with Stripe.")}</span>
                     </div>
                 </div>
             </div>
 
             <section className="pricing-bottom-note">
-                <p>
-                    Every plan gives you access to the core Pitch Proof experience.
-                    Pro is there when you are ready to go all in.
-                </p>
+                <p> {t("Every plan gives you access to the core Pitch Proof experience. Pro is there when you are ready to go all in.")} </p>
             </section>
         </div>
     );
