@@ -29,19 +29,28 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useState, useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 
+// Your Pre-Pitch Emergency Checklist (Fix These First):
 
-//RE-DESIGN THE PROFILE PAGE.
-//ADD THE AI-MENTOR CHAT-BOT, LIKE SMALL ROUND IN RIGHT SIDE OF CORNER OF EVERYPAGE AND GIVE THE OPTION TO DELETE IT WITH CROSS SIGN.
-//UPDATE MAIN HOMEPAGE WITH NEW FEATURES ADDED.
+// The Live Health Check: Verify that Render is successfully talking to MongoDB Atlas. Clear all browser cookies, go to your live Netlify URL, sign up as a brand-new user, test the dashboard, and trigger an AI validation.
 
-//ADD LIMIT IN THE FRONTEND TO SHOW THE REVIEW IN THE USERS DASHBOARD.
-//MAKE THE ALL START-UP IDEAS BOX SMALLER.
-//REDEFINE THE CATEGORIES BOX.
-//ADD HOVER OVER FEATURE IN THE ACCOUNT OVERVIEW EN EACH ELEMENT: (BUSINESS, TASK ...ETC).
-//THE MAIN HOMEPAGE NAVBAR HAS DIFFERENT FONTS.
-//FORGORT PASSWORD FUCTION.
-//ADD THE AUTOMATED (WELCOME) EMAIL WHILE SOMEONE LOG'S IN TO MY WEBSITE.
-//NEW USER SHOULD GET WELCOME AND OLD USER SHOULD GET WELCOME BACK.
+// Fix Password Recovery: Get basic transactional email working so password resets don't dead-end. Even a reliable SMTP relay (like SendGrid, Resend, or Postmark) is faster to configure than fighting the Gmail API authorization loop.
+
+// Transition Stripe to Subscriptions: If PitchProof is a software workspace, switch your Stripe implementation from a one-time charge to a recurring subscription product (price_... with recurring interval) so you can pitch a SaaS model.
+
+// Clean Up the Domain Optics: Ensure your Netlify app doesn't look like a default deployment template. Add professional OpenGraph metadata so when you drop the link in Slack, Discord, or Twitter, it has a clean preview card and logo.
+
+
+
+// 3. How to Position PitchProof in a Pitch Deck
+// When you present PitchProof to investors, frame it around the problem of wasted founder capital:
+
+// The Problem: Aspiring founders waste months and thousands of dollars building products nobody wants because they skip validation.
+
+// The Solution (PitchProof): A platform that combines community wisdom with structured AI validation to kill bad ideas early and give promising ones a roadmap.
+
+// The Traction Metric to Track: Instead of vanity metrics, pitch "Completed Validations" or "Active Workspaces Created." Show that users aren't just signing up—they are actively moving from the Idea stage to Customer Research.
+
+
 const App = () => {
   const { t } = useLanguage();
 
@@ -53,8 +62,6 @@ const App = () => {
       <Navbar onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-
-      <div></div>
 
       <Routes>
         <Route path="/login" element={<LoginPage />} />
