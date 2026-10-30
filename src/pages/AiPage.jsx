@@ -286,6 +286,17 @@ function AIValidatorPage() {
         <p className="chat-badge">{t("PitchProof AI")}</p>
         <button className="clear-chat-button" onClick={handleClearChat}> {t("Clear Chat")} </button>
         <h1>{t("Validate Your Idea")}</h1>
+        
+        <section className="idea-content-card">
+          <h2>{t("Private validation")}</h2>
+
+          <p>{t("Using this validator does not publish your idea to the community.")}</p>
+
+          <p>{t("Your messages are sent to our AI provider to generate feedback and saved in your acount conversation history.")}</p>
+
+          <p>{t("To share an idea, use the create-idea form and choose Public (summary only).")}</p>
+        </section>
+
         <p className="chat-subtitle"> {t("Ask anything about startup ideas, validation, business strategy, or growth.")} </p>
         {user?.plan && (
           <p className="chat-subtitle">{t("Current plan:")} {t(user.plan)}</p>

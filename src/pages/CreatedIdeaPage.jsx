@@ -14,6 +14,10 @@ const CreatedIdeaPage = () => {
   const [ category, setCategory ] = useState("")
   const [ limitMessage, setLimitMessage] = useState("");
   const [ errorMessage, setErrorMessage ] = useState("");
+
+  const [ visibility, setVisibility ] = useState("private");
+  const [ publicSummary, setPublicSummary ] = useState("");
+  const [ saving, setSaving ] = useState(false);
   const navigate = useNavigate();
 
   const categories = [
@@ -42,12 +46,29 @@ const CreatedIdeaPage = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (saving) return;
+
+
     setLimitMessage("");
     setErrorMessage("");
 
-    if(!problem.trim() || !solution.trim()) {
-      setErrorMessage("Please complete both the problem and solution before posting your idea."); return;
+    if(!title.trim() || !idea.trim() || !problem.trim() || !solution.trim() || !category) {
+      setErrorMessage("Please complete all the required fields."); return;
     }
+
+    if(!visibility === "summary" && !publicSummary.trim()) {
+      setErrorMessage
+      ("Please write a public summary before publishing.");
+      return;
+    }
+
+    if(publicSummary.trim().length > 600) {
+      setErrorMessage("Public summary must be text of up to 600 characters.");
+      return;
+    }
+
+    setSaving(true);
 
     try{
       const response = await createIdea({
@@ -56,29 +77,22 @@ const CreatedIdeaPage = () => {
         problem: problem.trim(),
         solution: solution.trim(),
         category,
+        visibility,
+        publicSummary: publicSummary.trim(), 
       });
 
-      console.log("Idea created:", response.data);
+      navigate(`/my-ideas/${response.data._id}`)
 
-        setTitle("");
-        setIdea("");
-        setProblem("");
-        setSolution("");
-        setCategory("");
+    } catch (error) {
+      const message = error.response?.data?.message;
 
-      navigate("/ideas");
-
-    } catch (err) {
-      console.log("Error creating idea: " , err)
-      console.log(err.response?.data)
-
-      if (err.response?.status === 403) {
-        setLimitMessage(
-          err.response?.data?.message || "Upgrade to pro to post more ideas"
-        );
-        return;
+      if(error.response?.status === 403) {
+        setLimitMessage(message || "Free posting limit reached. Upgrade to pro.")
+      } else {
+        setErrorMessage(message || "Unable to post yoour idea. Please try again.")
       }
-      setErrorMessage(err.response?.data?.message || "Unable to post your idea. Please try again.");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -91,7 +105,7 @@ const CreatedIdeaPage = () => {
         <div className="upgrade-banner">
           <div>
             <h4>{t("Upgrade to Pro")}</h4>
-            <p>{t(limitMessage)}</p>
+            <p>{tError(limitMessage)}</p>
           </div>
 
           <button onClick={() => navigate("/pricing")} className="upgrade-banner-btn"> {t("Upgrade Now")}</button>
@@ -104,6 +118,10 @@ const CreatedIdeaPage = () => {
         
         <label htmlFor="title">{t("Title")}</label>
         <input
+        id="title"
+        required
+        maxLength={120}
+        disabled={saving}
         type="text"
         placeholder={t("e.g. PitchProof")}
         value={title}
@@ -112,6 +130,9 @@ const CreatedIdeaPage = () => {
 
         <label htmlFor="idea">{t("Idea")}</label>
         <textarea
+        id="idea"
+        required
+        disabled={saving}
         placeholder={t("Describe your business, who it serves, and what you offer.")}
         value={idea}
         onChange={(e) => setIdea(e.target.value)}
@@ -119,6 +140,9 @@ const CreatedIdeaPage = () => {
         
         <label htmlFor="idea-problem">{t("Problem")}</label>
         <textarea
+        id="idea-problem"
+        required
+        disabled={saving}
         placeholder={t("What difficulty do your customers face today?")}
         value={problem}
         onChange={(e) => setProblem(e.target.value)}
@@ -126,6 +150,9 @@ const CreatedIdeaPage = () => {
 
         <label htmlFor="solution">{t("Solution")}</label>
         <textarea
+        id="solution"
+        required
+        disabled={saving}
         placeholder={t("How will your product or service solve that problem?")}
         value={solution}
         onChange={(e) => setSolution(e.target.value)}
@@ -133,6 +160,9 @@ const CreatedIdeaPage = () => {
 
         <label htmlFor="category">{t("Category")}</label>
         <select 
+        id="category"
+        required
+        disabled={saving}
         className="create-category-select"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
@@ -146,7 +176,74 @@ const CreatedIdeaPage = () => {
           ))}
         </select>
 
-        <button type="submit"> {t("Create Idea")} </button>
+        <label htmlFor="idea-visibility">{t("visibility")}</label>
+
+        <select
+          id="idea-visibility"
+          className="create-category-select"
+          value={visibility}
+          disabled={saving}
+          onChange={(e) => setVisibility(e.target.value)}
+        >
+          <option value="private">{t("Private")}</option>
+          <option value="public">{t("Public")}</option>
+          <option value="public-summary">{t("Public (summary only)")}</option>
+        </select>
+
+        <p>{t("Share the problem and vision, not your secret sauce.")}</p>
+
+        {visibility === "summary" && (
+          <>
+          <label htmlFor="public-summary">
+              t{("Public summary")}
+          </label>
+
+          <textarea 
+            id="public-summary"
+            value={publicSummary}
+            maxLength={600}
+            required
+            disabled={saving}
+            onChange={(e) => setPublicSummary(e.target.value)}
+          />
+
+          <small>{publicSummary.length}/600</small>
+          </>
+        )}
+
+        <section className="idea-content-card">
+          <h3>{t("Public preview")}</h3>
+
+          {visibility === "private" ? (
+            <p>{t("nothing from this idea is published")}</p>
+          ) : (
+            <>
+              <p>
+                {t("Your title, category and profile name will be public.")}
+              </p>
+
+              <h4>{title}</h4>
+              <p>{t(category)}</p>
+
+              {visibility === "summary" ? (
+                <p>{publicSummary}</p>
+              ) : (
+                <>
+                  <h4>{t("Idea")}</h4>
+                  <p>{idea}</p>
+
+                  <h4>{t("Problem")}</h4>
+                  <p>{problem}</p>
+
+                  <h4>{t("Solution")}</h4>
+                  <p>{solution}</p>
+                </>
+              )}
+          </>
+          )}
+        </section>
+
+        <button type="submit" disabled={saving}> {t(saving ? "Saving..." : "Create Idea")} </button>
 
       </form>
     </div>

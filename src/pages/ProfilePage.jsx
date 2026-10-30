@@ -2,13 +2,13 @@ import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { getIdeas } from "../services/idea.services";
+import { getMyIdeas } from "../services/idea.services";
 import { deleteAccount, editProfile } from "../services/auth.services";
 import { getWorkspaces } from "../services/workspace.services";
 
 
 const ProfilePage = () => {
-  const { t , tError, validateField, clearFieldValidity } = useLanguage();
+  const { t , tError, formatDate, validateField, clearFieldValidity } = useLanguage();
 
     const { user, isLoggedIn, logout, setUser } = useContext(AuthContext);
     const [ myIdeas, setMyIdeas ] = useState([]);
@@ -37,7 +37,7 @@ const ProfilePage = () => {
     useEffect (() => {
         const fetchMyIdeas = async () => {
             try {
-                const response = await getIdeas(); 
+                const response = await getMyIdeas(); 
 
                 const filteredIdeas = response.data.filter(
                     (idea) => 
@@ -185,6 +185,12 @@ const ProfilePage = () => {
                   <Link to="/pricing">{t("Upgrade to pro")}</Link>
                 )}
               </div>
+
+              {user?.isPro && user?.proExpiresAt && (
+                <p className="pro-access-note">{t("Pro access ends on {{date}}.", {
+                  date: formatDate(user.proExpiresAt),
+                })}{" "}{t("No automatic renewal")}</p>
+              )}
             </div>
           </div>
 
@@ -193,7 +199,7 @@ const ProfilePage = () => {
           className="ws-button ws-secondary"
           disabled={isEditing}
           aria-expanded={isEditing}
-          aria-control="profile-edit-panel"
+          aria-controls="profile-edit-panel"
           onClick={() => {
             setProfileMessage("");
             setDeleteError("");
@@ -322,8 +328,8 @@ const ProfilePage = () => {
             ) : (
               <ul className="profile-entry-list">
                 {myIdeas.map((idea) => (
-                  <li kry={idea._id}>
-                    <Link to={`/ideas/${idea._id}`} className="profile-entry">
+                  <li key={idea._id}>
+                    <Link to={`/my-ideas/${idea._id}`} className="profile-entry">
                       <div className="profile-entry-titel">
                         <h3>{idea.title}</h3>
                         <span>{t(idea.category)}</span>

@@ -4,8 +4,8 @@ import { getWorkspace, getWorkspaces} from "../services/workspace.services";
 import { getWorkspaceTasks } from "../services/workspaceTask.services";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { getIdeas } from "../services/idea.services";
-import { getReviews } from "../services/review.services";
+import { getMyIdeas } from "../services/idea.services";
+import { getOwnerReviews } from "../services/review.services";
 import DashboardGreeting from "../components/DashboardGreeting";
 import DashboardSummaryCard from "../components/DashboardSummaryCard";
 
@@ -151,7 +151,7 @@ const DashboardPage = () => {
       setVisibleReviewsCount(5);
 
       try {
-        const response = await getIdeas();
+        const response = await getMyIdeas();
 
         const myIdeas = response.data.filter((idea) => {
           const authorId = idea.createdBy?._id ?? idea.createdBy;
@@ -160,7 +160,7 @@ const DashboardPage = () => {
 
         const results = await Promise.all(
           myIdeas.map(async(idea) => {
-            const reviewsResponse = await getReviews(idea._id);
+            const reviewsResponse = await getOwnerReviews(idea._id);
 
             return reviewsResponse.data.map((review) => ({
               ...review,
@@ -403,7 +403,7 @@ const DashboardPage = () => {
             {recentReviews.slice(0, visibleReviewsCount).map((review) => (
               <li key={review._id}>
                 <div className="dashboard-review-heading">
-                  <Link to={`/ideas/${review.ideaId}`} className="dashboard-text-link">
+                  <Link to={`/my-ideas/${review.ideaId}`} className="dashboard-text-link">
                     {review.ideaTitle}
                   </Link>
 

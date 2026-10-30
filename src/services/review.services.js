@@ -11,3 +11,7 @@ export const createReview = (ideaId, reviewData) => {
 export const deleteReview = (reviewId) => {
   return api.delete(`/api/reviews/${reviewId}`);
 };
+
+export const getOwnerReviews = (ideaId) => {
+  return api.get(`/api/ideas/${ideaId}/reviews/owner`);
+};

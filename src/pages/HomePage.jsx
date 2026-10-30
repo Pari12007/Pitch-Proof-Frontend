@@ -257,12 +257,16 @@ function HomePage() {
             <span className="hero-gradient">{t("Validate before you build")}</span>
           </h1>
 
-          <p className="hero-subtitle"> {t("Get AI-powered feedback, community reviews, and structured insight before you spend time and money building.")} </p>
+          <p className="hero-subtitle"> {t("Get AI feedback privately, or share your idea with community. You decide what becomes public.")} </p>
 
           <div className="hero-actions">
             <Link to="/ideas" className="hero-primary"> {t("Explore Ideas")} </Link>
             <Link to={isLoggedIn ? "/ai-validator" : "/signup"} className="hero-secondary"> {t("Try AI Validation")} </Link>
           </div>
+
+          <p className="hero-trust-line">
+            {t("Your private workspace is your alone. you choose what to public.")}
+          </p>
 
           <div className="hero-stats">
             <div className="stat-chip">

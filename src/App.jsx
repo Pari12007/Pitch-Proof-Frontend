@@ -19,6 +19,7 @@ import EditWorkspacePage from "./pages/EditWorkspacePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ModerationPage from "./pages/ModerationPage";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -166,7 +167,24 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />}/>
         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
+        <Route
+          path="/my-ideas/:ideaId"
+          element={
+            <ProtectedRoute>
+              <IdeaDetailsPage 
+              ownerView/>
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/moderation"
+          element={
+            <ProtectedRoute>
+              <ModerationPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

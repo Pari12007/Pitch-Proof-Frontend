@@ -3,7 +3,7 @@ import { createCheckoutSssion } from "../services/billling.services";
 import { useRef, useState } from "react";
 
 const PricingPage = () => {
-  const { t , tError } = useLanguage();
+    const { t , tError } = useLanguage();
 
 
     const [ checkingOut, setCheckingOut ] = useState(false);
@@ -45,9 +45,9 @@ const PricingPage = () => {
                     <p> {t("Start free, validate your ideas, and upgrade when you want unlimited AI help and unrestricted posting.")} </p>
 
                     <div className="pricing-highlights">
-                        <div className="pricing-highlight-pill">{t("No monthly lock-in")}</div>
-                        <div className="pricing-highlight-pill">{t("One-time Pro payment")}</div>
-                        <div className="pricing-highlight-pill">{t("Upgrade in seconds")}</div>
+                        <div className="pricing-highlight-pill">{t("One year of pro access")}</div>
+                        <div className="pricing-highlight-pill">{t("One-time payment")}</div>
+                        <div className="pricing-highlight-pill">{t("No automatic renewal")}</div>
                     </div>
                 </div>
 
@@ -102,8 +102,12 @@ const PricingPage = () => {
 
                     <div className="pricing-price-row">
                         <h3>{t("EUR 9.99")}</h3>
-                        <span>{t("One-time payment")}</span>
+                        <span>{t("For one year")}</span>
                     </div>
+
+                    <p className="pro-access-note">
+                        {t("Pay once. Pro access lasts one year, with no automatic renewal.")}
+                    </p>
 
                     <ul className="pricing-feature-list">
                         <li>{t("Unlimited AI")}</li>

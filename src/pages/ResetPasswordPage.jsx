@@ -142,11 +142,11 @@ function ResetPasswordPage() {
                                     type="button"
                                     className="togle-password"
                                     onClick={() => setShowConfirmPassword((previous) => !previous)}
-                                    aria-label={showConfirmPassword ? "😑" : "👀"}
-                                    aria-control="confirm-password"
+                                    aria-label={showConfirmPassword ? "Show" : "Hide"}
+                                    aria-controlss="confirm-password"
                                     disabled={saving}
                                     >
-                                        {showConfirmPassword ? "😑" : "👀"}
+                                        {showConfirmPassword ? "Show" : "Hide"}
                                     </button>
                                 </div>
                             </div>

@@ -2,7 +2,8 @@ import { useLanguage } from "../context/languageStore";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { getIdeas, deleteIdea } from "../services/idea.services";
+import { getMyIdeas, deleteIdea } from "../services/idea.services";
+
 
 const MyIdeasPage = () => {
   const { t } = useLanguage();
@@ -15,7 +16,8 @@ const MyIdeasPage = () => {
     useEffect (() => {
         const fetchMyIdeas = async () => {
             try {
-                const response = await getIdeas();
+                const response = await getMyIdeas();
+                setMyIdeas(response.data);
 
                 const filteredIdeas = response.data.filter(
                     (idea) => 
@@ -84,7 +86,7 @@ const MyIdeasPage = () => {
                 <div className="ideas-grid">
                     {myIdeas.map((idea) => (
                         <div className="idea-card" key={idea._id}>
-                            <Link to={`/ideas/${idea._id}`} className="idea-link">
+                            <Link to={`/my-ideas/${idea._id}`} className="idea-link">
                                 <div className="idea-card-top">
                                     <h3>{idea.title}</h3>
                                     <span className="idea-category">{t(idea.category)}</span>

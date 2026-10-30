@@ -146,7 +146,11 @@ const IdeasPage = () => {
                     <span className="idea-category">{t(idea.category)}</span>
                   </div>
 
-                  <p className="idea-description">{idea.idea}</p>
+                  <p className="idea-description">{idea.visibility === "summary" ? idea.publicSummary : idea.idea}</p>
+
+                  {idea.visibility === "summary" && (
+                    <span className="idea-meta-pill">{t("Public (summary only)")}</span>
+                  )}
 
                   <p className="idea-rating">
                     {renderStars(idea.averageRating)} ({formatNumber(idea.averageRating)}/5)

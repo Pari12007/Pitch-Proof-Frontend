@@ -4784,3 +4784,132 @@ img {
     gap: 8px;
   }
 }
+
+.pro-access-note {
+    margin: 10px 0 16px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.hero-trust-line {
+  max-width: 540px;
+  margin: 14px 0 24px;
+  color: #475569;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Idea and review reports */
+.report-control {
+  margin: 1rem 0;
+}
+
+.report-control form:not([hidden]) {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 480px;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #d8dfeb;
+  border-radius: 12px;
+  background: #f8faff;
+}
+
+.report-control form[hidden] {
+  display: none;
+}
+
+.report-control label {
+  font-weight: 600;
+}
+
+.report-control select,
+.report-control textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #bcc8de;
+  border-radius: 8px;
+  background: white;
+  color: #17213b;
+  font: inherit;
+}
+
+.report-control textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.report-control button {
+  padding: 0.6rem 1rem;
+  border: 1px solid #5268b5;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #243d8a;
+  font: inherit;
+  cursor: pointer;
+}
+
+.report-control button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.report-control :focus-visible {
+  outline: 3px solid #7863e8;
+  outline-offset: 3px;
+}
+
+/* Moderation */
+.moderation-page {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.moderation-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.moderation-controls select,
+.moderation-controls button {
+  padding: 0.65rem 1rem;
+  border: 1px solid #bcc8de;
+  border-radius: 8px;
+  background: white;
+  color: #17213b;
+  font: inherit;
+}
+
+.moderation-controls button {
+  cursor: pointer;
+}
+
+.moderation-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.moderation-card {
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #d8dfeb;
+  border-radius: 12px;
+  background: white;
+  color: #17213b;
+  overflow-wrap: anywhere;
+}
+
+.moderation-details {
+  white-space: pre-wrap;
+}
+
+.moderation-page :focus-visible {
+  outline: 3px solid #7863e8;
+  outline-offset: 3px;
+}

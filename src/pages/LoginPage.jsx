@@ -82,7 +82,7 @@ const LoginPage = () => {
               className="toggle-password"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-                {showPassword ? "😑" : "👀"}
+                {showPassword ? "Show" : "Hide"}
             </button>
           </div>
         </div>

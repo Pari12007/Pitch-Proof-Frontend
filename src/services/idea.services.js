@@ -19,3 +19,11 @@ export const updateIdea = (ideaId, ideaData) => {
 export const deleteIdea = (ideaId) => {
   return api.delete(`/api/ideas/${ideaId}`);
 };
+
+export const getMyIdeas = () => {
+  return api.get("/api/ideas/mine");
+};
+
+export const getOwnerIdea = (ideaId)=>{
+  return api.get(`/api/ideas/${ideaId}/owner`);
+};
