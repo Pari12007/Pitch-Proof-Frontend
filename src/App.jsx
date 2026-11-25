@@ -25,10 +25,12 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import AIValidatorPage from "./pages/AiPage";
 import DashboardPage from "./pages/DashboardPage";
+import EmailVerificationNotice from "./components/EmailVerificationNotice";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState, useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 // Your Pre-Pitch Emergency Checklist (Fix These First):
 
@@ -56,13 +58,15 @@ const App = () => {
   const { t } = useLanguage();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { isLoggedIn, isLoading } = useContext(AuthContext);
+  const { user, isLoggedIn, isLoading } = useContext(AuthContext);
 
   return (
     <>
       <Navbar onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+      <EmailVerificationNotice key={`${user?._id || "guest"}:${user?.email || ""}`} />
 
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -185,6 +189,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route path ="/verify-email" element = { <VerifyEmailPage />} />
       </Routes>
     </>
   );

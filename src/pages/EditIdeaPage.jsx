@@ -66,7 +66,7 @@ const EditIdeaPage = () => {
                 setIdea(foundIdea.idea || "");
                 setProblem(foundIdea.problem || "");
                 setSolution(foundIdea.solution || "");
-                setCategory(foundIdea.visibility || "");
+                setCategory(foundIdea.category || "");
                 setVisibility(foundIdea.visibility ?? "private");
                 setPublicSummary(foundIdea.publicSummary || "");
             } catch (error) {
@@ -94,7 +94,7 @@ const EditIdeaPage = () => {
 
         setSaveError("");
 
-        if(!visibility === "summary" && !publicSummary.trim()) {
+        if(visibility === "summary" && !publicSummary.trim()) {
             setSaveError("Please write a public summary before publishing.");
             return;
         }

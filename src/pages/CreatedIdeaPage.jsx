@@ -85,11 +85,18 @@ const CreatedIdeaPage = () => {
 
     } catch (error) {
       const message = error.response?.data?.message;
+      const code = error.response?.data?.code;
 
-      if(error.response?.status === 403) {
-        setLimitMessage(message || "Free posting limit reached. Upgrade to pro.")
+      if(code === "EMAIL_NOT_VERIFIED") {
+        setErrorMessage(
+          message || "Please verify your email before publishing an idea."
+        );
+      } else if (error.response?.status === 403) {
+        setLimitMessage( message || "Free posting limit reached. Upgrade to pro.");
       } else {
-        setErrorMessage(message || "Unable to post yoour idea. Please try again.")
+        setErrorMessage(
+          message || "Unable to post your idea. Please try again."
+        );
       }
     } finally {
       setSaving(false);

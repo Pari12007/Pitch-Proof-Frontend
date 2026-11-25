@@ -239,7 +239,7 @@ const ProfilePage = () => {
               autoComplete="email"
               placeholder={t("you@example.com")}
               value={editEmail}
-              onchange={(e) => setEditEmail(e.target.value)}
+              onChange={(e) => setEditEmail(e.target.value)}
               disabled={deleting}
               required
               />

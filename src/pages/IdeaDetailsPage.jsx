@@ -150,30 +150,7 @@ const IdeaDetailsPage = ({ ownerView = false }) => {
   return fullStars + emptyStars;
 };
 
-const calculateAIScore = () => {
-  if(!idea) return 0;
 
-  let score = 0;
-
-  if (idea.title && idea.title.length >= 10) score += 20;
-  if (idea.idea && idea.idea.length >= 30) score += 20;
-  if (idea.problem && idea.problem.length >= 20) score += 20;
-  if (idea.solution && idea.solution.length >= 20) score += 20;
-  if (idea.category) score += 10;
-  if (reviews.length > 0) score += 10;
-
-  return score;
-};
-
-const getAIScoreMessage = (score) => {
-  if (score >= 85) return t("Excellent potential. This idea is well-defined and promising.");
-  if (score >= 70) return t("Strong idea. A bit more refinement could make it even better.");
-  if (score >= 50) return t("Good start. Try improving the problem and solution clarity.");
-  return t("Needs more detail. Strengthen the concept before validation.");
-};
-
-const aiScore = idea? calculateAIScore() : 0;
-const aiMessage = getAIScoreMessage(aiScore);
 
 
   if(loading) {

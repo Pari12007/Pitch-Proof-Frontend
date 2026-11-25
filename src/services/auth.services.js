@@ -31,3 +31,11 @@ export const resetPassword = (token, password) => {
 export const markDashboardVisited = () => {
   return api.patch("/auth/dashboard-visited");
 };
+
+export const verifyEmail = (token) => {
+  return api.post("/auth/verify-email", { token });
+};
+
+export const resendVerificationEmail = () => {
+  return api.post("/auth/resend-verification");
+}

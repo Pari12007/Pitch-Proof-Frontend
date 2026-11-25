@@ -4913,3 +4913,50 @@ img {
   outline: 3px solid #7863e8;
   outline-offset: 3px;
 }
+
+.email-verification-notice {
+  max-width: 1100px;
+  margin: 16px auto;
+  padding: 16px 20px;
+  border: 1px solid #c7d2fe;
+  border-radius: 14px;
+  background: #eef2ff;
+  color: #1e293b;
+}
+
+.email-verification-notice p {
+  margin: 0 0 10px;
+}
+
+.email-verification-notice button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #4338ca;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.email-verification-notice button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.email-verification-notice button:focus-visible {
+  outline: 3px solid #1e293b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1140px) {
+  .email-verification-notice {
+    margin-inline: 16px;
+  }
+}
+
+.chat-score-note {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #475569;
+}

@@ -143,7 +143,7 @@ function ResetPasswordPage() {
                                     className="togle-password"
                                     onClick={() => setShowConfirmPassword((previous) => !previous)}
                                     aria-label={showConfirmPassword ? "Show" : "Hide"}
-                                    aria-controlss="confirm-password"
+                                    aria-controls="confirm-password"
                                     disabled={saving}
                                     >
                                         {showConfirmPassword ? "Show" : "Hide"}

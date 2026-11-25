@@ -286,7 +286,7 @@ function AIValidatorPage() {
         <p className="chat-badge">{t("PitchProof AI")}</p>
         <button className="clear-chat-button" onClick={handleClearChat}> {t("Clear Chat")} </button>
         <h1>{t("Validate Your Idea")}</h1>
-        
+
         <section className="idea-content-card">
           <h2>{t("Private validation")}</h2>
 
@@ -324,7 +324,7 @@ function AIValidatorPage() {
                 }`}
               >
                 <p>{message.role === "ai" && message.isUiMessage ? t(message.content) : message.content}</p>
-                
+
                 <span className="chat-time">
                     {formatMessageTime(message.createdAt)}
                 </span>
@@ -332,9 +332,13 @@ function AIValidatorPage() {
                 {message.result?.type === "idea_validation" && (
                   <div className="chat-report">
                     <div className="chat-score">
-                      <span>{t("Score")}</span>
+                      <span>{t("AI assessment")}</span>
                       <strong>{formatNumber(message.result.score)}/100</strong>
                     </div>
+
+                    <p className="chat-score-note">
+                      {t("Based on the information your provided. This score is not a prediction of business success or proof of market demand.")}
+                    </p>
 
                     <div className="chat-report-grid">
                       <div className="chat-report-card">
